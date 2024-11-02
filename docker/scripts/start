@@ -1,0 +1,61 @@
+#!/bin/bash
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+EXAMPLES_DATA_FILE="examples"
+BASE_DATA_FILE="db-initial"
+# MINIO_STORAGE_BUCKET_NAME=${MINIO_STORAGE_BUCKET_NAME:-"default_bucket_name"}
+
+echo
+echo "🚀 Iniciando la migración de la base de datos..."
+python manage.py migrate
+echo
+
+echo "###########################################################################"
+echo 
+echo "- 🔍 Verificando si el sistema tiene la carga de datos base..."
+echo 
+
+if python manage.py shell -c "from users.models import User; import sys; sys.exit(0) if User.objects.filter(display_name='System Administrator').exists() else sys.exit(1)"; then
+    echo "- ✅ La base de datos ya tiene los datos base, no se ejecutara la carga inicial."
+    echo
+else
+    echo "- ✅ La base de datos esta vacia, se ejecutara la carga inicial."
+    echo
+
+    # Validar archivos de datos
+    if [ ! -f "common/fixtures/${BASE_DATA_FILE}.json" ]; then
+        echo "- ⚠️ El archivo ${BASE_DATA_FILE}.json no existe. No se puede ejecutar loaddata. ❌"
+        exit 1
+    fi      
+    python manage.py loaddata ${BASE_DATA_FILE}
+fi
+echo
+
+if [ "${LOAD_EXAMPLES:-}" = "true" ]; then
+    if [ -f "common/fixtures/${EXAMPLES_DATA_FILE}.json" ]; then
+
+        echo "- 📂 La carga de ejemplos está habilitada. Ejecutando loaddata ${EXAMPLES_DATA_FILE}."
+        echo
+        python manage.py loaddata ${EXAMPLES_DATA_FILE}
+        echo
+        echo "- ✅ Carga de ejemplos completa."
+        echo
+    else
+        echo "- ⚠️ No se encontró el archivo ${EXAMPLES_DATA_FILE}.json. No se pueden cargar los ejemplos."
+        echo
+    fi
+else 
+    echo "- ❗ Si desea cargar datos de prueba crear o cambiar la variable de entorno LOAD_EXAMPLES"
+    echo
+fi
+echo
+# rm -rf static/; python manage.py collectstatic
+
+echo "- 🌐 Iniciando el servidor en http://0.0.0.0:8000"
+echo
+
+python manage.py runserver 0.0.0.0:8000
+

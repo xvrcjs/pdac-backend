@@ -1,0 +1,41 @@
+services:
+  pdac-db:
+    image: mariadb:10.5  # Versión de MariaDB
+    environment:
+      MYSQL_ROOT_PASSWORD: $DB_ROOT_PASSWORD
+      MYSQL_DATABASE: $DB_NAME
+      MYSQL_USER: $DB_USER
+      MYSQL_PASSWORD: $DB_PASSWORD
+    ports:
+      - "3306:3306"  # Puerto de MariaDB
+    volumes:
+      - pdac-data:/var/lib/mysql
+      
+  pdac-web:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+      target: django-develop
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/src
+    command: /start
+    env_file:
+      - .env
+    depends_on:
+      - pdac-db
+    networks:
+      - default
+
+  pdac-redis:
+    image: 'redis'
+    ports:
+      - '6379:6379'
+    networks:
+      - default
+
+volumes:
+  pdac-data: 
+networks:
+  default:
