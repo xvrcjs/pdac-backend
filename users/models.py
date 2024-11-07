@@ -84,7 +84,7 @@ def get_profile_image_path(user, filename):
 
     timestamp = int(get_request_at().timestamp() * 1000)
 
-    return 'user/%s/img/profile.%s.%s' % (user.uuid, timestamp, filename.split('.')[-1])
+    return 'users/%s/img/profile.%s.%s' % (user.uuid, timestamp, filename.split('.')[-1])
 
 class User(BaseModel, AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = ['display_name']
@@ -242,9 +242,11 @@ class Account(BaseModel):
     
     #Details
     full_name = models.CharField(_('Full Name'), max_length=70, default='', blank=True)
-    phone = PhoneNumberField(_('Phone'),blank=True)    
-    profile_image = models.ImageField(_('Profile Image'), upload_to=get_profile_image_path, null=True, blank=True)
-    
+    phone = models.CharField(_('Phone'),max_length=15,default='',blank=True)    
+    profile_image = models.ImageField(_('Profile Image'),upload_to=get_profile_image_path, null=True, blank=True)
+    dni = models.CharField(_('DNI'), max_length=15,default='', blank=True)
+    comments = models.TextField(_('Comments'),max_length=255,default='', blank=True)
+                        
     #Administration
     client = models.ForeignKey('administration.Client',models.CASCADE,'accounts','account',verbose_name=_('Client'),null=True, blank=True)
 
@@ -255,7 +257,7 @@ class Account(BaseModel):
     is_active = models.BooleanField(_('Is Active'),default=True)
     is_admin = models.BooleanField(_('Is Admin'),default=False)
     is_online = models.BooleanField(_('Is Online'), default=False)
-    policies = models.ManyToManyField('security.Policy','accounts', 'account', verbose_name=_('Policies'),blank=True)
+    permissions = models.ManyToManyField('security.Module','accounts', 'account', verbose_name=_('Permissions'),blank=True)
     is_deleted = models.BooleanField(_('Is Deleted'), default=False)
 
 

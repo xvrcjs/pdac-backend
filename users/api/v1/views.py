@@ -207,7 +207,7 @@ def create_password(request):
 
 class AccountView(BaseView):
     model = Account
-    fields = ['uuid', 'id','user_id', 'profile_image', 'user', 'full_name', 'user', 'is_active', 'is_admin', 'roles', ]
+    fields = ['uuid', 'id', 'profile_image','full_name','dni', 'user', 'is_active','roles','last_login','permissions','phone','created_at','comments']
     
     # required_fields ={
     #     "display_name":str,
@@ -215,16 +215,21 @@ class AccountView(BaseView):
     extra_fields={
         'display_name':str,
         'is_active':bool,
-        'roles':list,
+        'roles':str,
         'email':str,
+        'phone':str,
+        'dni':str,
         'full_name':str,
         'client_id': str,
+        'permissions':dict,
+        'comments':str,
         'profile_image': [None, InMemoryUploadedFile]
     }
 
     list_fields_related = {
         'user':['display_name','email'],
-        'roles' : ['uuid','name'],
+        'roles' : ['name',],
+        'permissions' :['name','mapping_key']
     }
     list_search_fields=["user__display_name","is_deleted"]
 
@@ -232,6 +237,8 @@ class AccountView(BaseView):
     def dispatch(self, request, *args, **kwargs):
         if 'uuid' in kwargs:
             self.required_fields= {} 
+        if 'id' in kwargs:
+            kwargs['uuid'] = Account.objects.filter(id=kwargs['id']).first().uuid
         return super().dispatch(request,*args,**kwargs)
     
     @staticmethod
@@ -242,8 +249,29 @@ class AccountView(BaseView):
         return account
 
     def data_json(self, fields, **kwargs):
-
-        return self.get_profile_image_url(super().data_json(fields, **kwargs))
+        data = super().data_json(fields, **kwargs)
+        for rol in data['roles']:
+            rol['name'] = rol['name'].lower()
+        data['permissions'] = {perm["mapping_key"]: True for perm in data["permissions"]}
+        data['created_at'] = data['created_at'].strftime("%d/%m/%y")
+        if data["last_login"]:
+            data['last_login'] = data['last_login'].strftime("%d/%m/%y %H.%Mhs")
+        else:
+            data['last_login'] = "-"
+        return self.get_profile_image_url(data)
+    
+    def data_list_json(self, query_set, fields, **kwargs):
+        data = super().data_list_json(query_set, fields, **kwargs)
+        for user in data:
+            user['details'] = {}
+            if user["last_login"]:
+                formatted_date = user["last_login"].strftime("%d/%m/%y %H.%Mhs")
+            else:
+                formatted_date = "-"
+            user['details']['date'] = f"Ultimo acceso: {formatted_date}"
+            user['details']['more_details'] = "Permisos de admin municipal por default activos"
+        return data
+    
     def annotate(self):
         if self.view_type != 'list': return {}
         can_view_module = lambda cls: Exists(Module.objects.annotate(
@@ -295,29 +323,14 @@ class AccountView(BaseView):
 
         if update_fields:
             User.objects.filter(email=user.email).update(**update_fields)
-
-        if 'roles' in fields_dict  and isinstance(fields_dict['roles'],list):
-            _roles = fields_dict['roles']
-            _query_roles = Role.objects.filter(Q(name__in = _roles))
-            roles = [
-                item.uuid
-                for item in _query_roles.annotate()
-            ]
-            fields_dict['roles'] = roles
+        if 'permissions' in fields_dict:
+            permission_uuids = [uuid for uuid, selected in fields_dict['permissions'].items() if selected]
+            modules = Module.objects.filter(mapping_key__in=permission_uuids).values_list('uuid',flat=True)
+            fields_dict['permissions']=modules
+        if 'roles' in fields_dict:
+            fields_dict['roles'] = [Role.objects.filter(name=fields_dict['roles'].lower()).first().uuid] 
         return super().modify_object(fields_dict, *args, **kwargs)
     
-    def validate_students(func):
-        def wrapper(self, fields_dict,*args, **kwargs):
-            cant_student_active = Account.objects.filter(client_id=fields_dict['client_id'],roles__name="Alumno",is_active=True).all().count()
-            cant_student_for_client = Client.objects.filter(uuid=fields_dict['client_id']).first().cant_students
-            
-            if cant_student_active < cant_student_for_client:
-                return func(self, fields_dict,*args, **kwargs)
-            else:       
-                raise ValueError('No more users can be registered, please contact the administrator')
-        return wrapper
-
-    @validate_students
     def create_object(self, fields_dict, *args, **kwargs):
         # Connect the Signal to check the User
         pre_save.connect(self.clean_before_save_user, sender=User)
@@ -337,14 +350,22 @@ class AccountView(BaseView):
                     fields_dict['user'].display_name = '%s %s' % (fields_dict['display_name'], duplicates)
                 fields_dict['user'].save(do_not_log=True, update_fields=['display_name'])
             del fields_dict['display_name']
+            # Obtener y asignar permisos usando UUIDs
+        if 'permissions' in fields_dict:
+            permission_uuids = [uuid for uuid, selected in fields_dict['permissions'].items() if selected]
+            modules = Module.objects.filter(mapping_key__in=permission_uuids).values_list('uuid',flat=True)
+            fields_dict['permissions']=modules 
+        if 'roles' in fields_dict:
+            fields_dict['roles'] = [Role.objects.filter(name=fields_dict['roles'].lower()).first().uuid]
         
+        fields_dict["phone"] ="+"+fields_dict["phone"]
         # If user is new
-        if is_user_new:
-            fields_dict['user'].set_password(fields_dict['password'])
-            del fields_dict['password']
-
-        if not 'roles' in fields_dict:
-            fields_dict['roles'] = [Role.objects.filter(name="Alumno").first().uuid]
+        # if is_user_new:
+        #     fields_dict['user'].set_password(fields_dict['password'])
+        #     del fields_dict['password']
+        if not 'client_id' in fields_dict:
+            fields_dict['client_id'] = self.request.scope.account.client_id
+        
         # Creare account
         super().create_object(fields_dict, *args, **kwargs)
 
@@ -369,27 +390,32 @@ class ProfileView(BaseView):
 class AccountPermissionsView(BaseView):
     """ api/security/v1/permissions/ """
 
-    http_method_names = ['get']
-    model = Account
-    instance_get_fields = { } # <- list view is disabled
+    model = Role
+    fields = ['name','modules']
+    list_fields_related = {
+        'modules': ['name','mapping_key']
+    }
 
-    def get_permissions(self, request, *args, **kwargs):
+    def data_list_json(self, query_set, fields, **kwargs):
+        data = super().data_list_json(query_set, fields, **kwargs)
+        data_formated = []
+        for rol in data:
+            info = {
+                'type': rol["name"].lower(),
+                'permissions': []
+            }
 
-        self.permissions = {
-            'view_permission': True,
-            'add_permission': False,
-            'modify_permission': False,
-            'delete_permission': False
-        }
+            for permission in rol["modules"]:
+                formatted_permission = {
+                    "label": permission["name"].encode().decode("utf8"),
+                    "value": permission["mapping_key"]
+                }
+                info['permissions'].append(formatted_permission)
+            
+            data_formated.append(info)
+        
+        return data_formated
 
-    def get_object(self, scope, **kwargs):
 
-        self.object = scope.account
-
-    def data_json(self, fields, **kwargs):
-        # Keep in sync with AccountView.annotate
-        return JsonResponse({
-            'account':'prueba'
-        }, status=200)
 
         

@@ -106,12 +106,12 @@ class AccountAdmin(ModelAdmin):
     # Fields: 'user', 'roles', 'last_login', 'is_active', 'is_admin', 'policies'
     # Common fields: 'uuid',  'created_at', 'created_by', 'created_from', 'modified_at', 'modified_by', 'modified_from'
 
-    list_display = ['id','user','full_name','is_active', 'is_admin','is_deleted', 'last_login', 'modified_at']
+    list_display = ['id','user','full_name','dni','is_active', 'is_admin','is_deleted', 'last_login', 'modified_at']
     list_display_links = ['user']
     list_filter = ['is_active', 'is_admin']
     search_fields = ['user__display_name', 'full_name', 'user__email', 'roles__name']
     ordering = ['-id']
-    filter_horizontal = ['roles',]
+    filter_horizontal = ['roles','permissions']
 
     def get_fieldsets(self, request, obj=None):
         # ADD FIELDSET
@@ -122,10 +122,10 @@ class AccountAdmin(ModelAdmin):
                     'fields': ('user',)
                 }),
                 ('Details',{
-                    'fields':('full_name','profile_image',)
+                    'fields':('full_name','dni','phone','profile_image','comments',)
                 }),
                 ('Administration',{
-                    'fields':('client','roles',)
+                    'fields':('client','roles','permissions',)
 
                 }),
                 ('Settings', {
@@ -141,10 +141,10 @@ class AccountAdmin(ModelAdmin):
                     'fields': ('user',)
                 }),
                 ('Details',{
-                    'fields':('full_name','profile_image',)
+                    'fields':('full_name','dni','phone','profile_image','comments',)
                 }),
                 ('Administration',{
-                    'fields':('client','roles',)
+                    'fields':('client','roles','permissions',)
 
                 }),
                 ('Settings', {

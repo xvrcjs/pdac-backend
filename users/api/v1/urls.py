@@ -12,7 +12,8 @@ urlpatterns = [
     re_path(r'^create-password/?$', create_password),  
       
     re_path(r'^account'+regex_for_optional_uuid, AccountView.as_view(), name='auth_v1_account'),
+    re_path(r'^account(/(?P<id>\w+))?/$', AccountView.as_view(), name='api_v1_account_edit'),
     re_path(r'^profile'+regex_for_optional_uuid, ProfileView.as_view()),  
-    re_path(r'^permissions/?$', AccountPermissionsView.as_view(), name='auth_v1_permissions'),
+    re_path(r'^permissions'+regex_for_optional_uuid, AccountPermissionsView.as_view(), name='auth_v1_permissions'),
 
 ]
