@@ -19,6 +19,7 @@ class Module(BaseModel):
     parents = models.ManyToManyField('self', 'children', 'child', verbose_name=_('Parents Modules'),symmetrical=False,blank=True)
     name = models.CharField(_('Name'), max_length=255, unique=True)
     mapping_key = CaseInsensitiveCharField(_('Mapping Key'), unique=True, max_length=50, help_text=_('Uniqueness for this field is case-insensitive.'))
+
     #Settings
     content_types = models.ManyToManyField('users.ContentType', 'modules','module',verbose_name=_('Content Types'))
 
@@ -51,28 +52,28 @@ class Module(BaseModel):
 
         super().save(*args, **kwargs)
 
-class Policy(BaseModel):
+# class Policy(BaseModel):
 
-    name = models.CharField(_('Policy'),max_length=255)
-    module = models.ForeignKey('Module', verbose_name=_('Module'), on_delete=models.CASCADE)
+#     name = models.CharField(_('Policy'),max_length=255)
+#     module = models.ForeignKey('Module', verbose_name=_('Module'), on_delete=models.CASCADE)
     
-    #Settings
-    view_permission = models.BooleanField(_('View Permission'), default=True)
-    add_permission = models.BooleanField(_('Add Permission'), default=False)
-    delete_permission = models.BooleanField(_('Delete Permission'), default=True)
-    modify_permission = models.BooleanField(_('Modify Permission'), default=True)
+#     #Settings
+#     view_permission = models.BooleanField(_('View Permission'), default=True)
+#     add_permission = models.BooleanField(_('Add Permission'), default=True)
+#     delete_permission = models.BooleanField(_('Delete Permission'), default=False)
+#     modify_permission = models.BooleanField(_('Modify Permission'), default=True)
 
-    class Meta:
-        verbose_name = _('Policy')
-        verbose_name_plural = _('Policies')
-        ordering = ['name']
-        indexes = [
-            models.Index(fields=['module'], name='policy_module_idx'),
-        ]
+#     class Meta:
+#         verbose_name = _('Policy')
+#         verbose_name_plural = _('Policies')
+#         ordering = ['name']
+#         indexes = [
+#             models.Index(fields=['module'], name='policy_module_idx'),
+#         ]
 
-    def __str__(self):
+#     def __str__(self):
 
-        return self.name
+#         return self.name
 
 
 class Role(BaseModel): 
@@ -81,7 +82,7 @@ class Role(BaseModel):
     description = models.TextField(_('Description'), default='', blank=True)
 
     #Settings
-    policies = models.ManyToManyField('Policy', verbose_name=_('Policy'))
+    modules = models.ManyToManyField('Module', verbose_name=_('Modules'))
 
     class Meta:
         verbose_name = _('Role')

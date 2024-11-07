@@ -1,12 +1,12 @@
 from common.views import BaseView
-from security.models import Role, Policy
+from security.models import Role, Module
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
  
     
     
-class PolicyView(BaseView):
-    model = Policy
+class ModuleView(BaseView):
+    model = Module
 
 class RoleView(BaseView):
     model = Role

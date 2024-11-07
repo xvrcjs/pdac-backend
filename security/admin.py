@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.admin import ModelAdmin
-from .models import Module, Policy, Role
+from .models import Module, Role
 
 # Register your models here.
 
@@ -55,7 +55,7 @@ class RoleAdmin(ModelAdmin):
     list_display_links = ['name']
     search_fields = ['name']
     ordering = ['name']
-    filter_horizontal = ['policies']
+    filter_horizontal = ['modules']
 
     def get_fieldsets(self, request, obj=None):
         # ADD FIELDSET
@@ -67,7 +67,7 @@ class RoleAdmin(ModelAdmin):
 
                 }),
                 ('Settings', {
-                    'fields': ('policies',)
+                    'fields': ('modules',)
                 })
             )
         # CHANGE FIELDSET
@@ -79,7 +79,7 @@ class RoleAdmin(ModelAdmin):
                     'fields': ('name', 'description',)
                 }),
                 ('Settings', {
-                    'fields': ('policies',)
+                    'fields': ('modules',)
                 }),
                 ('Change Log', {
                     'classes': ('collapse',),
@@ -88,44 +88,44 @@ class RoleAdmin(ModelAdmin):
             )
         return self.fieldsets
     
-@admin.register(Policy)
-class PolicyAdmin(ModelAdmin):
-    # Fields: 'name', 'module', 'view_permission', 'add_permission', 'modify_permission', 'delete_permission'
-    # Common fields: 'uuid', 'created_at', 'created_by', 'created_from', 'modified_at', 'modified_by', 'modified_from'
+# @admin.register(Policy)
+# class PolicyAdmin(ModelAdmin):
+#     # Fields: 'name', 'module', 'view_permission', 'add_permission', 'modify_permission', 'delete_permission'
+#     # Common fields: 'uuid', 'created_at', 'created_by', 'created_from', 'modified_at', 'modified_by', 'modified_from'
 
-    list_display = ['name', 'module', 'view_permission', 'add_permission', 'modify_permission', 'delete_permission', 'modified_at']
-    list_display_links = ['name']
-    list_filter = ['module', 'view_permission', 'add_permission', 'modify_permission', 'delete_permission']
-    search_fields = ['module__name', 'name', 'module__content_types__app_label', 'module__content_types__model']
-    ordering = ['name']
+#     list_display = ['name', 'module', 'view_permission', 'add_permission', 'modify_permission', 'delete_permission', 'modified_at']
+#     list_display_links = ['name']
+#     list_filter = ['module', 'view_permission', 'add_permission', 'modify_permission', 'delete_permission']
+#     search_fields = ['module__name', 'name', 'module__content_types__app_label', 'module__content_types__model']
+#     ordering = ['name']
 
-    def get_fieldsets(self, request, obj=None):
-        # ADD FIELDSET
-        if not obj:
-            self.readonly_fields = []
-            self.fieldsets = (
-                (None, {
-                    'fields': ('name', 'module', )
-                }),
-                ('Settings', {
-                    'fields': ('view_permission', 'add_permission', 'modify_permission', 'delete_permission',)
-                })
-            )
-        # CHANGE FIELDSET
-        else:
-            request._obj = obj
-            self.readonly_fields = ['created_at', 'created_by', 'created_from', 'modified_at', 'modified_by', 'modified_from']
-            self.fieldsets = (
-                (None, {
-                    'fields': ('name', 'module', )
-                }),
-                ('Settings', {
-                    'fields': ('view_permission', 'add_permission', 'modify_permission', 'delete_permission',)
-                }),
-                ('Change Log', {
-                    'classes': ('collapse',),
-                    'fields': ('created_at', 'created_by', 'created_from', 'modified_at', 'modified_by', 'modified_from',)
-                }),
-            )
-        return self.fieldsets
+#     def get_fieldsets(self, request, obj=None):
+#         # ADD FIELDSET
+#         if not obj:
+#             self.readonly_fields = []
+#             self.fieldsets = (
+#                 (None, {
+#                     'fields': ('name', 'module', )
+#                 }),
+#                 ('Settings', {
+#                     'fields': ('view_permission', 'add_permission', 'modify_permission', 'delete_permission',)
+#                 })
+#             )
+#         # CHANGE FIELDSET
+#         else:
+#             request._obj = obj
+#             self.readonly_fields = ['created_at', 'created_by', 'created_from', 'modified_at', 'modified_by', 'modified_from']
+#             self.fieldsets = (
+#                 (None, {
+#                     'fields': ('name', 'module', )
+#                 }),
+#                 ('Settings', {
+#                     'fields': ('view_permission', 'add_permission', 'modify_permission', 'delete_permission',)
+#                 }),
+#                 ('Change Log', {
+#                     'classes': ('collapse',),
+#                     'fields': ('created_at', 'created_by', 'created_from', 'modified_at', 'modified_by', 'modified_from',)
+#                 }),
+#             )
+#         return self.fieldsets
         
