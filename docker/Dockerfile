@@ -43,6 +43,11 @@ ENV PYTHONUNBUFFERED=1
 
 USER django
 
+
+RUN mkdir -p media   
+RUN chown -R django:django media
+RUN chmod -R 755 media
+
 EXPOSE 8000
 
 # ----- Produccion -----

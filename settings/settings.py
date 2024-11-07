@@ -142,6 +142,9 @@ DATABASES = {
         "PASSWORD": getenv("DB_PASSWORD", "mysql"),
         "HOST": getenv("DB_HOST", "mysql"),
         "PORT": getenv("DB_PORT", "3306"),
+        "OPTIONS": {
+            "charset": "utf8mb4",  
+        },
     }
 }
 
@@ -197,25 +200,11 @@ USE_TZ = True
 
 USE_L10N = True
 
-STORAGES = {
-    "default": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
-    },
-    # ManifestStaticFilesStorage is recommended in production, to prevent
-    # outdated JavaScript / CSS assets being served from cache
-    # (e.g. after a Wagtail upgrade).
-    # See https://docs.djangoproject.com/en/5.1/ref/contrib/staticfiles/#manifeststaticfilesstorage
-    "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.ManifestStaticFilesStorage",
-    },
-}
-
-
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATIC_URL = "/static/"
 
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # La carpeta 'media' dentro de tu proyecto
+MEDIA_URL = '/media/'
 
 ALLOWED_VIDEO_EXTENSIONS: set = {"mp4", "mp3", "pdf", "pptx","ppt","png","jpg","doc", "docx", "txt"}
 
