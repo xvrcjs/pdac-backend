@@ -230,6 +230,25 @@ class User(BaseModel, AbstractBaseUser, PermissionsMixin):
             {'link': link, 'url_image': ''},
             True
         )
+        super().save(do_not_log=True, update_fields=['reset_password_token', 'reset_password_token_exp'])  
+
+    def create_password_token(self, fields_dict):
+        is_unique = False
+        while not is_unique:
+            self.reset_password_token = token_urlsafe(64)
+            is_unique = not User.objects.filter(reset_password_token=self.reset_password_token).exists()   
+        self.reset_password_token_exp = get_request_at() + timedelta(hours=settings.RESET_PASSWORD_EXP)
+        
+        message = user_create_password_message.html_message
+        link = settings.CREATE_PASSWORD_LINK + '?reset_password_token=' + self.reset_password_token     
+
+        self.send_email(
+            fields_dict,
+            user_create_password_message.subject,
+            message,
+            {'link': link, 'url_image': ''},
+            True
+        )
         super().save(do_not_log=True, update_fields=['reset_password_token', 'reset_password_token_exp'])   
 
 class Account(BaseModel):

@@ -358,11 +358,9 @@ class AccountView(BaseView):
         if 'roles' in fields_dict:
             fields_dict['roles'] = [Role.objects.filter(name=fields_dict['roles'].lower()).first().uuid]
         
-        fields_dict["phone"] ="+"+fields_dict["phone"]
         # If user is new
-        # if is_user_new:
-        #     fields_dict['user'].set_password(fields_dict['password'])
-        #     del fields_dict['password']
+        if is_user_new:
+            fields_dict['user'].create_password_token(dict(full_name=fields_dict['full_name']))
         if not 'client_id' in fields_dict:
             fields_dict['client_id'] = self.request.scope.account.client_id
         

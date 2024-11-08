@@ -49,7 +49,7 @@ class UserAdmin(BaseUserAdmin):
             if not request.user.is_superuser:
                 self.add_fieldsets = (
                     ('Login Info', {
-                        'fields': ('email', 'password1', 'password2',)
+                        'fields': ('email', 'password1', 'password2','reset_password_token',)
                     }),
                     ('Personal Info', {
                        'fields': ('display_name',)
@@ -61,7 +61,7 @@ class UserAdmin(BaseUserAdmin):
             else:
                 self.add_fieldsets = (
                     ('Login Info', {
-                        'fields': ('email', 'password1', 'password2',)
+                        'fields': ('email', 'password1', 'password2','reset_password_token',)
                     }),
                     ('Personal Info', {
                         'fields': ('display_name', )
@@ -85,7 +85,7 @@ class UserAdmin(BaseUserAdmin):
                 self.readonly_fields.append('password')
         self.fieldsets = (
             ('Login Info', {
-                'fields': ('display_name', 'password')
+                'fields': ('display_name', 'password','reset_password_token',)
             }),
             ('Permissions', {
                 'fields': ( 'is_superuser', 'user_permissions',)

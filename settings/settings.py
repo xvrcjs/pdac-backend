@@ -184,6 +184,7 @@ else:
 JWT_REFRESH_EXP = 120  # in hours
 RESET_PASSWORD_EXP = 24  # in hours
 RESET_PASSWORD_LINK = getenv("RESET_PASSWORD_LINK")
+CREATE_PASSWORD_LINK = "http://localhost:3000/create-password"
 SECURE_COOKIES = getenv("SECURE_COOKIES") != "False"
 
 
