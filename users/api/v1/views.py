@@ -4,6 +4,8 @@ from django.conf import settings
 from django.forms import ValidationError
 from django.contrib.auth import authenticate
 from json import JSONEncoder, loads
+
+import requests
 from security.models import Role, Module
 from common.utils import generateQr
 from common.views import BaseView
@@ -416,4 +418,38 @@ class AccountPermissionsView(BaseView):
 
 
 
+@csrf_exempt
+def validate_recaptcha(request):
+
+    if request.method == 'POST':
+       
+        request_body = loads(request.body)
+        if not (('token' in request_body) and (isinstance(request_body['token'],str))):
+            return HttpResponseBadRequest()
+        
+        token = request_body["token"]
+        url = "https://www.google.com/recaptcha/api/siteverify"
+        data = {
+            "secret": settings.RECAPTCHA_SECRET_KEY,
+            "response": token,
+        }
+        response = requests.post(url, data=data)
+        result = response.json()
+
+        if result.get("success"):
+            return JsonResponse(
+                {
+                'messages': [{'level': 'Success', 'title':None,'description': 'Validacion exitosa'}],
+                },
+                status=200
+            )
+        else:
+            return JsonResponse(
+                {
+                    'messages': [{'level':'Error', 'title':None,'description':"Validación fallida"}],
+                },
+                status=400
+            )
+    else:
+        return HttpResponseBadRequest()
         

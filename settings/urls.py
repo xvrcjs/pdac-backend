@@ -20,14 +20,15 @@ admin.site.site_header = title_w_stage + \
 
 urlpatterns = [
     path('panel/', admin.site.urls),
-    path('auth/', include('users.urls', namespace='users')),
-    path('api/', include('security.urls',namespace='security')),
-    path('api/', include('administration.urls',namespace='administration')),
-    path('doc/', TemplateView.as_view(
+    path('api/v1/', include('users.api.v1.urls', namespace='users')),
+    path('api/v1/', include('security.api.v1.urls',namespace='security')),
+    path('api/v1/', include('administration.api.v1.urls',namespace='administration')),
+    path('api/doc/', TemplateView.as_view(
         template_name='swagger-ui.html',
         extra_context={'schema_url': 'openapi-schema'}
     ), name='swagger-ui'),
 ]
+
 
 if settings.DEBUG:
 

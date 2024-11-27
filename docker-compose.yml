@@ -16,10 +16,12 @@ services:
       context: .
       dockerfile: ./docker/Dockerfile
       target: django-develop
+    container_name: pdac-web
     ports:
       - "8000:8000"
     volumes:
       - .:/src
+      - media:/src/media
     command: /start
     env_file:
       - .env
@@ -27,6 +29,7 @@ services:
       - pdac-db
     networks:
       - default
+      - nginx-proxy
 
   pdac-redis:
     image: 'redis'
@@ -35,7 +38,24 @@ services:
     networks:
       - default
 
+  # pdac-frontend:
+  #   build: 
+  #     context: ../frontend/
+  #     dockerfile: ./docker/Dockerfile
+  #   container_name: pdac-frontend
+  #   ports:
+  #     - "3000:80"
+  #   volumes:
+  #     - ../frontend:/app
+  #   networks:
+  #     - default
+  #     - nginx-proxy
+
 volumes:
   pdac-data: 
+  media:
 networks:
   default:
+  nginx-proxy:
+   external: true
+   driver: overlay

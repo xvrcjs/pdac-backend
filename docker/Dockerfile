@@ -15,9 +15,8 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
   tesseract-ocr tesseract-ocr-spa
 
 # Crear usuario 'django'
-RUN groupadd django && \
-    useradd django -g django && \
-    chown -R django:django .
+RUN addgroup --system django \
+&& adduser --system --ingroup django --uid 1000 django
 
 # Instalar dependencias de Python
 COPY requirements.txt .
@@ -41,12 +40,15 @@ FROM django-base AS django-develop
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-USER django
+RUN chown -R django:django static/
+RUN chmod -R 755 static/
 
 
 RUN mkdir -p media   
-RUN chown -R django:django media
-RUN chmod -R 755 media
+RUN chown -R django:django media/
+RUN chmod -R 755 media/
+
+USER django
 
 EXPOSE 8000
 
