@@ -30,7 +30,7 @@ FAVICON_URL = getenv("FAVICON_URL", default="https://default-favicon-url.com")
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
 
-API_URL = getenv("API_URL", default="http://localhost:8000")
+API_URL = getenv("API_URL", default="http://localhost:8000/api/")
 FRONT_URL = getenv("FRONT_URL", default="http://localhost:3000")
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -202,10 +202,10 @@ USE_TZ = True
 USE_L10N = True
 
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
-STATIC_URL = "/static/"
+STATIC_URL = "api/static/"
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # La carpeta 'media' dentro de tu proyecto
-MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(PROJECT_DIR, 'media')  # La carpeta 'media' dentro de tu proyecto
+MEDIA_URL = 'api/media/'
 
 ALLOWED_VIDEO_EXTENSIONS: set = {"mp4", "mp3", "pdf", "pptx","ppt","png","jpg","doc", "docx", "txt"}
 
@@ -366,3 +366,6 @@ DEFAULT_FROM_EMAIL = getenv("DEFAULT_FROM_EMAIL")
 
 
 GRAPH_MODELS = {"all_applications": True, "group_models": True}
+
+#ReCaptcha
+RECAPTCHA_SECRET_KEY=getenv("RECAPTCHA_SECRET_KEY")
