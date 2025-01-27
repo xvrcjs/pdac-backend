@@ -37,6 +37,31 @@ class Client(BaseModel):
     # def profile_image_url(self):
     #     return self.logo.url if self.logo else StaticStorage.get_default_avatar_url()
 
+class TrafficLightSystemTimes(BaseModel):
+
+    greenToYellow_c = models.IntegerField(_('Green To Yellow Common'),default=0, blank=True)
+    yellowToRed_c = models.IntegerField(_('Yellow to Red Common'),default=0, blank=True)
+    greenToYellow_ive_hv = models.IntegerField(_('Green To Yellow IVE and HV'),default=0, blank=True)
+    yellowToRed_ive_hv = models.IntegerField(_('Yellow to Red IVE and HV'),default=0, blank=True)
+
+    class Meta:
+        verbose_name = _('TrafficLightSystemTime')
+        verbose_name_plural = _('TrafficLightSystemTimes')
+
+
+class Omic(BaseModel):
+
+    name = models.CharField(_('Name'),max_length=255)
+    responsible = models.CharField(_('Responsible'),max_length=255)
+    opening_hours = models.CharField(_('Opening Hours'),max_length=255, blank=True)
+    phone = models.CharField(_('Phone'),max_length=255, blank=True)
+    address = models.CharField(_('Address'),max_length=255, blank=True)
+    email = models.CharField(_('Email'),max_length=255)
+
+    class Meta:
+        verbose_name = _('Omic')
+        verbose_name_plural = _('Omics')
+      
 def site_config(request):
     return {
         'TITLE_FROM_ENVIRONMENT': getenv('TITLE_FROM_ENVIRONMENT', default='Default Title'),

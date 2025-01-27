@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Client
+from .models import Client, Omic, TrafficLightSystemTimes
 from django.contrib.admin import ModelAdmin, TabularInline
 
 # Register your models here.
@@ -42,6 +42,70 @@ class ClientAdmin(ModelAdmin):
                 }),
                 ('Settings',{
                     'fields':('is_deleted',)
+                }),
+                ('Change Log', {
+                    'classes': ('collapse',),
+                    'fields': ('created_at', 'created_by', 'created_from', 'modified_at', 'modified_by', 'modified_from',)
+                }),
+            )
+        return self.fieldsets
+
+@admin.register(TrafficLightSystemTimes)
+class TrafficLightSystemTimesAdmin(ModelAdmin):
+    
+    list_display = ['greenToYellow_c','yellowToRed_c','greenToYellow_ive_hv','yellowToRed_ive_hv','modified_by','modified_at']
+
+    def get_fieldsets(self, request, obj=None):
+        # ADD FIELDSET
+        if not obj:
+            #self.readonly_fields = ['cant_operator', 'cant_expert']
+            self.fieldsets = (
+                ('Config Claim Common', {
+                    'fields': ('greenToYellow_c','yellowToRed_c',)
+                }),
+                ('Config Claim IVE/HV', {
+                    'fields': ('greenToYellow_ive_hv','yellowToRed_ive_hv',)
+                }),
+            )
+        # CHANGE FIELDSET
+        else:
+            request._obj = obj
+           # self.readonly_fields = ['created_at', 'created_by', 'created_from', 'modified_at', 'modified_by', 'modified_from','cant_operator', 'cant_expert']
+            self.fieldsets = (
+                ('Config Claim Common', {
+                    'fields': ('greenToYellow_c','yellowToRed_c',)
+                }),
+                ('Config Claim IVE/HV', {
+                    'fields': ('greenToYellow_ive_hv','yellowToRed_ive_hv',)
+                }),
+                ('Change Log', {
+                    'classes': ('collapse',),
+                    'fields': ('created_at', 'created_by', 'created_from', 'modified_at', 'modified_by', 'modified_from',)
+                }),
+            )
+        return self.fieldsets
+    
+@admin.register(Omic)
+class OmicAdmin(ModelAdmin):
+    
+    list_display = ['name','responsible','opening_hours','phone','address','email']
+
+    def get_fieldsets(self, request, obj=None):
+        # ADD FIELDSET
+        if not obj:
+            #self.readonly_fields = ['cant_operator', 'cant_expert']
+            self.fieldsets = (
+                ('Details', {
+                    'fields': ('name','responsible','opening_hours','phone','address','email')
+                }),
+            )
+        # CHANGE FIELDSET
+        else:
+            request._obj = obj
+           # self.readonly_fields = ['created_at', 'created_by', 'created_from', 'modified_at', 'modified_by', 'modified_from','cant_operator', 'cant_expert']
+            self.fieldsets = (
+                ('Details', {
+                    'fields': ('name','responsible','opening_hours','phone','address','email')
                 }),
                 ('Change Log', {
                     'classes': ('collapse',),

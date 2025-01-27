@@ -85,6 +85,7 @@ INSTALLED_APPS = [
     "users",
     "security",
     "administration",
+    "claims",
 ]
 
 MIDDLEWARE = [
@@ -191,9 +192,9 @@ SECURE_COOKIES = getenv("SECURE_COOKIES") != "False"
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = "es"
+LANGUAGE_CODE = "es-ar"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "America/Argentina/Buenos_Aires"
 
 USE_I18N = True
 
