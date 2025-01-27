@@ -1,4 +1,5 @@
 
+import os
 from secrets import token_urlsafe
 from django.db import models
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
@@ -219,10 +220,15 @@ class User(BaseModel, AbstractBaseUser, PermissionsMixin):
             is_unique = not User.objects.filter(reset_password_token=self.reset_password_token).exists()   
         self.reset_password_token_exp = get_request_at() + timedelta(hours=settings.RESET_PASSWORD_EXP)
         
-        message = user_reset_password_message.html_message
+        template_path = os.path.join('/src/common/communication/prueba.html')
+        
+        with open(template_path, 'r', encoding='utf-8') as file:
+            template = file.read()
+
+        # message = user_reset_password_message.html_message
         
         link = settings.RESET_PASSWORD_LINK + '?reset_password_token=' + self.reset_password_token     
-
+        message = template.replace('{{link}}', link)
         self.send_email(
             fields_dict,
             user_reset_password_message.subject,
