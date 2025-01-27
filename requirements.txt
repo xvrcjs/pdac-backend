@@ -53,3 +53,6 @@ xlrd >= 2.0.1
 # Otros Utilitarios
 django-naomi
 six
+
+#Traducciones
+Babel

@@ -1,57 +1,81 @@
 <div align="center">
 <p align="center">
-<img alt="SowTic Logo" height="50px" src="./common/static/logo-dark.svg"/>
+<img alt="SowTic Logo" height="50px" src="./common/static/logo.png"/>
 </a>
 </p>
 
-[![en](https://img.shields.io/badge/lang-en-red.svg)](https://gitlab.com/sas-devp/duty/remote-assistance/backend-django/blob/develop/README.en.md)
-![python](https://img.shields.io/badge/python-v3.8-blue) ![django](https://img.shields.io/badge/django-v4.2.1-yellow) ![postgres](https://img.shields.io/badge/postgres-v15.1-green)
+![python](https://img.shields.io/badge/python-v3.8-blue) ![django](https://img.shields.io/badge/django-v4.2.1-yellow) ![mariadb](https://img.shields.io/badge/mariadb-v10.5-green)
+
 </div>
 
 ### Tabla de contenido
 
+- [Requerimientos](#requerimientos)
 - [Instalación](#instalación)
   - [Cómo comunicarse con el contenedor](#cómo-comunicarse-con-el-contenedor)
-  - [Cómo hacer migraciones y migrar](#cómo-hacer-migraciones-y-migrar)
+  - [Cómo generar migraciones y ejecutarlas](#cómo-generar-migraciones-y-ejecutarlas)
   - [Cómo crear el usuario administrador](#cómo-crear-el-usuario-administrador)
 - [Configuración global](#configuración-global)
+
+## Requerimientos
+
+Para levantarlo se necesita:
+
+|| Main version (dev)       |  
+|:---:|:---:|
+| Docker     | 27.2.0                     |
+| Docker compose     | v2.29.7                    |
+| Memoria RAM| 16 GB 
+| Procesadores| 4 núcleos de CPU |
+| Espacio en disco| 1TR |
+| Sistema Operativo| Ubuntu 22.04 |
+| Conectividad mínima| 1gbps|
   
 ## Instalación
 
+Crear un archivo `.env` o cambiar el nombre del archivo `.env.template` que se encuentra en la raiz del proyecto. Este archivo contiene todas las variables de entornos que van a servir para la configuración del sistema, mas adelante hay una tabla con las variables y su funcionalidad.
+
+Una vez que tenemos el archivo .env configurado con los datos correspondientes continuamos con generar las imagenes del sistema.
+
 Para crear/descargar las imágenes requeridas:
 ```bash
+# Docker version < 20.10
 $ docker-compose build
+# Docker version > 20.10
+$ docker compose build
 ```
 
 Para iniciar el entorno:
 ```bash
+# Docker version < 20.10
 $ docker-compose up
+# Docker version > 20.10
+$ docker compose up
 ```
 
 ### Cómo comunicarse con el contenedor
 
 Solo envía lo que necesitas usando:
 ```bash
-$ docker-compose exec web bash
+$ docker compose exec pdac-web bash
 ```
 
-### Cómo hacer migraciones y migrar
+### Cómo generar migraciones y ejecutarlas
 
 Para identificar los cambios generados y crear las migraciones:
 ```bash
-$ docker-compose exec web python manage.py makemigrations
+$ docker compose exec pdac-web python manage.py makemigrations
 ```
 
 Para aplicar las migraciones:
 ```bash
-$ docker-compose exec web python manage.py migrate
+$ docker compose exec pdac-web python manage.py migrate
 ```
-
 
 ### Cómo crear el usuario administrador
 
 
-Debe tener las siguientes variables creadas en el archivo .env
+Debe tener las siguientes variables creadas en el archivo `.env`
 ```env
 ADMIN_USERNAME=admin@admin.com
 ADMIN_PASSWORD=admin
@@ -60,13 +84,14 @@ ADMIN_PASSWORD=admin
 
 Ahora puede ejecutar los siguientes comandos:
 ```bash
-docker-compose exec web python manage.py loaddata db
-docker-compose exec web python manage.py create_admin
+docker compose exec pdac-web python manage.py loaddata db
+docker compose exec pdac-web python manage.py create_admin
 ```
 
 ## Configuración global
 
 El proyecto usa algunas configuraciones definidas en el archivo `.env`.
+
 | Nombre                  | Descripción                                                                                                                                                                                                             | Valor predeterminado        |
 | --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- |
 | `DEBUG`               |  Si su aplicación genera una excepción cuando DEBUG es TRUE, Django mostrará un seguimiento detallado, que incluye una gran cantidad de metadatos sobre su entorno, como todas las configuraciones de Django definidas actualmente (de settings.py). | `TRUE`                |
@@ -88,13 +113,6 @@ El proyecto usa algunas configuraciones definidas en el archivo `.env`.
 `REDIS_ENDPOINT` | Url que controla por donde se accede al servicio de redis| redis://redis:6379|
 `REDIS_ENABLED`| Variable de control booleana para validar la existencia de conexión con redis | `True`
 `SECURE_COOKIES`|Controla la creación de cookies dentro del sistema, el valor falso permite que se cree por afuera del sistema cookies compo por ejemplo en postman| `False`
-`QDRANT_KEY`|Key para conectarse al servicio externo de qdrant|
-`QDRANT_ENDPOINT`|Endpoint generado en el servicio de qdrant|
-`OPENAI_API_KEY`|Api-key generada en el servicio de OpenAi|
-`AWS_ACCESS_KEY_ID`| Key-id obtenido al generar el servicio de AWS |
-`AWS_SECRET_ACCESS_KEY`| Access-key obtenido al generar el servicio de AWS|
-`AWS_DEFAULT_REGION`|Region por defecto donde se genero el servicio AWS|
-`AWS_STORAGE_BUCKET_NAME`|Nombre del bucket generado en el servicio s3 de AWS|
 `EMAIL_SENDER_ENABLED` | Variable que controla si los email salen del sistema o son generados en forma de pdf dentro del sistema | `True`|
 `EMAIL_HOST_USER`| Email con el cual se envian todos los correos del sistema|
 `EMAIL_HOST_PASSWORD`| Contraseña del correo | 

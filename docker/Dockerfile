@@ -12,7 +12,8 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
   default-libmysqlclient-dev \
   libcap2 libcap2-bin libpam-cap iputils-ping gettext \
   python3-dev  graphviz  libgraphviz-dev  pkg-config \
-  tesseract-ocr tesseract-ocr-spa
+  tesseract-ocr tesseract-ocr-spa \
+  locales
 
 # Crear usuario 'django'
 RUN addgroup --system django \
