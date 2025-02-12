@@ -1,3 +1,5 @@
+from json import loads
+from django.http import HttpResponseBadRequest, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.timezone import localtime
 from administration.models import Client, TrafficLightSystemTimes,Omic
@@ -18,7 +20,7 @@ class ClientView(BaseView):
             self.required_fields= {} 
         return super().dispatch(request,*args,**kwargs)
         
-class TrafficLightSystemTimesConfig(BaseView):
+class TrafficLightSystemTimesConfigView(BaseView):
     model = TrafficLightSystemTimes
     fields = ['greenToYellow_c','yellowToRed_c','greenToYellow_ive_hv','yellowToRed_ive_hv','modified_by','modified_at']
     extra_fields={
@@ -67,9 +69,10 @@ class TrafficLightSystemTimesConfig(BaseView):
         fields_dict['modified_by'] = self.request.scope.user
         return super().modify_object(fields_dict, *args, **kwargs)
     
-class Omic(BaseView):
+class OmicView(BaseView):
     model = Omic
     fields = ['uuid','name','responsible','opening_hours','phone','address','email']
+    
     extra_fields = {
         'name':str,
         'responsible':str,
@@ -85,3 +88,21 @@ class Omic(BaseView):
             self.required_fields= {} 
         return super().dispatch(request,*args,**kwargs)
     
+@csrf_exempt
+def OmicMassiveView(request):
+    if request.method == 'POST':
+        request_body = loads(request.body) 
+        if request_body:
+            for omic in request_body:
+               Omic.objects.create(name=omic["name"],address=omic["address"],email=omic["email"],phone=omic["phone"],opening_hours=omic["opening_hours"],responsible=omic["responsible"])
+
+            return JsonResponse(
+                {
+                    'response':'Se crearon correctamente las omics',
+                },
+                status=200
+            )
+        
+        
+    else:
+        return HttpResponseBadRequest()

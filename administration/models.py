@@ -54,8 +54,8 @@ class Omic(BaseModel):
     name = models.CharField(_('Name'),max_length=255)
     responsible = models.CharField(_('Responsible'),max_length=255)
     opening_hours = models.CharField(_('Opening Hours'),max_length=255, blank=True)
-    phone = models.CharField(_('Phone'),max_length=255, blank=True)
-    address = models.CharField(_('Address'),max_length=255, blank=True)
+    phone = models.CharField(_('Phone'),max_length=255, blank=True,null=True)
+    address = models.CharField(_('Address'),max_length=255, blank=True,null=True)
     email = models.CharField(_('Email'),max_length=255)
 
     class Meta:
