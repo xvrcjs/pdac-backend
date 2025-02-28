@@ -338,19 +338,27 @@ class BaseModel(models.Model):
                 'modify_permission': True,
                 'delete_permission': True
             }
+        if account:
+            return {
+                'view_permission': True,
+                'add_permission': True,
+                'modify_permission': True,
+                'delete_permission': True
+            }
+        #TODO: Acomodar los permisos en base a las peticiones del frontend
         # Get permissions
-        if not hasattr(account, '_permissions'):
-            account._permissions = {}
+        # if not hasattr(account, '_permissions'):
+        #     account._permissions = {}
         
-        permissions = account._permissions.get(f'{cls._meta.app_label}.{cls._meta.model_name}')
-        if not permissions:
-            if account.client:
-                permissions = cls._get_permissions(account)
-                account._permissions[f'{cls._meta.app_label}.{cls._meta.model_name}'] = permissions
+        # permissions = account._permissions.get(f'{cls._meta.app_label}.{cls._meta.model_name}')
+        # if not permissions:
+        #     if account.client:
+        #         permissions = cls._get_permissions(account)
+        #         account._permissions[f'{cls._meta.app_label}.{cls._meta.model_name}'] = permissions
         # Return permissions
-        return permissions or {
-            'view_permission': False,
-            'add_permission': False,
-            'modify_permission': False,
-            'delete_permission': False
-        }
+        # return permissions or {
+        #     'view_permission': False,
+        #     'add_permission': False,
+        #     'modify_permission': False,
+        #     'delete_permission': False
+        # }

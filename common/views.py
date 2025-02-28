@@ -19,6 +19,7 @@ from uuid import UUID
 from .utils import to_title
 import logging
 from common.models import BaseModel
+from django.core.files.uploadedfile import InMemoryUploadedFile, TemporaryUploadedFile
 
 logger = logging.getLogger(__name__)
 
@@ -213,7 +214,8 @@ class BaseView(View):
     def read_body(request):
         if request.content_type == 'multipart/form-data':
             parameters, files = MultiPartParser(request.META, request, request.upload_handlers).parse()
-            return {**{key: parameters[key] for key in parameters}, **{key: files[key] for key in files}}
+            return {**{key: parameters[key] for key in parameters}, **{key: files.getlist(key) for key in files}}
+        
         if request.content_type == 'application/x-www-form-urlencoded':
             return {key: request.POST.get(key) for key in request.POST}
         return loads(request.body) if request.body else {}
@@ -273,6 +275,10 @@ class BaseView(View):
         if not isinstance(types, list):
             types = [types]
         for type in types:
+            if type in [InMemoryUploadedFile, TemporaryUploadedFile]:
+                if all(isinstance(item, (InMemoryUploadedFile, TemporaryUploadedFile)) for item in value):
+                    return value, True
+                return value, False
             # READ VALUE
             # None
             if type is None:
