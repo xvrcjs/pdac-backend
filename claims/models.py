@@ -54,7 +54,7 @@ class ClaimRegular(BaseModel):
     suppliers = models.ManyToManyField(Supplier)
     problem_description = models.TextField(blank=True)
     #Comments, activity and status changes
-    activity = models.JSONField(blank=True,null=True)
+    activity = models.JSONField(default=list,blank=True,null=True)
     files = models.ManyToManyField(File)
 
 

@@ -1,4 +1,6 @@
+import base64
 from datetime import datetime, timezone
+import io
 import json
 import os
 from django.utils.timezone import localtime
@@ -6,7 +8,7 @@ from babel.dates import format_datetime
 from datetime import datetime
 from babel import Locale
 from django.conf import settings
-from django.http import HttpResponseBadRequest, JsonResponse
+from django.http import HttpResponseBadRequest,HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from administration.models import TrafficLightSystemTimes
 from claims.models import ClaimRegular, Claimer, File, Supplier
@@ -16,6 +18,11 @@ from users.models import Account
 from django.core.files.uploadedfile import TemporaryUploadedFile
 from django.db import transaction
 
+from reportlab.lib.pagesizes import A4
+from reportlab.pdfgen import canvas
+from textwrap import wrap  # Para dividir texto largo en líneas
+
+locale = Locale('es', 'AR')
 @csrf_exempt
 def SendClaimIVE(request):
 
@@ -107,6 +114,23 @@ class ClaimView(BaseView):
         "files":["uuid","file","file_name"]
     }
 
+    extra_fields = {
+        'claim_access':str,
+        'type_of_claim':str,
+        'claim_status':str,
+        'category':str,
+        'heading':str,
+        'subheading':str,
+        'transfer_to_company':str,
+        'derived_to_omic':str,
+        'transfer_to_the_consumer':str,
+        'conciliation_hearing':str,
+        'imputation':str,
+        'resolution':str,
+        'monetary_agreement':str
+    }
+
+
     @csrf_exempt
     def dispatch(self, request, *args, **kwargs):
         if 'uuid' in kwargs:
@@ -115,14 +139,30 @@ class ClaimView(BaseView):
 
     def data_json(self, fields, **kwargs):
         data = super().data_json(fields, **kwargs)
-
+        
+        #Devuelvo la fecha de creacion formateada
         locale = Locale('es', 'AR')
         modified_at_local = localtime(data['created_at'])
         custom_format = "dd/MM/yyyy 'a las' HH.mm'hs'"
         data['created_at'] = format_datetime(modified_at_local, format=custom_format, locale=locale)
+
+        #Obtengo las url de los archivos
         for file in data['files']:
             file_instance = File.objects.get(uuid=file["uuid"])
             file["file"] = file_instance.file.url
+
+        #Obtengo los ultimos 3 comentarios destacados
+        highlighted_comments = [item for item in data["activity"] if item.get("highlighted")]
+        highlighted_comments.sort(key=lambda x: x["timestamp"], reverse=True)
+        data["featured_comments"] = highlighted_comments[:3]
+
+        #Ordeno las actividades en base a las mas nuevas primero
+        data["activity"].sort(key=lambda x: x["id"], reverse=True)
+
+        #Calculo el tiempo transcurrido desde la creacion del reclamo hasta hoy
+        status_activities = [entry for entry in self.object.activity if entry.get("type") == "status_activity"]
+
+        data["last_status"] = max(status_activities, key=lambda x: x["id"]) if status_activities else None
 
         return data
 
@@ -146,7 +186,7 @@ class ClaimView(BaseView):
                     if elapsed_time < trafic_config["greenToYellow_c"]:
                         claim_data["type_of_claim"] = "verde"
                     else:
-                        if elapsed_time < trafic_config["yellowToRed_c"]:
+                        if elapsed_time < (trafic_config["yellowToRed_c"]+trafic_config["greenToYellow_c"]):
                             claim_data["type_of_claim"] = "amarillo"
                         else:
                             claim_data["type_of_claim"] = "rojo"
@@ -154,7 +194,7 @@ class ClaimView(BaseView):
                     if elapsed_time < trafic_config["greenToYellow_c"]:
                         claim_data["type_of_claim"] = "hv_verde"
                     else:
-                        if elapsed_time < trafic_config["yellowToRed_c"]:
+                        if elapsed_time < (trafic_config["yellowToRed_c"]+trafic_config["greenToYellow_c"]):
                             claim_data["type_of_claim"] = "hv_amarillo"
                         else:
                             claim_data["type_of_claim"] = "hv_rojo" 
@@ -163,6 +203,23 @@ class ClaimView(BaseView):
 
             data_new.append(claim_data)
         return data_new
+    def modify_object(self, fields_dict, *args, **kwargs):
+        if fields_dict["claim_status"] != self.object.claim_status:
+            locale = Locale('es', 'AR')
+            date = localtime(datetime.now(timezone.utc))
+            custom_format = "d 'de' MMMM 'de' yyyy 'a las' HH:mm"
+            activity = {
+                "id": len(self.object.activity)+1,
+                "type": "status_activity",
+                "timestamp": format_datetime(date, format=custom_format, locale=locale),
+                "user": self.request.scope.account.full_name,
+                'content': f'Realizó cambio de estado de “{self.object.claim_status}“ a “{fields_dict["claim_status"]}“',
+                'highlighted': False,
+            }
+            self.object.activity.append(activity)
+            self.object.save()
+
+        return super().modify_object(fields_dict, *args, **kwargs)
 
 class GenerateClaimPdf(BaseView):
     model = ClaimRegular
@@ -183,40 +240,38 @@ class GenerateClaimPdf(BaseView):
     def data_json(self, fields, **kwargs):
         claim = super().data_json(fields, **kwargs)
 
-        from django.http import HttpResponse
-        from reportlab.lib.pagesizes import A4
-        from reportlab.pdfgen import canvas
-        from reportlab.lib import colors
-        from textwrap import wrap  # Para dividir texto largo en líneas
+        #Para testear como se ve sin tener que descargar el archivo continuamente descomentar esto
+        # response = HttpResponse(content_type="application/pdf")
+        # response["Content-Disposition"] = f'attachment; filename="{claim["id"]}.pdf"'
+        # pdf = canvas.Canvas(response, pagesize=A4)
 
-        response = HttpResponse(content_type="application/pdf")
-        response["Content-Disposition"] = f'attachment; filename="{claim["id"]}.pdf"'
-        pdf = canvas.Canvas(response, pagesize=A4)
+        pdf_buffer = io.BytesIO()
+        pdf = canvas.Canvas(pdf_buffer, pagesize=A4)
         width, height = A4
 
-        pdf.drawImage("common/templates/claim/reclamo.png", 0, 0, width=width, height=height)
+        pdf.drawImage("common/templates/claim/reclamo-comun-1.png", 0, 0, width=width, height=height)
 
         margin_top = 50  # Margen desde la parte superior
         y_position = height - margin_top  # Posición inicial de escritura
 
-        def draw_input_label(x, y, value):
+        def draw_input_label(x, y, value,fontSize):
             """Dibuja etiquetas y cuadros de texto para simular inputs"""
-            pdf.setFont("Helvetica", 10)
+            pdf.setFont("Helvetica", fontSize)
             pdf.drawString(x + 5, y - 7, value)  
 
         # Datos de reclamo
         #ID
         pdf.setFont("Helvetica", 8)
-        pdf.drawString(505, y_position+26, claim["id"])  
+        pdf.drawString(440, y_position-2, claim["id"])  
         #Fecha de creación
-        pdf.drawString(540, y_position+15, format_datetime(claim["created_at"],format="dd/MM/yyyy"))
+        pdf.drawString(473, y_position-11, format_datetime(claim["created_at"],format="dd/MM/yyyy"))
 
         y_position-=28
         # Datos del solicitante
-        draw_input_label(28, y_position, claim["claimer"]["fullname"])
-        draw_input_label(28, y_position - 48, claim["claimer"]["dni"])
-        draw_input_label(28, y_position - 93, claim["claimer"]["cuit"])
-        draw_input_label(28, y_position - 140, claim["claimer"]["email"])
+        draw_input_label(45, y_position-58, claim["claimer"]["fullname"],10)
+        draw_input_label(45, y_position - 106, claim["claimer"]["dni"],10)
+        draw_input_label(45, y_position - 151, claim["claimer"]["cuit"],10)
+        draw_input_label(45, y_position - 198, claim["claimer"]["email"],10)
         GENDER_CHOICES = {
             "female": "Femenino",
             "male": "Masculino",
@@ -224,38 +279,130 @@ class GenerateClaimPdf(BaseView):
             "other": "Otro",
             "none": "Prefiero no decirlo",
         }
-        draw_input_label(28, y_position - 185, GENDER_CHOICES.get(claim["claimer"]["gender"]))
+        draw_input_label(45, y_position - 243, GENDER_CHOICES.get(claim["claimer"]["gender"]),10)
 
         # Datos del proveedor
-        y_position -= 250
-        x_base_supplier = 28
+        y_position -= 343
+        x_base_supplier = 45
         for i in range(3):
-            supplier = claim["suppliers"][i] if i < len(claim["suppliers"]) else {}  
-            draw_input_label(x_base_supplier, y_position - 20, supplier.get("cuil", "-"))
-            draw_input_label(x_base_supplier, y_position - 83, supplier.get("fullname", "-"))
-            draw_input_label(x_base_supplier, y_position - 140, supplier.get("address", "-"))
-            draw_input_label(x_base_supplier, y_position - 187, supplier.get("city", "-"))
-            draw_input_label(x_base_supplier, y_position - 235, supplier.get("num_address", "-"))
-            draw_input_label(x_base_supplier, y_position - 280, supplier.get("zip_code", "-"))
-            x_base_supplier += 185
+            supplier = claim["suppliers"][i] if i < len(claim["suppliers"]) else {} 
+            draw_input_label(x_base_supplier, y_position - 20, supplier.get("cuil", "-"),8)
+            draw_input_label(x_base_supplier, y_position - 81, supplier.get("fullname", "-"),8)
+            draw_input_label(x_base_supplier, y_position - 140, supplier.get("address", "-"),8)
+            draw_input_label(x_base_supplier, y_position - 187, supplier.get("city", "-"),8)
+            draw_input_label(x_base_supplier, y_position - 233, supplier.get("num_address", "-"),8)
+            draw_input_label(x_base_supplier, y_position - 280, supplier.get("zip_code", "-"),8)
+            x_base_supplier += 173
         y_position -= 340
 
         # Espacio disponible en la página
         available_space = y_position - 30  
 
-        wrapped_text = wrap(claim["problem_description"], 110)
+        wrapped_text = wrap(claim["problem_description"], 100)
 
+        # Nueva pagina
+        pdf.showPage()
+        pdf.setFont("Helvetica", 10)
+        y_position = height - 120  # Reiniciar posición en la nueva página
+        available_space = y_position - 50
+        pdf.drawImage("common/templates/claim/reclamo-comun-2.png", 0, 0, width=width, height=height)
+        pdf.setFont("Helvetica", 8)
+        pdf.drawString(440, y_position+68, claim["id"])  
+        #Fecha de creación
+        pdf.drawString(473, y_position+58, format_datetime(claim["created_at"],format="dd/MM/yyyy"))
         for line in wrapped_text:
-            if available_space < 40:  # Si no hay espacio, saltar de página
-                pdf.showPage()
-                pdf.setFont("Helvetica", 10)
-                y_position = height - 50  # Reiniciar posición en la nueva página
-                available_space = y_position - 50  
-            draw_input_label(28,y_position,line)
-            # pdf.drawString(55, y_position, line)
+            draw_input_label(50,y_position,line,10)
             y_position -= 15  # Moverse a la siguiente línea
             available_space -= 15  # Reducir el espacio disponible
 
         pdf.showPage()
         pdf.save()
-        return response
+
+        pdf_buffer.seek(0)
+        encoded_pdf = base64.b64encode(pdf_buffer.read()).decode("utf-8")
+        return JsonResponse({"pdf_base64": encoded_pdf, "filename": f"{claim['id']}.pdf"})
+
+        # return response
+class CommentToClaim(BaseView):
+
+    model = ClaimRegular
+
+    extra_fields = {
+        'id': int,
+        'type': str,
+        'timestamp': str,
+        'user': str,
+        'content': str,
+        'highlighted': bool,
+    }
+    @csrf_exempt
+    def dispatch(self, request, *args, **kwargs):
+        if 'uuid' in kwargs:
+            self.required_fields= {}
+        return super().dispatch(request,*args,**kwargs)
+    
+
+
+    def modify_object(self, fields_dict, *args, **kwargs):
+
+        activity_list = self.object.activity
+        # Si existe el ID en lo field debe modificar solo el estado de destacado
+        if "id" in fields_dict:
+            for item in activity_list:
+                if item.get("id") == fields_dict["id"]:
+                    item["highlighted"] = not item.get("highlighted", False)
+                    self.object.save()
+                    return JsonResponse({"message": "Se actualizó correctamente la actividad"}, status=200)
+        
+        if isinstance(fields_dict['timestamp'], str):
+            fields_dict['timestamp'] = datetime.strptime(
+                fields_dict['timestamp'], "%Y-%m-%dT%H:%M:%S.%fZ"
+            ).replace(tzinfo=timezone.utc)
+
+        modified_at_local = localtime(fields_dict['timestamp'])
+        custom_format = "d 'de' MMMM 'de' yyyy 'a las' HH:mm"
+        locale = "es_ES"
+        fields_dict["timestamp"] = format_datetime(modified_at_local, format=custom_format, locale=locale)
+
+        # Si no existe el ID, agregar un nuevo objeto con ID incremental
+        new_id = max([item.get("id", 0) for item in activity_list], default=0) + 1
+        fields_dict["id"] = new_id
+        activity_list.append(fields_dict)
+
+        self.object.save()
+        return JsonResponse({"message": "Se agregó correctamente la actividad"}, status=200)
+    
+class GenerateClaimFileZip(BaseView):
+    model = ClaimRegular
+
+    model = ClaimRegular
+
+    fields = ["id","uuid", "files"]
+
+    list_fields_related = {
+        "files":["uuid","file","file_name"]
+    }
+    @csrf_exempt
+    def dispatch(self, request, *args, **kwargs):
+        if 'uuid' in kwargs:
+            self.required_fields= {}
+        return super().dispatch(request,*args,**kwargs)
+    
+    def data_json(self, fields, **kwargs):
+        import zipfile 
+
+        claim = super().data_json(fields,**kwargs)
+        # Creamos un archivo ZIP en memoria
+        zip_buffer = io.BytesIO()
+        with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
+            for file in claim["files"]:
+                file_instance = File.objects.get(uuid=file["uuid"])
+                zip_file.write(settings.MEDIA_ROOT+"/"+file["file"], arcname=file["file_name"].split("/")[-1])
+
+        # Convertimos el archivo ZIP a base64
+        zip_buffer.seek(0)  # Volvemos al inicio del buffer
+        zip_base64 = base64.b64encode(zip_buffer.read()).decode('utf-8')
+
+        return JsonResponse({
+            "zip_file": zip_base64,
+        })

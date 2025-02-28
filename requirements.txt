@@ -56,3 +56,6 @@ six
 
 #Traducciones
 Babel
+
+#Generacion de PDF
+reportlab
