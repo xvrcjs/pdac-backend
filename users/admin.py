@@ -106,7 +106,7 @@ class AccountAdmin(ModelAdmin):
     # Fields: 'user', 'roles', 'last_login', 'is_active', 'is_admin', 'policies'
     # Common fields: 'uuid',  'created_at', 'created_by', 'created_from', 'modified_at', 'modified_by', 'modified_from'
 
-    list_display = ['id','user','full_name','dni','is_active', 'is_admin','is_deleted', 'last_login', 'modified_at']
+    list_display = ['id','user','full_name','omic','dni','is_active', 'is_admin','is_deleted', 'last_login', 'modified_at']
     list_display_links = ['user']
     list_filter = ['is_active', 'is_admin']
     search_fields = ['user__display_name', 'full_name', 'user__email', 'roles__name']
@@ -125,7 +125,7 @@ class AccountAdmin(ModelAdmin):
                     'fields':('full_name','dni','phone','profile_image','comments',)
                 }),
                 ('Administration',{
-                    'fields':('client','roles','permissions',)
+                    'fields':('client','omic','roles','permissions',)
 
                 }),
                 ('Settings', {
@@ -144,7 +144,7 @@ class AccountAdmin(ModelAdmin):
                     'fields':('full_name','dni','phone','profile_image','comments',)
                 }),
                 ('Administration',{
-                    'fields':('client','roles','permissions',)
+                    'fields':('client','omic','roles','permissions',)
 
                 }),
                 ('Settings', {

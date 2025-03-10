@@ -8,6 +8,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, \
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
+from administration.models import Omic
 from common.utils import  to_title
 from settings.middlewares import get_request_at,  get_request_origin
 from common.models import BaseQuerySet, BaseModel, CaseInsensitiveCharField
@@ -268,7 +269,7 @@ class Account(BaseModel):
     profile_image = models.ImageField(_('Profile Image'),upload_to=get_profile_image_path, null=True, blank=True)
     dni = models.CharField(_('DNI'), max_length=15,default='', blank=True)
     comments = models.TextField(_('Comments'),max_length=255,default='', blank=True)
-                        
+    omic = models.ForeignKey(Omic,on_delete=models.CASCADE,verbose_name=_('Omic'),null=True)                 
     #Administration
     client = models.ForeignKey('administration.Client',models.CASCADE,'accounts','account',verbose_name=_('Client'),null=True, blank=True)
 

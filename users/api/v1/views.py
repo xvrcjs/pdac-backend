@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate
 from json import JSONEncoder, loads
 
 import requests
+from claims.models import ClaimRegular
 from security.models import Role, Module
 from common.utils import generateQr
 from common.views import BaseView
@@ -209,7 +210,7 @@ def create_password(request):
 
 class AccountView(BaseView):
     model = Account
-    fields = ['uuid', 'id', 'profile_image','full_name','dni', 'user', 'is_active','roles','last_login','permissions','phone','created_at','comments']
+    fields = ['uuid', 'id', 'profile_image','full_name','dni', 'user','omic', 'is_active','roles','last_login','permissions','phone','created_at','comments']
     
     # required_fields ={
     #     "display_name":str,
@@ -220,6 +221,7 @@ class AccountView(BaseView):
         'roles':str,
         'email':str,
         'phone':str,
+        'omic_id':str,
         'dni':str,
         'full_name':str,
         'client_id': str,
@@ -230,10 +232,11 @@ class AccountView(BaseView):
 
     list_fields_related = {
         'user':['display_name','email'],
+        'omic':['uuid','name','responsible'],
         'roles' : ['name',],
         'permissions' :['name','mapping_key']
     }
-    list_search_fields=["user__display_name","is_deleted"]
+    list_search_fields=["is_deleted","roles__name"]
 
     @csrf_exempt
     def dispatch(self, request, *args, **kwargs):
@@ -272,6 +275,10 @@ class AccountView(BaseView):
                 formatted_date = "-"
             user['details']['date'] = f"Ultimo acceso: {formatted_date}"
             user['details']['more_details'] = "Permisos de admin municipal por default activos"
+
+            #TODO: Agregar la suma de los IVE
+            user['details']['cant_claims_assigned'] = (ClaimRegular.objects.filter(derived_to_user__uuid=user["uuid"]).count())
+
         return data
     
     def annotate(self):
@@ -371,7 +378,7 @@ class AccountView(BaseView):
 
 class ProfileView(BaseView):
     model = Account
-    fields = ['uuid', 'id','user_id', 'profile_image', 'user__display_name', 'full_name', 'user__email', 'is_active', 'is_admin', 'roles']
+    fields = ['uuid', 'id','user_id','omic','profile_image', 'user__display_name', 'full_name', 'user__email', 'is_active', 'is_admin', 'roles','last_login']
     extra_fields = {
         'full_name': str,
         'display_name': str,
@@ -379,6 +386,7 @@ class ProfileView(BaseView):
     }
     list_fields_related = {
         'roles' : ['name', 'uuid'],
+        'omic': ['name']
     }
     @csrf_exempt
     def dispatch(self, request, *args, **kwargs):
@@ -386,6 +394,14 @@ class ProfileView(BaseView):
             kwargs['uuid']= request.scope.account.uuid
         return super().dispatch(request,*args,**kwargs)
     
+    def data_json(self, fields, **kwargs):
+        data = super().data_json(fields, **kwargs)
+        if data["last_login"]:
+            formatted_date = data["last_login"].strftime("%d/%m/%y %H.%Mhs")
+        else:
+            formatted_date = "-"
+        data["last_login"] = formatted_date
+        return data
 
 class AccountPermissionsView(BaseView):
     """ api/security/v1/permissions/ """
