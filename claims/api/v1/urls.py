@@ -16,4 +16,6 @@ urlpatterns = [
    re_path(r'^zip_files_claim'+regex_for_optional_uuid, GenerateClaimFileZip.as_view(), name='download_claim'),
    #Permite el agregar comentarios al reclamo y tambien fijar y desfijar comentarios
    re_path(r'^comment'+regex_for_optional_uuid, CommentToClaim.as_view(), name='comment_to_claim'),
+   #Asignar una omic o un usuario especifico a un reclamo
+   re_path(r'^assign_claim'+regex_for_optional_uuid, AssignClaim.as_view(), name='assign_claim'),
 ]

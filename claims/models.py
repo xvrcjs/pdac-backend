@@ -1,5 +1,6 @@
 from datetime import datetime
 from django.db import models
+from administration.models import Omic
 from common.models import BaseModel
 from django.utils.translation import gettext_lazy as _
 
@@ -67,7 +68,7 @@ class ClaimRegular(BaseModel):
     subheading = models.CharField(_('Subheading'),max_length=255,blank=True,null=True)
     
     transfer_to_company = models.CharField(_('Transfer to company'),max_length=255,blank=True,null=True)
-    derived_to_omic = models.CharField(_('Derived to OMIC'),max_length=255,blank=True,null=True)
+    derived_to_omic = models.ForeignKey(Omic,on_delete=models.CASCADE,blank=True,null=True,related_name='derived_omic')
     derived_to_user = models.ForeignKey(Account,on_delete=models.CASCADE,related_name='account',null=True,blank=True)
     transfer_to_the_consumer = models.CharField(_('Transfer to the consumer'),max_length=255,blank=True,null=True)
     conciliation_hearing = models.CharField(_('Conciliation hearing'),max_length=255,blank=True,null=True)

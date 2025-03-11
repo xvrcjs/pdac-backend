@@ -10,7 +10,7 @@ from babel import Locale
 from django.conf import settings
 from django.http import HttpResponseBadRequest,HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from administration.models import TrafficLightSystemTimes
+from administration.models import Omic, TrafficLightSystemTimes
 from claims.models import ClaimRegular, Claimer, File, Supplier
 from common.communication.utils import send_email
 from common.views import BaseView
@@ -111,7 +111,8 @@ class ClaimView(BaseView):
     list_fields_related = {
         "suppliers":["fullname","cuil"],
         "claimer":["fullname","dni","cuit","email","gender"],
-        "files":["uuid","file","file_name"]
+        "files":["uuid","file","file_name"],
+        "derived_to_omic":["uuid","name","responsible"],
     }
 
     extra_fields = {
@@ -122,7 +123,7 @@ class ClaimView(BaseView):
         'heading':str,
         'subheading':str,
         'transfer_to_company':str,
-        'derived_to_omic':str,
+        'derived_to_omic':[None,str],
         'transfer_to_the_consumer':str,
         'conciliation_hearing':str,
         'imputation':str,
@@ -174,8 +175,11 @@ class ClaimView(BaseView):
             claim_data = {}
             claim_data["uuid"]= claim["uuid"]
             claim_data["id"] = claim["id"]
-            account = Account.objects.filter(uuid=claim["derived_to_user"]).first()
-            claim_data["assigned"] = account.full_name if account else "S/A"
+            if claim["derived_to_user"]:
+                account = Account.objects.filter(uuid=claim["derived_to_user"]).first()
+                claim_data["assigned"] = account.full_name if account else "S/A"
+            else:
+                claim_data["assigned"] = f"{claim['derived_to_omic']['name']} - {claim['derived_to_omic']['responsible']}" if claim["derived_to_omic"] else "S/A"
             claim_data["status"] = claim["claim_status"]
 
             #Logica para tipo de reclamo y estado de reclamo
@@ -340,8 +344,6 @@ class CommentToClaim(BaseView):
         if 'uuid' in kwargs:
             self.required_fields= {}
         return super().dispatch(request,*args,**kwargs)
-    
-
 
     def modify_object(self, fields_dict, *args, **kwargs):
 
@@ -375,8 +377,6 @@ class CommentToClaim(BaseView):
 class GenerateClaimFileZip(BaseView):
     model = ClaimRegular
 
-    model = ClaimRegular
-
     fields = ["id","uuid", "files"]
 
     list_fields_related = {
@@ -406,3 +406,28 @@ class GenerateClaimFileZip(BaseView):
         return JsonResponse({
             "zip_file": zip_base64,
         })
+    
+class AssignClaim(BaseView):
+    model = ClaimRegular
+
+    extra_fields = {
+        'type': str,
+        'assigned_id': str,
+    }
+    
+    @csrf_exempt
+    def dispatch(self, request, *args, **kwargs):
+        if 'uuid' in kwargs:
+            self.required_fields= {}
+        return super().dispatch(request,*args,**kwargs)
+
+    def modify_object(self, fields_dict, *args, **kwargs):
+        if(fields_dict["type"] == "omic"):
+            fields_dict["derived_to_omic"] = Omic.objects.filter(uuid=fields_dict["assigned_id"]).first()
+        else:
+            fields_dict["derived_to_user"] =  Account.objects.filter(uuid=fields_dict["assigned_id"]).first()
+
+        del fields_dict["assigned_id"]
+        del fields_dict["type"]
+        print(fields_dict)
+        return super().modify_object(fields_dict, *args, **kwargs)
