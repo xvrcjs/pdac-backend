@@ -18,7 +18,7 @@ class Client(BaseModel):
     address = models.TextField(_(' Address'), default='', blank=True)
 
     #Administration
-    owner = models.OneToOneField('users.Account',on_delete=models.CASCADE,verbose_name=_('Owner'),null=False, related_name="client_owner")
+    owner = models.OneToOneField('users.Account',on_delete=models.CASCADE,verbose_name=_('Owner'),null=True, related_name="client_owner")
     modules = models.ManyToManyField('security.Module', verbose_name=_('Modules'), blank=True)
     cant_students = models.IntegerField(_('Cant Students'), default=0, blank=True)
 
@@ -61,6 +61,8 @@ class Omic(BaseModel):
     class Meta:
         verbose_name = _('Omic')
         verbose_name_plural = _('Omics')
+    def __str__(self):
+        return self.name
       
 def site_config(request):
     return {

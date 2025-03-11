@@ -81,6 +81,7 @@ class OmicView(BaseView):
         'address':str,
         'email':str
     }
+    list_page_size = "all"
 
     @csrf_exempt
     def dispatch(self, request, *args, **kwargs):
