@@ -1294,6 +1294,33 @@
     }
   },
   {
+    "model": "users.account",
+    "pk": "e8d59e69-2313-4338-8685-7a8d10191b78",
+    "fields": {
+      "created_at": "2025-03-03T05:31:33.985Z",
+      "created_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "created_from": "172.18.0.1",
+      "modified_at": "2025-03-03T05:31:33.985Z",
+      "modified_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "modified_from": "172.18.0.1",
+      "id": 3,
+      "user": "9c0b2ad4-503f-46d4-a010-531963841eb9",
+      "full_name": "Anonymous",
+      "phone": "",
+      "profile_image": "",
+      "dni": "",
+      "comments": "",
+      "client": "2aa3b3d7-3ffa-4f7e-88c9-6bff08c8c89f",
+      "last_login": null,
+      "is_active": true,
+      "is_admin": false,
+      "is_online": false,
+      "is_deleted": false,
+      "roles": ["d79c806e-e59c-4231-80ba-16cd4bb2d261"],
+      "permissions": []
+    }
+  },
+  {
     "model": "security.module",
     "pk": "02ee2fa6-5df6-4081-8905-6c14fa3a1ba3",
     "fields": {
@@ -2028,9 +2055,11 @@
       "name": "Support",
       "description": "Este rol se enfoca en la gestión y resolución de tickets relacionados con problemas ténicos",
       "modules": [
-        "50dbdf33-38b5-44e6-8dba-c2915f835e98",
-        "c72d5666-65ec-4ad7-abeb-d244b15883b5",
-        "23669527-5c78-4cab-a83e-f5debe692cf2"
+        "02ee2fa6-5df6-4081-8905-6c14fa3a1ba3",
+        "31d35d05-d7ec-4d6d-b40d-f47eb1504154",
+        "0fd5a89c-b523-4541-a300-404e38026fd6",
+        "7cb03778-681f-43dd-ae23-89c3d4e5239e",
+        "b27377bc-7c2e-4b25-b093-7bcf424e2eb2"
       ]
     }
   },
@@ -2047,11 +2076,16 @@
       "name": "Omic",
       "description": "Este rol gestiona los reclamos dentro de su municipio y tiene capacidad de reasignación",
       "modules": [
-        "a667da57-7e40-4edc-a4fc-77934bdb8399",
-        "b53205c8-5586-4558-a3be-2d47f9b32c30",
-        "f537b154-820f-419a-8ec3-37e19eead512",
-        "c72d5666-65ec-4ad7-abeb-d244b15883b5",
-        "23669527-5c78-4cab-a83e-f5debe692cf2"
+        "e43d99a1-8523-49f4-a576-fff87f1d44ad",
+        "cda75c2d-3768-469c-a524-7d912deb5785",
+        "02ee2fa6-5df6-4081-8905-6c14fa3a1ba3",
+        "c3206977-38bc-4ec5-8fe1-de1499f786b2",
+        "afefd202-91a6-447e-8557-52f84303e2cf",
+        "62c79961-d3ba-4eb5-b944-0a7cd5abc7ee",
+        "d4c26e80-add6-48c1-aebd-4a85356c102c",
+        "61d79bdf-a671-410a-b1e8-968b57af1104",
+        "7dfefaa0-4e20-47d6-bed4-531f437fe57c",
+        "e4903c9e-52a3-4579-b9f1-2a8c9195d71d"
       ]
     }
   },
@@ -2068,13 +2102,25 @@
       "name": "Admin",
       "description": "Este rol tiene acceso completo para gestionar el sistema, los usuario y los reclamos",
       "modules": [
-        "a667da57-7e40-4edc-a4fc-77934bdb8399",
-        "b022d12a-3db8-4200-be69-3e923d144c9b",
-        "b53205c8-5586-4558-a3be-2d47f9b32c30",
-        "31e63c81-190f-4f26-aa47-30801b2c15a0",
-        "f537b154-820f-419a-8ec3-37e19eead512",
-        "c72d5666-65ec-4ad7-abeb-d244b15883b5",
-        "23669527-5c78-4cab-a83e-f5debe692cf2"
+        "529a27fd-5aad-4145-9755-92ea5b6bc3b7",
+        "9622eba6-13ba-44c0-866e-6252b7912910",
+        "f0062c65-478c-4351-a48d-b020deaad6ad",
+        "57de168d-2aa6-4f4d-bc17-639bc775bb7c",
+        "02ee2fa6-5df6-4081-8905-6c14fa3a1ba3",
+        "dcb07b96-a715-4827-be52-ffb6b1683bdb",
+        "6015c3f3-a994-4489-8f67-62f67ec9a786",
+        "058582e2-e5fa-47c9-b7b4-04172be1f806",
+        "121dbe9b-c51e-41da-b2d1-291ace472b96",
+        "9253971c-e2c9-4de0-bbcc-826b1022560c",
+        "39955205-8382-499a-949c-c5ac4769e4a0",
+        "0fd5a89c-b523-4541-a300-404e38026fd6",
+        "7cb03778-681f-43dd-ae23-89c3d4e5239e",
+        "50817d6b-54b7-45a7-8102-aa6f7fcc8831",
+        "3fa06653-b0f9-4600-8949-f32b4af94e1a",
+        "9773af50-5fb6-43fd-98cd-9a28ce1a6b17",
+        "d4c26e80-add6-48c1-aebd-4a85356c102c",
+        "9dc39fa0-6378-47ca-be21-f7afc02bb6da",
+        "8340fec0-13f4-47e1-bf1f-dfa73491b46c"
       ]
     }
   },

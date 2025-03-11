@@ -403,6 +403,10 @@ class BaseView(View):
                 getattr(self.object, field).model.objects.filter(pk__in=fields_dict[field]).update(
                     **{getattr(self.object, field).field.name: self.object}
                 )
+            elif isinstance(fields_dict[field], list) and isinstance(fields_dict[field][0], InMemoryUploadedFile):
+                # Manejar el archivo correctamente
+                setattr(self.object, field, fields_dict[field][0])
+                self.object.save(update_fields=[field])
             # Others
             else:
                 modified_fields.append(field)
@@ -775,6 +779,8 @@ class BaseView(View):
             return HttpResponse(status=404)
         # Get cleaned body
         [cleaned_body, bad_response] = self.get_cleaned_body(request, **kwargs)
+        print(cleaned_body)
+        print(bad_response)
         if bad_response: return bad_response
         # Connect the Signal to check the obj
         pre_save.connect(clean_before_save, sender=self.model)
