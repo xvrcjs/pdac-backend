@@ -63,7 +63,23 @@ class Omic(BaseModel):
         verbose_name_plural = _('Omics')
     def __str__(self):
         return self.name
-      
+    
+def get_standard_and_protocols_file_path(instance,file_name):
+    return 'standards_and_protocols/%s/%s' % (instance.uuid,file_name)
+class StandardsAndProtocols(BaseModel):
+
+    title = models.CharField(_('Title'),max_length=255)
+    description = models.CharField(_('Description'),max_length=300)
+    file = models.FileField(upload_to=get_standard_and_protocols_file_path)
+
+    def __str__(self):
+        return self.title
+    
+    def delete(self, *args, **kwargs):
+        if self.file:
+            self.file.delete(save=False) 
+        super().delete(*args, **kwargs) 
+
 def site_config(request):
     return {
         'TITLE_FROM_ENVIRONMENT': getenv('TITLE_FROM_ENVIRONMENT', default='Default Title'),

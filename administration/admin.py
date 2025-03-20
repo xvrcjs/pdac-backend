@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Client, Omic, TrafficLightSystemTimes
+from .models import Client, Omic, StandardsAndProtocols, TrafficLightSystemTimes
 from django.contrib.admin import ModelAdmin, TabularInline
 
 # Register your models here.
@@ -106,6 +106,35 @@ class OmicAdmin(ModelAdmin):
             self.fieldsets = (
                 ('Details', {
                     'fields': ('name','responsible','opening_hours','phone','address','email')
+                }),
+                ('Change Log', {
+                    'classes': ('collapse',),
+                    'fields': ('created_at', 'created_by', 'created_from', 'modified_at', 'modified_by', 'modified_from',)
+                }),
+            )
+        return self.fieldsets
+    
+@admin.register(StandardsAndProtocols)
+class StandardsAndProtocolsAdmin(ModelAdmin):
+    
+    list_display = ['title','description']
+
+    def get_fieldsets(self, request, obj=None):
+        # ADD FIELDSET
+        if not obj:
+            #self.readonly_fields = ['cant_operator', 'cant_expert']
+            self.fieldsets = (
+                ('Details', {
+                    'fields': ('title','description','file')
+                }),
+            )
+        # CHANGE FIELDSET
+        else:
+            request._obj = obj
+           # self.readonly_fields = ['created_at', 'created_by', 'created_from', 'modified_at', 'modified_by', 'modified_from','cant_operator', 'cant_expert']
+            self.fieldsets = (
+                ('Details', {
+                    'fields': ('title','description','file')
                 }),
                 ('Change Log', {
                     'classes': ('collapse',),

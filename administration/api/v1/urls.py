@@ -10,4 +10,8 @@ urlpatterns = [
     re_path(r'^traffic-light-system-config'+regex_for_optional_uuid, TrafficLightSystemTimesConfigView.as_view(), name='administration_v1_client'),
     re_path(r'^omic'+regex_for_optional_uuid, OmicView.as_view(), name='administration_v1_omic'),
     re_path(r'^omic-massive',OmicMassiveView, name='administration_v1_omic_massive'),
+    re_path(r'^standards-and-protocols'+regex_for_optional_uuid,StandardsAndProtocolsView.as_view(), name='administration_v1_standars_and_protocolos'),
+    re_path(r'^standards-and-protocols/download'+regex_for_optional_uuid,StandardsAndProtocolsDownloadView.as_view(), name='administration_v1_standars_and_protocolos'),
+    re_path(r'^standards-and-protocols/zip',StandardsAndProtocolsZipView.as_view(), name='administration_v1_standars_and_protocolos_zip'),
+
 ]
