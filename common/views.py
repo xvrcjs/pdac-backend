@@ -7,7 +7,7 @@ from django.db.models.fields.files import ImageFieldFile
 from django.db.models.fields.related_descriptors import ManyToManyDescriptor, ReverseManyToOneDescriptor
 from django.db.models.manager import Manager
 from django.db.models.signals import pre_save
-from django.http import JsonResponse, HttpResponse
+from django.http import FileResponse, JsonResponse, HttpResponse
 from django.http.multipartparser import MultiPartParser
 from django.utils.dateparse import parse_datetime, parse_date, parse_time, parse_duration
 from django.views import View
@@ -620,7 +620,7 @@ class BaseView(View):
             return HttpResponse(status=404)
         # Return Data
         data = self.data_json(set([*self.fields, *self.instance_fields]), **kwargs)
-        if isinstance(data, (JsonResponse, HttpResponse)):
+        if isinstance(data, (JsonResponse, HttpResponse,FileResponse)):
             return data
         return JsonResponse({
             'data': data,

@@ -429,5 +429,4 @@ class AssignClaim(BaseView):
 
         del fields_dict["assigned_id"]
         del fields_dict["type"]
-        print(fields_dict)
         return super().modify_object(fields_dict, *args, **kwargs)
