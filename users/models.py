@@ -221,15 +221,15 @@ class User(BaseModel, AbstractBaseUser, PermissionsMixin):
             is_unique = not User.objects.filter(reset_password_token=self.reset_password_token).exists()   
         self.reset_password_token_exp = get_request_at() + timedelta(hours=settings.RESET_PASSWORD_EXP)
         
-        template_path = os.path.join('/src/common/communication/prueba.html')
+        template_path = os.path.join('/src/common/communication/reset-password.html')
         
         with open(template_path, 'r', encoding='utf-8') as file:
             template = file.read()
 
         # message = user_reset_password_message.html_message
-        
+
         link = settings.RESET_PASSWORD_LINK + '?reset_password_token=' + self.reset_password_token     
-        message = template.replace('{{link}}', link)
+        message = template.replace('{{link}}', link).replace('{{name}}', fields_dict['full_name']).replace('{{expire}}', str(settings.RESET_PASSWORD_EXP))
         self.send_email(
             fields_dict,
             user_reset_password_message.subject,
@@ -246,8 +246,14 @@ class User(BaseModel, AbstractBaseUser, PermissionsMixin):
             is_unique = not User.objects.filter(reset_password_token=self.reset_password_token).exists()   
         self.reset_password_token_exp = get_request_at() + timedelta(hours=settings.RESET_PASSWORD_EXP)
         
-        message = user_create_password_message.html_message
+        template_path = os.path.join('/src/common/communication/create-password.html')
+        with open(template_path, 'r', encoding='utf-8') as file:
+            template = file.read()
+
+        # message = user_create_password_message.html_message
         link = settings.CREATE_PASSWORD_LINK + '?reset_password_token=' + self.reset_password_token     
+        
+        message = template.replace('{{link}}', link).replace('{{name}}', fields_dict['full_name']).replace('{{expire}}', str(settings.RESET_PASSWORD_EXP))
 
         self.send_email(
             fields_dict,
