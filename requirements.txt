@@ -59,3 +59,4 @@ Babel
 
 #Generacion de PDF
 reportlab
+django-multiselectfield

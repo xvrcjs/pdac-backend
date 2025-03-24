@@ -11,8 +11,9 @@ from django.conf import settings
 from django.http import HttpResponseBadRequest,HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from administration.models import Omic, TrafficLightSystemTimes
-from claims.models import ClaimRegular, Claimer, File, Supplier
+from claims.models import ClaimIVE, ClaimRegular, Claimer, File, Supplier
 from common.communication.utils import send_email
+from common.models import BaseModel
 from common.views import BaseView
 from users.models import Account
 from django.core.files.uploadedfile import TemporaryUploadedFile
@@ -23,26 +24,45 @@ from reportlab.pdfgen import canvas
 from textwrap import wrap  # Para dividir texto largo en líneas
 
 locale = Locale('es', 'AR')
-@csrf_exempt
-def SendClaimIVE(request):
 
-    if request.method == 'POST':
+class CreateClaimIveView(BaseView):
+    model = ClaimIVE
 
-        data = json.loads(request.body)
-        if not (('email' in data) and (isinstance(data['email'],str))):
-            return HttpResponseBadRequest()
+    extra_fields = {
+        'fullname': str,
+        'dni': str,
+        'birthdate': str,
+        'email': str,
+        'phone': str,
+        'has_social_work': bool,
+        'social_work_or_company': str,
+        'establishment': str,
+        'other': str,
+        'reasons': list
+    }
 
-        template_path = os.path.join('/src/common/communication/claimIVE.html')
+    DANGEROUSLY_PUBLIC = True
 
-        with open(template_path, 'r', encoding='utf-8') as file:
-            template = file.read()
+    @csrf_exempt
+    def dispatch(self, request, *args, **kwargs):
+        if 'uuid' in kwargs:
+            self.required_fields= {}
+        if (request.user):
+            self.request.scope.account = Account.objects.filter(user_id=settings.ANONYMOUS_USER_UUID).first()
+        return super().dispatch(request,*args,**kwargs)
 
-        message = template
+    def create_object(self, fields_dict, *args, **kwargs):
+        with transaction.atomic():
+            try:
+                fields_dict["birthdate"] = datetime.strptime(fields_dict["birthdate"], "%d/%m/%Y").strftime("%Y-%m-%d")
+                super().create_object(fields_dict, *args, **kwargs)
+                
+                self.model.send_notification(self.object)
+                return self.object
 
-        send_email(data["email"], "Subject title", message)
-        return JsonResponse({'message': 'Email sent successfully'})
-    else:
-        return HttpResponseBadRequest()    
+            except Exception as e:
+                print(f"Error: {e}")
+                raise 
 
 class CreateClaimView(BaseView):
     model = ClaimRegular
@@ -97,6 +117,8 @@ class CreateClaimView(BaseView):
                         self.object.files.add(file_created)
 
                 self.object.save()
+
+                self.model.send_notification(self.object)
                 return self.object
 
             except Exception as e:
@@ -131,7 +153,10 @@ class ClaimView(BaseView):
         'monetary_agreement':str
     }
 
+    list_page_size = "all"
 
+    list_search_fields=["derived_to_user__uuid"]
+    
     @csrf_exempt
     def dispatch(self, request, *args, **kwargs):
         if 'uuid' in kwargs:
@@ -140,12 +165,6 @@ class ClaimView(BaseView):
 
     def data_json(self, fields, **kwargs):
         data = super().data_json(fields, **kwargs)
-        
-        #Devuelvo la fecha de creacion formateada
-        locale = Locale('es', 'AR')
-        modified_at_local = localtime(data['created_at'])
-        custom_format = "dd/MM/yyyy 'a las' HH.mm'hs'"
-        data['created_at'] = format_datetime(modified_at_local, format=custom_format, locale=locale)
 
         #Obtengo las url de los archivos
         for file in data['files']:
@@ -164,6 +183,35 @@ class ClaimView(BaseView):
         status_activities = [entry for entry in self.object.activity if entry.get("type") == "status_activity"]
 
         data["last_status"] = max(status_activities, key=lambda x: x["id"]) if status_activities else None
+
+        #Logica para tipo de reclamo y estado de reclamo
+        trafic_config = TrafficLightSystemTimes.objects.values("greenToYellow_c","yellowToRed_c","greenToYellow_ive_hv","yellowToRed_ive_hv").first()
+        if data["type_of_claim"] != "S/A":
+            elapsed_time = ((datetime.now(timezone.utc)-data["created_at"]).total_seconds())//3600
+            if data["type_of_claim"][:2] != "HV": # RECLAMO COMUN
+                if elapsed_time < trafic_config["greenToYellow_c"]:
+                    data["status_claim"] = "verde"
+                else:
+                    if elapsed_time < (trafic_config["yellowToRed_c"]+trafic_config["greenToYellow_c"]):
+                        data["status_claim"] = "amarillo"
+                    else:
+                        data["status_claim"] = "rojo"
+            else:
+                if elapsed_time < trafic_config["greenToYellow_c"]:
+                    data["status_claim"] = "hv_verde"
+                else:
+                    if elapsed_time < (trafic_config["yellowToRed_c"]+trafic_config["greenToYellow_c"]):
+                        data["status_claim"] = "hv_amarillo"
+                    else:
+                        data["status_claim"] = "hv_rojo" 
+        else:
+            data["status_claim"] =  "verde"
+
+        #Devuelvo la fecha de creacion formateada
+        locale = Locale('es', 'AR')
+        modified_at_local = localtime(data['created_at'])
+        custom_format = "dd/MM/yyyy 'a las' HH.mm'hs'"
+        data['created_at'] = format_datetime(modified_at_local, format=custom_format, locale=locale)
 
         return data
 
@@ -224,6 +272,206 @@ class ClaimView(BaseView):
             self.object.save()
 
         return super().modify_object(fields_dict, *args, **kwargs)
+class ClaimIVEView(BaseView):
+    model = ClaimIVE
+
+    fields = ["id","uuid", "fullname","dni","birthdate","email","phone","has_social_work","establishment","other""reasons","problem_description","activity","claim_access","type_of_claim","claim_status","category","heading","subheading","transfer_to_company","derived_to_omic","derived_to_user","transfer_to_the_consumer","conciliation_hearing","imputation","resolution","monetary_agreement","created_at"]
+
+    list_fields_related = {
+        "derived_to_omic":["uuid","name","responsible"],
+    }
+
+    extra_fields = {
+        'claim_access':str,
+        'type_of_claim':str,
+        'claim_status':str,
+        'category':str,
+        'heading':str,
+        'subheading':str,
+        'transfer_to_company':str,
+        'derived_to_omic':[None,str],
+        'transfer_to_the_consumer':str,
+        'conciliation_hearing':str,
+        'imputation':str,
+        'resolution':str,
+        'monetary_agreement':str
+    }
+    list_page_size = "all"
+
+    list_search_fields=["derived_to_user__uuid"]
+
+    @csrf_exempt
+    def dispatch(self, request, *args, **kwargs):
+        if 'uuid' in kwargs:
+            self.required_fields= {}
+        return super().dispatch(request,*args,**kwargs)
+
+    def data_json(self, fields, **kwargs):
+        data = super().data_json(fields, **kwargs)
+
+        #Obtengo los ultimos 3 comentarios destacados
+        highlighted_comments = [item for item in data["activity"] if item.get("highlighted")]
+        highlighted_comments.sort(key=lambda x: x["timestamp"], reverse=True)
+        data["featured_comments"] = highlighted_comments[:3]
+
+        #Ordeno las actividades en base a las mas nuevas primero
+        data["activity"].sort(key=lambda x: x["id"], reverse=True)
+
+        #Calculo el tiempo transcurrido desde la creacion del reclamo hasta hoy
+        status_activities = [entry for entry in self.object.activity if entry.get("type") == "status_activity"]
+
+        data["last_status"] = max(status_activities, key=lambda x: x["id"]) if status_activities else None
+
+        #Logica para tipo de reclamo y estado de reclamo
+        trafic_config = TrafficLightSystemTimes.objects.values("greenToYellow_ive_hv","yellowToRed_ive_hv").first()
+        elapsed_time = ((datetime.now(timezone.utc)-data["created_at"]).total_seconds())//3600
+        if elapsed_time < trafic_config["greenToYellow_ive_hv"]:
+            data["status_claim"] = "hv_ive_v"
+        else:
+            if elapsed_time < (trafic_config["yellowToRed_ive_hv"]+trafic_config["greenToYellow_ive_hv"]):
+                data["status_claim"] = "hv_ive_a"
+            else:
+                data["status_claim"] = "hv_ive_r" 
+
+        #Devuelvo la fecha de creacion formateada
+        locale = Locale('es', 'AR')
+        modified_at_local = localtime(data['created_at'])
+        custom_format = "dd/MM/yyyy 'a las' HH.mm'hs'"
+        data['created_at'] = format_datetime(modified_at_local, format=custom_format, locale=locale)
+
+        data["birthdate"] = format_datetime(data["birthdate"], format="dd/MM/yyyy")
+        return data
+    
+    def data_list_json(self, query_set, fields, **kwargs):
+        data = super().data_list_json(query_set, fields, **kwargs)
+        data_new = []
+
+        for claim in data:
+            claim_data = {}
+            claim_data["uuid"]= claim["uuid"]
+            claim_data["id"] = claim["id"]
+            if claim["derived_to_user"]:
+                account = Account.objects.filter(uuid=claim["derived_to_user"]).first()
+                claim_data["assigned"] = account.full_name if account else "S/A"
+            else:
+                claim_data["assigned"] = f"{claim['derived_to_omic']['name']} - {claim['derived_to_omic']['responsible']}" if claim["derived_to_omic"] else "S/A"
+            claim_data["status"] = claim["claim_status"]
+
+            #Logica para tipo de reclamo y estado de reclamo
+            trafic_config = TrafficLightSystemTimes.objects.values("greenToYellow_ive_hv","yellowToRed_ive_hv").first()
+            elapsed_time = ((datetime.now(timezone.utc)-claim["created_at"]).total_seconds())//3600
+            if elapsed_time < trafic_config["greenToYellow_ive_hv"]:
+                claim_data["type_of_claim"] = "hv_ive_v"
+            else:
+                if elapsed_time < (trafic_config["yellowToRed_ive_hv"]+trafic_config["greenToYellow_ive_hv"]):
+                    claim_data["type_of_claim"] = "hv_ive_a"
+                else:
+                    claim_data["type_of_claim"] = "hv_ive_r" 
+
+            data_new.append(claim_data)
+
+        has_admin_role = "Admin" in self.account.roles.values_list("name", flat=True)
+        if has_admin_role:
+            claim_hv = ClaimRegular.objects.filter(type_of_claim__icontains="HV").values('uuid','id','derived_to_user','derived_to_omic__name','derived_to_omic__responsible','claim_status','created_at')
+        else:
+            claim_hv = ClaimRegular.objects.filter(derived_to_user=self.account.uuid, type_of_claim__icontains="HV").values('uuid','id','derived_to_user','derived_to_omic__name','derived_to_omic__responsible','claim_status','created_at')
+        for claim in claim_hv:
+            claim_data = {}
+            claim_data["uuid"]= claim["uuid"]
+            claim_data["id"] = claim["id"]
+            if claim["derived_to_user"]:
+                account = Account.objects.filter(uuid=claim["derived_to_user"]).first()
+                claim_data["assigned"] = account.full_name if account else "S/A"
+            else:
+                claim_data["assigned"] = f"{claim['derived_to_omic__name']} - {claim['derived_to_omic__responsible']}" if claim['derived_to_omic__name'] else "S/A"
+            claim_data["status"] = claim["claim_status"]
+
+            #Logica para tipo de reclamo y estado de reclamo
+            trafic_config = TrafficLightSystemTimes.objects.values("greenToYellow_ive_hv","yellowToRed_ive_hv").first()
+            elapsed_time = ((datetime.now(timezone.utc)-claim["created_at"]).total_seconds())//3600
+            if elapsed_time < trafic_config["greenToYellow_ive_hv"]:
+                claim_data["type_of_claim"] = "hv_verde"
+            else:
+                if elapsed_time < (trafic_config["yellowToRed_ive_hv"]+trafic_config["greenToYellow_ive_hv"]):
+                    claim_data["type_of_claim"] = "hv_amarillo"
+                else:
+                    claim_data["type_of_claim"] = "hv_rojo" 
+            data_new.append(claim_data)
+        return data_new
+    
+class CommentToClaimIVE(BaseView):
+
+    model = ClaimIVE
+
+    extra_fields = {
+        'id': int,
+        'type': str,
+        'timestamp': str,
+        'user': str,
+        'content': str,
+        'highlighted': bool,
+    }
+    @csrf_exempt
+    def dispatch(self, request, *args, **kwargs):
+        if 'uuid' in kwargs:
+            self.required_fields= {}
+        return super().dispatch(request,*args,**kwargs)
+
+    def modify_object(self, fields_dict, *args, **kwargs):
+
+        activity_list = self.object.activity
+        # Si existe el ID en lo field debe modificar solo el estado de destacado
+        if "id" in fields_dict:
+            for item in activity_list:
+                if item.get("id") == fields_dict["id"]:
+                    item["highlighted"] = not item.get("highlighted", False)
+                    self.object.save()
+                    return JsonResponse({"message": "Se actualizó correctamente la actividad"}, status=200)
+        
+        if isinstance(fields_dict['timestamp'], str):
+            fields_dict['timestamp'] = datetime.strptime(
+                fields_dict['timestamp'], "%Y-%m-%dT%H:%M:%S.%fZ"
+            ).replace(tzinfo=timezone.utc)
+
+        modified_at_local = localtime(fields_dict['timestamp'])
+        custom_format = "d 'de' MMMM 'de' yyyy 'a las' HH:mm"
+        locale = "es_ES"
+        fields_dict["timestamp"] = format_datetime(modified_at_local, format=custom_format, locale=locale)
+
+        # Si no existe el ID, agregar un nuevo objeto con ID incremental
+        new_id = max([item.get("id", 0) for item in activity_list], default=0) + 1
+        fields_dict["id"] = new_id
+        activity_list.append(fields_dict)
+
+        self.object.save()
+        return JsonResponse({"message": "Se agregó correctamente la actividad"}, status=200)
+    
+class CantClaimHVView(BaseView):
+    model = ClaimIVE
+
+    fields = ["derived_to_omic","derived_to_user"]
+
+    list_fields_related = {
+        "derived_to_omic":["uuid","name","responsible"],
+        "derived_to_user":["uuid","full_name"]
+    }
+
+    @csrf_exempt
+    def dispatch(self, request, *args, **kwargs):
+        if 'uuid' in kwargs:
+            self.required_fields= {}
+        return super().dispatch(request,*args,**kwargs)
+    
+    def data_list_json(self, query_set, fields, **kwargs):
+        data = super().data_list_json(query_set, fields, **kwargs)
+        data_new = {}
+        has_admin_role = "Admin" in self.account.roles.values_list("name", flat=True)
+        if has_admin_role:
+            data_new["total_claims_hv"] = sum(1 for item in data if item['derived_to_user'] is None)
+        else:
+            data_new["total_claims_hv"] = 0
+
+        return data_new
 
 class GenerateClaimPdf(BaseView):
     model = ClaimRegular
@@ -409,6 +657,30 @@ class GenerateClaimFileZip(BaseView):
     
 class AssignClaim(BaseView):
     model = ClaimRegular
+
+    extra_fields = {
+        'type': str,
+        'assigned_id': str,
+    }
+    
+    @csrf_exempt
+    def dispatch(self, request, *args, **kwargs):
+        if 'uuid' in kwargs:
+            self.required_fields= {}
+        return super().dispatch(request,*args,**kwargs)
+
+    def modify_object(self, fields_dict, *args, **kwargs):
+        if(fields_dict["type"] == "omic"):
+            fields_dict["derived_to_omic"] = Omic.objects.filter(uuid=fields_dict["assigned_id"]).first()
+        else:
+            fields_dict["derived_to_user"] =  Account.objects.filter(uuid=fields_dict["assigned_id"]).first()
+
+        del fields_dict["assigned_id"]
+        del fields_dict["type"]
+        return super().modify_object(fields_dict, *args, **kwargs)
+    
+class AssignClaimIVE(BaseView):
+    model = ClaimIVE
 
     extra_fields = {
         'type': str,

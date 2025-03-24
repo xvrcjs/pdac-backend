@@ -1,7 +1,11 @@
 from datetime import datetime
+import os
+from django.conf import settings
 from django.db import models
 from administration.models import Omic
+from common.communication.utils import send_email
 from common.models import BaseModel
+from multiselectfield import MultiSelectField
 from django.utils.translation import gettext_lazy as _
 
 from users.models import Account
@@ -105,6 +109,112 @@ class ClaimRegular(BaseModel):
         
         super().save(*args, **kwargs)
 
+    def send_notification(self):
+        template_path = os.path.join('/src/common/communication/claim/comun/created.html')
+        with open(template_path, 'r', encoding='utf-8') as file:
+            template = file.read()
+
+        
+        message = template.replace('{{name}}', self.claimer.fullname).replace('{{claim}}', self.id)
+
+        send_email(
+            self.claimer.email,
+            "Su reclamo fue recibido con exito",
+            message,
+        )
 # class ClaimIVE(BaseModel):
 #     claimer = models.ForeignKey(Claimer, on_delete=models.CASCADE, related_name='claimer')
 
+
+class ClaimIVE(BaseModel):
+
+    CHOICES = [
+        ("me_negaron_la_practica", "Me negaron la práctica"),
+        ("libertad_toma_decision", "El personal de salud no respetó mi libertad en la toma de decisión"),
+        ("turnos_medicos_plazo_dias", "Me asignan turnos médicos y/o de estudios sin cumplir el plazo de días"),
+        ("obstaculizan_atencion_medica", "Me obstaculizan la atención médica"),
+        ("sin_acceso_metodos_anticonceptivos", "No me brindaron acceso a métodos anticonceptivos (posaborto)"),
+        ("no_reintegraron_practica", "No me reintegraron la práctica"),
+        ("no_reintegraron_medicamentos", "No me reintegraron los medicamentos"),
+        ("no_suministraron_medicamentos", "No me suministraron los medicamentos"),
+        ("sin_atencion_posaborto", "No tuve atención posaborto"),
+        ("mas_de_10_dias_sin_respuesta", "Pasaron más de 10 días sin respuesta desde que solicité la práctica"),
+        ("dificultades_trato_personal", "Tuve dificultades en el trato con el personal de salud"),
+        ("otra", "Otra"),
+    ]
+    
+    #Information Base
+    id = models.CharField(_('Id'),max_length=255,unique=True)
+    fullname = models.CharField(_('Full Name'),max_length=255)
+    dni = models.CharField(_('Dni'),max_length=255)
+    birthdate = models.DateField(_('Birthdate'),null=True)
+    email = models.CharField(_('Email'),max_length=255)
+    phone = models.CharField(_('Phone'),max_length=255)
+    has_social_work = models.BooleanField(_('Has social work'),default=False)
+
+    social_work_or_company = models.CharField(_('Social work or company'),max_length=255)
+    establishment = models.CharField(_('Establishment'),max_length=255,blank=True)
+    other = models.CharField(_('Other'),max_length=255,blank=True)
+    reasons = MultiSelectField(choices=CHOICES, max_length=255)
+
+    #Comments, activity and status changes
+    activity = models.JSONField(default=list,blank=True,null=True)
+
+    #Information General
+    claim_access = models.CharField(_('Claim Access'),max_length=255,blank=True,null=True)
+    type_of_claim = models.CharField(_('Type of Claim'),max_length=255,blank=True,null=True,default="IVE")
+    claim_status = models.CharField(_('Claim Status'),max_length=255,blank=True,null=True,default="En análisis")
+    category = models.CharField(_('Category'),max_length=255,blank=True,null=True)
+    heading = models.CharField(_('Heading'),max_length=255,blank=True,null=True)
+    subheading = models.CharField(_('Subheading'),max_length=255,blank=True,null=True)
+    
+    transfer_to_company = models.CharField(_('Transfer to company'),max_length=255,blank=True,null=True)
+    derived_to_omic = models.ForeignKey(Omic,on_delete=models.CASCADE,blank=True,null=True,related_name='derived_omic_ive')
+    derived_to_user = models.ForeignKey(Account,on_delete=models.CASCADE,related_name='account_ive',null=True,blank=True)
+    transfer_to_the_consumer = models.CharField(_('Transfer to the consumer'),max_length=255,blank=True,null=True)
+    conciliation_hearing = models.CharField(_('Conciliation hearing'),max_length=255,blank=True,null=True)
+    imputation = models.CharField(_('Imputation'),max_length=255,blank=True,null=True)
+    resolution = models.CharField(_('Resolution'),max_length=255,blank=True,null=True)
+    monetary_agreement = models.CharField(_('Monetary Agreement'),max_length=255,blank=True,null=True)
+
+    def __str__(self):
+        return f"{self.uuid}"
+    
+    @staticmethod
+    def get_year_letter(year):
+        # Asignar letra según el año (A=2025, B=2026, etc.)
+        return chr(65 + (year - 2025))  # 'A' es 65 en ASCII
+    
+    @staticmethod
+    def get_last_claim_number(year):
+        # Obtener el último número de reclamo en el año actual
+        last_claim = ClaimIVE.objects.filter(id__startswith=f"#RIVE-{ClaimIVE.get_year_letter(year)}").order_by('-id').first()
+        if last_claim:
+            # Extraer el número y agregar 1
+            last_number = int(last_claim.id.split('-')[-1])
+            return last_number + 1
+        return 1
+    
+    def save(self, *args, **kwargs):
+        if not self.id:
+            year = datetime.now().year
+            letter = self.get_year_letter(year)  # Letra del año
+            claim_number = self.get_last_claim_number(year)  # Número secuencial
+
+            # Formatear el número con ceros a la izquierda
+            formatted_number = f"{claim_number:07d}"
+            self.id = f"#RIVE-{letter}-{formatted_number}"
+        super().save(*args, **kwargs)
+
+    def send_notification(self):
+        template_path = os.path.join('/src/common/communication/claim/ive/created.html')
+        with open(template_path, 'r', encoding='utf-8') as file:
+            template = file.read()
+
+        message = template.replace('{{name}}', self.fullname).replace('{{claim}}', self.id)
+
+        send_email(
+            self.email,
+            "Su reclamo fue recibido con exito",
+            message,
+        )
