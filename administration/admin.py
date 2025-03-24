@@ -89,7 +89,7 @@ class TrafficLightSystemTimesAdmin(ModelAdmin):
 class OmicAdmin(ModelAdmin):
     
     list_display = ['name','responsible','opening_hours','phone','address','email']
-
+    ordering = ['name']
     def get_fieldsets(self, request, obj=None):
         # ADD FIELDSET
         if not obj:

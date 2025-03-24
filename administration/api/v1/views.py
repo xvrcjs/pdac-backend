@@ -93,6 +93,8 @@ class OmicView(BaseView):
     }
     list_page_size = "all"
 
+    list_order_by = ["name"]
+    
     @csrf_exempt
     def dispatch(self, request, *args, **kwargs):
         if 'uuid' in kwargs:
