@@ -357,14 +357,24 @@ if DEBUG and not EMAIL_SENDER_ENABLED:
     EMAIL_FILE_PATH = "./tmp"
 else:
     EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_PORT = 587
+    
+#Config GMAIL
+EMAIL_HOST = getenv('EMAIL_HOST')
+EMAIL_PORT = getenv('EMAIL_PORT')
 EMAIL_HOST_USER = getenv("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = getenv("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 DEFAULT_FROM_EMAIL = getenv("DEFAULT_FROM_EMAIL")
 
+# #Config MP
+# EMAIL_HOST="10.25.17.28"
+# EMAIL_PORT=587
+# EMAIL_HOST_USER="consumidoresdefensa@mp.gba.gov.ar"
+# EMAIL_HOST_PASSWORD="lgiNstIoNf"
+# EMAIL_FROM_ADDRESS="consumidoresdefensa@mp.gba.gov.ar"
+# EMAIL_FROM_NAME="Defensa al consumidor"
+#DEFAULT_FROM_EMAIL = "consumidoresdefensa@mp.gba.gov.ar"
 
 GRAPH_MODELS = {"all_applications": True, "group_models": True}
 
