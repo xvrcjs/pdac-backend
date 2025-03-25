@@ -57,12 +57,12 @@ def send_email(email_address, subject, body):
         ) 
         email.attach_alternative(rendered_template, 'text/html')
         
-        image_path = 'static/logo.png'
-        with open(image_path, 'rb') as f:
-            logo_image = MIMEImage(f.read())
-            logo_image.add_header('Content-ID', '<logo_image>')
-            logo_image.add_header('Content-Disposition', 'inline', filename='logo.png')
-            email.attach(logo_image)
+        # image_path = 'static/logo.png'
+        # with open(image_path, 'rb') as f:
+        #     logo_image = MIMEImage(f.read())
+        #     logo_image.add_header('Content-ID', '<logo_image>')
+        #     logo_image.add_header('Content-Disposition', 'inline', filename='logo.png')
+        #     email.attach(logo_image)
         
         if os.getenv("EMAIL_ALLOW_SELF_SIGNED_CERTIFICATE"):
             server.sendmail(settings.EMAIL_HOST_USER, email_address, email.message().as_string().encode('utf-8'))

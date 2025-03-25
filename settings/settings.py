@@ -185,7 +185,7 @@ else:
 JWT_REFRESH_EXP = 120  # in hours
 RESET_PASSWORD_EXP = 24  # in hours
 RESET_PASSWORD_LINK = getenv("RESET_PASSWORD_LINK")
-CREATE_PASSWORD_LINK = "http://localhost:3000/create-password"
+CREATE_PASSWORD_LINK = getenv("RESET_PASSWORD_LINK")
 SECURE_COOKIES = getenv("SECURE_COOKIES") != "False"
 
 
@@ -358,7 +358,7 @@ if DEBUG and not EMAIL_SENDER_ENABLED:
 else:
     EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
     
-#Config GMAIL
+#Config EMAIL
 EMAIL_HOST = getenv('EMAIL_HOST')
 EMAIL_PORT = getenv('EMAIL_PORT')
 EMAIL_HOST_USER = getenv("EMAIL_HOST_USER")
@@ -366,15 +366,6 @@ EMAIL_HOST_PASSWORD = getenv("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 DEFAULT_FROM_EMAIL = getenv("DEFAULT_FROM_EMAIL")
-
-# #Config MP
-# EMAIL_HOST="10.25.17.28"
-# EMAIL_PORT=587
-# EMAIL_HOST_USER="consumidoresdefensa@mp.gba.gov.ar"
-# EMAIL_HOST_PASSWORD="lgiNstIoNf"
-# EMAIL_FROM_ADDRESS="consumidoresdefensa@mp.gba.gov.ar"
-# EMAIL_FROM_NAME="Defensa al consumidor"
-#DEFAULT_FROM_EMAIL = "consumidoresdefensa@mp.gba.gov.ar"
 
 GRAPH_MODELS = {"all_applications": True, "group_models": True}
 
