@@ -16,7 +16,7 @@ logger = logging.getLogger('__name__')
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
 
-    list_display = ['display_name', 'email', 'is_superuser', 'last_login', 'modified_at']
+    list_display = ['display_name', 'email', 'is_superuser', 'is_staff', 'last_login', 'modified_at']
     search_fields = ['email', 'display_name' ]
     ordering = ['email']
     list_filter = ['email',]
@@ -26,7 +26,8 @@ class UserAdmin(BaseUserAdmin):
     def has_change_permission(self, request, obj=None):
         if obj != None:
             # Cannot change system users
-            if str(obj.pk) in [settings.ADMIN_USER_UUID, settings.SYSTEM_USER_UUID, settings.ANONYMOUS_USER_UUID]:
+            # if str(obj.pk) in [settings.ADMIN_USER_UUID, settings.SYSTEM_USER_UUID, settings.ANONYMOUS_USER_UUID]:
+            if str(obj.pk) in [settings.ADMIN_USER_UUID]:
                 return False
             # Only superusers can edit superusers.
             if obj.is_superuser:
@@ -79,7 +80,7 @@ class UserAdmin(BaseUserAdmin):
         ]
         if not request.user.is_superuser:
             # Non superusers can not make staff and superusers, or change email address.
-            self.readonly_fields.extend(['email',  'is_superuser','user_permissions',])
+            self.readonly_fields.extend(['email','is_superuser', 'user_permissions'])
             if obj != request.user:
                 # Non superusers can only set their own password.
                 self.readonly_fields.append('password')
@@ -88,7 +89,7 @@ class UserAdmin(BaseUserAdmin):
                 'fields': ('display_name', 'password','reset_password_token',)
             }),
             ('Permissions', {
-                'fields': ( 'is_superuser', 'user_permissions',)
+                'fields': ( 'is_superuser', 'is_staff', 'user_permissions',)
             }),
             ('Last activities', {
                 'fields': ('last_login', 'last_access',)
@@ -125,7 +126,7 @@ class AccountAdmin(ModelAdmin):
                     'fields':('full_name','dni','phone','profile_image','comments',)
                 }),
                 ('Administration',{
-                    'fields':('client','omic','roles','permissions',)
+                    'fields':('client','omic','support_level','roles','permissions',)
 
                 }),
                 ('Settings', {
@@ -144,7 +145,7 @@ class AccountAdmin(ModelAdmin):
                     'fields':('full_name','dni','phone','profile_image','comments',)
                 }),
                 ('Administration',{
-                    'fields':('client','omic','roles','permissions',)
+                    'fields':('client','omic','support_level','roles','permissions',)
 
                 }),
                 ('Settings', {

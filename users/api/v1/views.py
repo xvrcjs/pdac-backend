@@ -210,18 +210,18 @@ def create_password(request):
 
 class AccountView(BaseView):
     model = Account
-    fields = ['uuid', 'id', 'profile_image','full_name','dni', 'user','omic', 'is_active','roles','last_login','permissions','phone','created_at','comments']
+    fields = ['uuid', 'id', 'profile_image','full_name','dni', 'user','omic','support_level', 'is_active','roles','last_login','permissions','phone','created_at','comments']
     
-    # required_fields ={
-    #     "display_name":str,
-    # } 
+    list_exclude = {'user__is_staff': True}
+    
     extra_fields={
         'display_name':str,
         'is_active':bool,
         'roles':str,
         'email':str,
         'phone':str,
-        'omic_id':str,
+        'omic_id': [None,str],
+        'support_level':str,
         'dni':str,
         'full_name':str,
         'client_id': str,
@@ -372,7 +372,8 @@ class AccountView(BaseView):
             fields_dict['user'].create_password_token(dict(full_name=fields_dict['full_name']))
         if not 'client_id' in fields_dict:
             fields_dict['client_id'] = self.request.scope.account.client_id
-        
+        if isinstance(fields_dict['omic_id'], str) and fields_dict['omic_id'].strip().lower() in ['null', 'none', '']:
+            fields_dict['omic_id'] = None
         # Creare account
         super().create_object(fields_dict, *args, **kwargs)
 

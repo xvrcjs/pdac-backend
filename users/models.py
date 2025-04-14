@@ -275,7 +275,9 @@ class Account(BaseModel):
     profile_image = models.ImageField(_('Profile Image'),upload_to=get_profile_image_path, null=True, blank=True)
     dni = models.CharField(_('DNI'), max_length=15,default='', blank=True)
     comments = models.TextField(_('Comments'),max_length=255,default='', blank=True)
-    omic = models.ForeignKey(Omic,on_delete=models.CASCADE,verbose_name=_('Omic'),null=True)                 
+    omic = models.ForeignKey(Omic,on_delete=models.CASCADE,verbose_name=_('Omic'),null=True,blank=True)                 
+    support_level = models.CharField(_('Support Level'), max_length=125,default='',blank=True)
+
     #Administration
     client = models.ForeignKey('administration.Client',models.CASCADE,'accounts','account',verbose_name=_('Client'),null=True, blank=True)
 
