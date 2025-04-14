@@ -702,3 +702,39 @@ class AssignClaimIVE(BaseView):
         del fields_dict["assigned_id"]
         del fields_dict["type"]
         return super().modify_object(fields_dict, *args, **kwargs)
+
+class RejectClaim(BaseView):
+    model = ClaimRegular
+    extra_fields = {
+        'id': int,
+        'type': str,
+        'timestamp': str,
+        'user': str,
+        'content': str,
+        'highlighted': bool,
+    }
+    @csrf_exempt
+    def dispatch(self, request, *args, **kwargs):
+        if 'uuid' in kwargs:
+            self.required_fields= {}
+        return super().dispatch(request,*args,**kwargs)
+
+    def modify_object(self, fields_dict, *args, **kwargs):
+        locale = Locale('es', 'AR')
+        date = localtime(datetime.now(timezone.utc))
+        custom_format = "d 'de' MMMM 'de' yyyy 'a las' HH:mm"
+        activity = {
+            "id": len(self.object.activity)+1,
+            "type": "status_activity",
+            "timestamp": format_datetime(date, format=custom_format, locale=locale),
+            "user": self.request.scope.account.full_name,
+            'content': f'Realizó cambio de estado de “{self.object.claim_status}“ a “Rechazado“ por motivo: “{fields_dict["content"]}“',
+            'highlighted': False,
+        }
+        self.object.activity.append(activity)
+        self.object.claim_status = "Rechazado"
+        self.object.save()
+
+        self.model.send_notification_rejected(self.object,fields_dict["content"])
+
+        return JsonResponse({"message": "Se agregó correctamente la actividad"}, status=200)

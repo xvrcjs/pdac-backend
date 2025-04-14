@@ -24,4 +24,7 @@ urlpatterns = [
    #Asignar una omic o un usuario especifico a un reclamo
    re_path(r'^assign_claim'+regex_for_optional_uuid, AssignClaim.as_view(), name='assign_claim'),
    re_path(r'^assign-claim-ive'+regex_for_optional_uuid, AssignClaimIVE.as_view(), name='assign_claim'),
+
+   #Rechazar un reclamo comun
+   re_path(r'^claim-rejected'+regex_for_optional_uuid, RejectClaim.as_view(), name='claim_rejected'),
 ]

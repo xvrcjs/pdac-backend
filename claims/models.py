@@ -36,6 +36,13 @@ class Claimer(BaseModel):
     cuit = models.CharField(_('Cuit/Cuil'),max_length=20)
     email = models.EmailField(_('Email'))
     gender = models.CharField(_('Gender'),max_length=10, choices=GENDER_CHOICES)
+    
+    #Address data
+    street = models.CharField(_('Street'),max_length=120,default='',blank=True)
+    number = models.CharField(_('Number'),max_length=15,default='',blank=True)
+    between_streets = models.CharField(_('Between Streets'),max_length=15,default='',blank=True)
+    province = models.CharField(_('Province'),max_length=120,default='',blank=True)
+    city = models.CharField(_('City'),max_length=120,default='',blank=True)
 
     def __str__(self):
         return self.fullname
@@ -122,6 +129,17 @@ class ClaimRegular(BaseModel):
             "Su reclamo fue recibido con exito",
             message,
         )
+    def send_notification_rejected(self,comment):
+        template_path = os.path.join('/src/common/communication/claim/comun/rejected.html')
+        with open(template_path, 'r', encoding='utf-8') as file:
+            template = file.read()
+        message = template.replace('{{name}}', self.claimer.fullname).replace('{{claim}}', self.id).replace('{{comment}}',comment)
+
+        send_email(
+            self.claimer.email,
+            "Su reclamo fue rechazado",
+            message,
+        )
 # class ClaimIVE(BaseModel):
 #     claimer = models.ForeignKey(Claimer, on_delete=models.CASCADE, related_name='claimer')
 
@@ -150,8 +168,15 @@ class ClaimIVE(BaseModel):
     birthdate = models.DateField(_('Birthdate'),null=True)
     email = models.CharField(_('Email'),max_length=255)
     phone = models.CharField(_('Phone'),max_length=255)
-    has_social_work = models.BooleanField(_('Has social work'),default=False)
 
+    #Address data
+    street = models.CharField(_('Street'),max_length=120,default='',blank=True)
+    number = models.CharField(_('Number'),max_length=15,default='',blank=True)
+    between_streets = models.CharField(_('Between Streets'),max_length=15,default='',blank=True)
+    province = models.CharField(_('Province'),max_length=120,default='',blank=True)
+    city = models.CharField(_('City'),max_length=120,default='',blank=True)
+
+    has_social_work = models.BooleanField(_('Has social work'),default=False)
     social_work_or_company = models.CharField(_('Social work or company'),max_length=255)
     establishment = models.CharField(_('Establishment'),max_length=255,blank=True)
     other = models.CharField(_('Other'),max_length=255,blank=True)
