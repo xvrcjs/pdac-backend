@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 import os
 from django.conf import settings
 from django.db import models
@@ -7,6 +7,9 @@ from common.communication.utils import send_email
 from common.models import BaseModel
 from multiselectfield import MultiSelectField
 from django.utils.translation import gettext_lazy as _
+from babel.dates import format_datetime
+from babel import Locale
+from django.utils.timezone import localtime
 
 from users.models import Account
 
@@ -120,9 +123,10 @@ class ClaimRegular(BaseModel):
         template_path = os.path.join('/src/common/communication/claim/comun/created.html')
         with open(template_path, 'r', encoding='utf-8') as file:
             template = file.read()
-
+        locale = Locale('es', 'AR')
+        custom_format = "d' 'MMMM', ' yyyy ' 'HH:mm"
         
-        message = template.replace('{{name}}', self.claimer.fullname).replace('{{claim}}', self.id)
+        message = template.replace('{{name}}', self.claimer.fullname).replace('{{claim}}', self.id).replace('{{created_at}}', format_datetime( localtime(self.created_at), format=custom_format, locale=locale)).replace('{{assigned_at}}', format_datetime(localtime(datetime.now(timezone.utc)), format=custom_format, locale=locale)).replace('{{summary}}', self.claimer.fullname+"/"+self.suppliers.first().fullname)
 
         send_email(
             self.claimer.email,
@@ -140,8 +144,6 @@ class ClaimRegular(BaseModel):
             "Su reclamo fue rechazado",
             message,
         )
-# class ClaimIVE(BaseModel):
-#     claimer = models.ForeignKey(Claimer, on_delete=models.CASCADE, related_name='claimer')
 
 
 class ClaimIVE(BaseModel):
@@ -235,8 +237,10 @@ class ClaimIVE(BaseModel):
         template_path = os.path.join('/src/common/communication/claim/ive/created.html')
         with open(template_path, 'r', encoding='utf-8') as file:
             template = file.read()
+        locale = Locale('es', 'AR')
+        custom_format = "d' 'MMMM', ' yyyy ' 'HH:mm"
 
-        message = template.replace('{{name}}', self.fullname).replace('{{claim}}', self.id)
+        message = template.replace('{{name}}', self.fullname).replace('{{claim}}', self.id).replace('{{created_at}}', format_datetime( localtime(self.created_at), format=custom_format, locale=locale)).replace('{{assigned_at}}', format_datetime(localtime(datetime.now(timezone.utc)), format=custom_format, locale=locale)).replace('{{summary}}', self.fullname)
 
         send_email(
             self.email,

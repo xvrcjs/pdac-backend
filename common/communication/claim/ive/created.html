@@ -5,6 +5,7 @@
   <meta charset='utf-8'>
   <meta http-equiv='X-UA-Compatible' content='IE=edge'>
   <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <meta name="color-scheme" content="light only">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Encode+Sans:wght@100..900&display=swap');
 
@@ -23,14 +24,14 @@
       width: 100%;
     }
     .primary-logo {
-      width: 210px;
-      height: 50px;
+      width: 330px;
+      height: 75px;
       margin-left: 20px;
       margin-top: 30px;
     }
     .secondary-logo {
-      width: 160px;
-      height: 50px;
+      width: 240px;
+      height: 75px;
       margin-right: 20px;
       margin-top: 30px;
     }
@@ -54,6 +55,7 @@
 
     .welcome-text-secondary {
       font-family: "Encode Sans", sans-serif;
+      font-weight: 300;
     }
 
     .password-instructions {
@@ -69,7 +71,6 @@
 
     .footer-image {
       width: 100%;
-      max-width: 750px;
       margin-top: 25px;
     }
 
@@ -96,7 +97,7 @@
     .container {
       background-color: rgba(233, 233, 233, 0.57);
       border-radius: 1px;
-      box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+      box-shadow: 0px 4px 4px 0px #A83E83;
       padding: 40px;
       width: 60%;
       text-align: left;
@@ -104,22 +105,25 @@
       margin: auto;
       border-top: 10px solid #A83E83;
       contain: content;
+
     }
 
     .item {
       display: inline-block;
       width: 100%;
+      min-height: 80px;
       /* margin-bottom: 15px; */
       margin-left: 30px;
     }
     .layout{
       content: "";
       display: block;
-      width: 2px;
+      width: 3px;
+      border-radius: 10px;
       height: 26px;
       background-color: #A83E83;
       position: absolute;
-      margin-left: 21px;
+      margin-left: 22px;
       margin-top: -7px;
 
     }
@@ -127,22 +131,13 @@
     .icon {
       display: inline-block;
       vertical-align: middle;
-      margin-right: 10px;
       font-size: 48px;
-      /* Tamaño del icono */
-      width: 40px;
-      height: 40px;
+      /* width: 40px;
+      height: 40px; */
     }
-
-    .active{
-      border-radius: 50%;
-      border: 3px solid #E81F76;
-      background: #fff;
-    }
-    .inactive{
-      border-radius: 50%;
-      border: 3px solid #fff;
-      background: #EFEFF0;
+    .icon img{
+      width: 48px;
+      height: 48px;
     }
 
     .text {
@@ -164,12 +159,6 @@
         width: 90%;
         padding: 10px;
       }
-      .item {
-        margin-left: 0;
-      }
-      .text {
-        margin-left: 10px;
-      }
       .primary-logo{
         margin-left: 10px;
       }
@@ -178,9 +167,6 @@
       }
       .password-instructions span ul{
         text-align: left !important;
-      }
-      .icon img{
-        margin-bottom: 12px !important;
       }
     }
   </style>
@@ -193,8 +179,8 @@ height: 50px;
 width: 100%"></div>
   <table style="font-family: Encode Sans, sans-serif;" role="presentation" width="100%" cellspacing="0" cellpadding="0">
     <tr>
-      <td style="background-color: #FAFAFA;">
-        <table class="welcome-container" role="presentation" width="100%" cellspacing="0" cellpadding="0">
+      <td style="background-color: #fff;">
+        <table class="welcome-container" role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #fff;">
           <tr>
             <!-- Logo Section -->
             <td align="left" style="padding-left: 10px;">
@@ -208,72 +194,58 @@ width: 100%"></div>
             <!-- Message Section -->
             <td style="width: 100%; padding: 10px;" colspan="2">
               <div class="welcome-heading">
-                <span class="welcome-text-primary">¡Hola <span style="color: #A83E83">{{name}}</span>!</span>
+                <span class="welcome-text-primary">Hola {{name}}</span>
                 <br/>
                 <br/>
-                <span class="welcome-text-primary">Tu reclamo fue <span style="color:#A83E83">recibido</span> con <span style="color:#A83E83">éxito</span> y lo hemos tomado<br/> 
-                con <span style="color:#A83E83">prioridad</span> en nuestro sistema,<br />
-                bajo el numero:</span> <span style="color:#000;font-weight: 300;">{{claim}}</span></span><br />
+                <span class="welcome-text-secondary">Tu reclamo fue <span style="font-weight: bold;">ingresado</span> con <span style="font-weight: bold;">prioridad</span><br/> en nuestro sistema,<br/> con el numero: <span style="color:#000;font-weight: bold;">{{claim}}</span></span><br />
               </div>
             </td>
           </tr>
         </table>
 
-        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-top: 60px;">
+        <table role="presentation" width="80%" cellspacing="0" cellpadding="0" style="margin-top: 60px; margin:auto">
           <tr>
             <td style="padding: 10px; text-align: center;">
               <div class="password-instructions">
                 <span>
-                  <span>Su reclamo fue ingresado con <span style="font-weight: 500;">PRIORIDAD</span> en nuestro sistema, bajo el numero:{{claim}}</span>
-                  <ul style="display: block;
-                list-style-type: disc;
-                text-align: center;
-                width: fit-content;
-                padding-left: 20px;
-                margin: auto;
-                margin-top: 20px;">
-                    <li><span class="text-bold">Resumen del reclamo: </span>Federico/MercadoLibre</li>
-                    <li><span class="text-bold">Ingreso del reclamo: </span>Federico/MercadoLibre</li>
+                  <ul 
+                    style="display: block;
+                    list-style-type: disc;
+                    text-align: center;
+                    width: fit-content;
+                    padding-left: 20px;
+                    margin: auto;
+                    margin-top: 20px;">
+                    <li><span class="text-bold">Resumen del reclamo: </span>{{summary}}</li>
                   </ul><br /><br />
                   <div class="container">
                     <div class="item">
-                      <div class="icon active">
-                        <img loading="lazy" src="https://hml.aukan.mp.gba.gob.ar/icons/email/status/active/step-1.png"
-                        alt="step-1" style="width: 28px;height: 28px;margin-left: 6px;margin-bottom: 0px;"/>
+                      <div class="icon">
+                        <img loading="lazy" src="https://hml.aukan.mp.gba.gob.ar/icons/email/status/active/ive/step-1.png"
+                        alt="step-1"/>
                       </div>
                       <div class="text">
                         <span class="type">Reclamo creado</span>
                         <br/>
-                        <span class="date">22 Nov, 2024 9:15</span>
+                        <span class="date">{{created_at}}</span>
                       </div>
                       <div class="layout"></div>
                     </div>
                     <div class="item">
-                      <div class="icon active">
-                        <img loading="lazy" src="https://hml.aukan.mp.gba.gob.ar/icons/email/status/active/step-2.png"
-                        alt="step-2" style="width: 24px;height: 22px; margin-left: 8px;margin-bottom: 2px;"/>
+                      <div class="icon">
+                        <img loading="lazy" src="https://hml.aukan.mp.gba.gob.ar/icons/email/status/active/ive/step-2.png"
+                        alt="step-2"/>
                       </div>
                       <div class="text">
                         <span class="type">Reclamo recibido</span>
                         <br />
-                        <span class="date">22 Nov, 2024 9:20</span>
+                        <span class="date">{{assigned_at}}</span>
                       </div>
                     </div>
-                    <div class="item" style="margin-top: 20px;">
-                      <div class="icon inactive">
-                        <img loading="lazy" src="https://hml.aukan.mp.gba.gob.ar/icons/email/status/inactive/step-3.png"
-                        alt="step-3" style="width: 24px;height: 22px;margin-left: 7px;margin-bottom: 4px;"/>
-                      </div>
-                      <div class="text">
-                        <span class="type" style="color:rgba(1,8,20,0.50)">Reclamo asignado</span>
-                        </br>
-                        <span></span>
-                      </div>
-                      </div>
-                      <div class="item" style="margin-top: 20px;">
-                        <div class="icon inactive">
+                      <div class="item">
+                        <div class="icon">
                           <img loading="lazy" src="https://hml.aukan.mp.gba.gob.ar/icons/email/status/inactive/step-4.png"
-                        alt="step-4" style="width: 24px;height: 22px;margin-left: 7px;margin-bottom: 1px;"/>
+                        alt="step-4"/>
                       </div>
                         <div class="text">
                           <span class="type" style="color:rgba(1,8,20,0.50)">Reclamo curso</span>
@@ -281,10 +253,10 @@ width: 100%"></div>
                           <span></span>
                         </div>
                       </div>
-                      <div class="item" style="margin-top: 20px;">
-                        <div class="icon inactive">
+                      <div class="item">
+                        <div class="icon">
                           <img loading="lazy" src="https://hml.aukan.mp.gba.gob.ar/icons/email/status/inactive/step-5.png"
-                        alt="step-5" style="width: 28px;height: 28px;margin-left: 6px;margin-bottom: -1px;"/>
+                        alt="step-5"/>
                           </div>
                         <div class="text">
                           <span class="type" style="color:rgba(1,8,20,0.50)">Reclamo resultado</span>
@@ -292,30 +264,18 @@ width: 100%"></div>
                           <span></span>
                         </div>
                       </div>
-                  </div>
-                  <div style="margin-top: 80px;">
-                    <span style="font-size:18px;font-weight: 600;">Te llevamos tranquilidad.<br/> Recibirás novedades a medida que tu reclamo vaya avanzando.</span>
+                    </div>
                   </div>
             </td>
           </tr>
         </table>
         <!-- Footer Image -->
-        <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
-          <tr>
-            <td style="text-align: right;">
-              <img loading="lazy"
-                src="https://cdn.builder.io/api/v1/image/assets/TEMP/d476705a59ce56aedde2e056adeb6025c780b6f10c02155d0616f7801ff4f1f4?placeholderIfAbsent=true&apiKey=ce8e44990b194634a953ed80011f5bbf"
-                class="footer-image" alt="Decorative footer image" />
-            </td>
-          </tr>
-        </table>
+         <div>
+        <img loading="lazy" src="https://hml.aukan.mp.gba.gob.ar/footer.png" class="footer-image" alt="Decorative footer image" />
+      </div>
       </td>
     </tr>
   </table>
-  <div style="background:
-  linear-gradient(90deg, #E81F76 0%, #417099 50%, #00AEC3 100%);
-height: 50px;
-width: 100%"></div>
 </body>
 
 </html>

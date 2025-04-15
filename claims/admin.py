@@ -75,7 +75,7 @@ class ClaimIVEAdmin(ModelAdmin):
             self.fieldsets = (
                 (None, {
                     'fields': ('id', 'fullname', 'dni','birthdate','phone', 'email', 
-                               'activity','has_social_work','social_work_or_company','establishment','other','reasons',)
+                               'street','number','between_streets','province','city','activity','has_social_work','social_work_or_company','establishment','other','reasons',)
                 }),
                 ('General Information', {
                     'fields': ('claim_access', 'type_of_claim', 'claim_status', 'category', 'heading', 'subheading')
@@ -90,7 +90,8 @@ class ClaimIVEAdmin(ModelAdmin):
             self.readonly_fields = ['id', 'created_at', 'created_by', 'created_from', 'modified_at', 'modified_by', 'modified_from']
             self.fieldsets = (
                 (None, {
-                    'fields': ('id', 'fullname', 'dni','birthdate','phone', 'email', 
+                    'fields': ('id', 'fullname', 'dni','birthdate','phone', 'email',
+                               'street','number','between_streets','province','city', 
                                'activity','has_social_work','social_work_or_company','establishment','other','reasons',)
                 }),
                 ('General Information', {
