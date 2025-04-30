@@ -11,6 +11,7 @@ from security.models import Role, Module
 from common.utils import generateQr
 from common.views import BaseView
 from settings.middlewares import create_cookies, delete_cookies, get_request_at
+from tickets.models import Ticket
 from users.models import User,Account
 from security.models import Role
 from administration.models import Client
@@ -470,3 +471,26 @@ def validate_recaptcha(request):
     else:
         return HttpResponseBadRequest()
         
+
+class SupportView(BaseView):
+    model = Account
+    fields = ['uuid', 'id','full_name','support_level', 'is_active','roles']
+    
+    list_exclude = {'user__is_staff': True,}
+    list_filters = {'roles__name':'Support'}
+    list_fields_related = {
+        'roles': ['name']
+    }
+
+    @csrf_exempt
+    def dispatch(self, request, *args, **kwargs):
+        if 'uuid' in kwargs:
+            self.required_fields= {} 
+        return super().dispatch(request,*args,**kwargs)
+
+    def data_list_json(self, query_set, fields, **kwargs):
+        data = super().data_list_json(query_set, fields, **kwargs)
+        for user in data:
+            user["assigned"]= Ticket.objects.filter(assigned_id=user["uuid"]).count()
+    
+        return data

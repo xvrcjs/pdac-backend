@@ -19,5 +19,7 @@ urlpatterns = [
 
     re_path(r'^validate-recaptcha/?$', validate_recaptcha),
 
+    re_path(r'^supports'+regex_for_optional_uuid, SupportView.as_view(), name='api_v1_support'),
+
 
 ]

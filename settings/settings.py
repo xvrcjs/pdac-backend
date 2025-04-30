@@ -86,6 +86,7 @@ INSTALLED_APPS = [
     "security",
     "administration",
     "claims",
+    "tickets"
 ]
 
 MIDDLEWARE = [
