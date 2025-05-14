@@ -12,6 +12,7 @@ from django.http import HttpResponseBadRequest,HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from administration.models import Omic, TrafficLightSystemTimes
 from claims.models import ClaimIVE, ClaimRegular, Claimer, File, Supplier
+from tickets.models import Ticket
 from common.communication.utils import send_email
 from common.models import BaseModel
 from common.views import BaseView
@@ -158,10 +159,11 @@ class ClaimView(BaseView):
         'monetary_agreement':str
     }
 
-    list_page_size = "all"
+    list_page_size = 10
 
     list_search_fields=["derived_to_user__uuid"]
-    
+    list_order_by = ["-id"]
+
     @csrf_exempt
     def dispatch(self, request, *args, **kwargs):
         if 'uuid' in kwargs:
@@ -181,6 +183,13 @@ class ClaimView(BaseView):
         highlighted_comments.sort(key=lambda x: x["timestamp"], reverse=True)
         data["featured_comments"] = highlighted_comments[:3]
 
+        #Obtengo el nombre del usuario asignado
+        if data["derived_to_user"]:
+            account = Account.objects.filter(uuid=data["derived_to_user"]).first()
+            data["assigned"] = account.full_name if account else "S/A"
+        else:
+            data["assigned"] = f"{data['derived_to_omic']['name']} - {data['derived_to_omic']['responsible']}" if data["derived_to_omic"] else "S/A"
+        
         #Ordeno las actividades en base a las mas nuevas primero
         data["activity"].sort(key=lambda x: x["id"], reverse=True)
 
@@ -217,6 +226,7 @@ class ClaimView(BaseView):
         modified_at_local = localtime(data['created_at'])
         custom_format = "dd/MM/yyyy 'a las' HH.mm'hs'"
         data['created_at'] = format_datetime(modified_at_local, format=custom_format, locale=locale)
+        data['has_ticket'] = Ticket.objects.filter(claim=data['id']).exclude(status="closed").exists()
 
         return data
 
@@ -233,6 +243,7 @@ class ClaimView(BaseView):
                 claim_data["assigned"] = account.full_name if account else "S/A"
             else:
                 claim_data["assigned"] = f"{claim['derived_to_omic']['name']} - {claim['derived_to_omic']['responsible']}" if claim["derived_to_omic"] else "S/A"
+            print(claim_data["assigned"])            
             claim_data["status"] = claim["claim_status"]
 
             #Logica para tipo de reclamo y estado de reclamo
@@ -485,7 +496,7 @@ class GenerateClaimPdf(BaseView):
 
     list_fields_related = {
         "suppliers":["fullname","cuil","address","num_address","city","zip_code"],
-        "claimer":["fullname","dni","cuit","email","gender"],
+        "claimer":["fullname","dni","cuit","email","gender","street","number","between_streets","province","city"],
         "files":["uuid","file","file_name"]
     }
     @csrf_exempt
@@ -537,6 +548,14 @@ class GenerateClaimPdf(BaseView):
             "none": "Prefiero no decirlo",
         }
         draw_input_label(45, y_position - 243, GENDER_CHOICES.get(claim["claimer"]["gender"]),10)
+
+        y_position = 763
+        #Datos de domicilio
+        draw_input_label(350, y_position - 58, claim["claimer"]["street"],10)
+        draw_input_label(350, y_position - 106, claim["claimer"]["between_streets"],10)
+        draw_input_label(350, y_position - 151, claim["claimer"]["number"],10)
+        draw_input_label(350, y_position - 198, claim["claimer"]["province"],10)
+        draw_input_label(350, y_position - 243, claim["claimer"]["city"],10)
 
         # Datos del proveedor
         y_position -= 343

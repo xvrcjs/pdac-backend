@@ -779,8 +779,6 @@ class BaseView(View):
             return HttpResponse(status=404)
         # Get cleaned body
         [cleaned_body, bad_response] = self.get_cleaned_body(request, **kwargs)
-        print(cleaned_body)
-        print(bad_response)
         if bad_response: return bad_response
         # Connect the Signal to check the obj
         pre_save.connect(clean_before_save, sender=self.model)
