@@ -56,37 +56,20 @@ class TicketView(BaseView):
             self.required_fields= {}
         return super().dispatch(request,*args,**kwargs)
     
-    def create_object(self, fields_dict, *args, **kwargs):
-        data = super().create_object(fields_dict, *args, **kwargs)
-        if fields_dict["files"]:
-            for file in fields_dict["files"]:
-                File.objects.create(file=file,file_name=file.name,ticket=self.object)
-        if fields_dict["claim"].startswith("#RIVE-"):
-            claim = ClaimIVE.objects.filter(id=fields_dict["claim"]).first()
-        else:
-            claim = ClaimRegular.objects.filter(id=fields_dict["claim"]).first()
-        if claim:
-            locale = Locale('es', 'AR')
-            date = localtime(datetime.now(timezone.utc))
-            custom_format = "d 'de' MMMM 'de' yyyy 'a las' HH:mm"
-            activity = {
-                "id": len(claim.activity)+1,
-                "type": "support",
-                "timestamp": format_datetime(date, format=custom_format, locale=locale),
-                "user": self.request.scope.account.full_name,
-                'content': f'Se genero el ticket “{self.object.id}“',
-                'highlighted': False,
-            }
-            claim.activity.append(activity)
-            claim.save()
-        return data
-    
     def data_list_json(self, query_set, fields, **kwargs):
         data = super().data_list_json(query_set, fields, **kwargs)                    
         for ticket in data:
             ticket['created_at'] = ticket['created_at'].strftime("%d/%m/%Y")
-            ticket['status'] = status[ticket["status"]]
 
+            activity_list = ticket['activity']  # Lista de actividades
+            user_add_info_activities = [act for act in activity_list if act.get('type') == 'user_add_info']
+            last_user_add_info = user_add_info_activities[-1] if user_add_info_activities else None
+            del ticket['activity']
+            
+            ticket['status'] = {
+                "data": status[ticket["status"]],
+                "has_new_info": True if last_user_add_info and last_user_add_info.get('view') == False else False,
+            }
         return data
     
     def data_json(self, fields, **kwargs):
@@ -103,8 +86,30 @@ class TicketView(BaseView):
                 "created_at":file.created_at.strftime("%d/%m/%Y")
             }
             data["files"].append(new_file)
+        # #Logica para actualizar el ultimo estado
+        activity_list = self.object.activity  # Lista de actividades
+        user_add_info_activities = [act for act in activity_list if act.get('type') == 'user_add_info']
+        if user_add_info_activities: 
+            user_add_info_activities.sort(key=lambda x: x.get('id', 0), reverse=True)
+            last_user_add_info = user_add_info_activities[0]
+            last_user_add_info['view'] = True
+            for i, activity in enumerate(activity_list):
+                if activity.get('id') == last_user_add_info['id']:
+                    activity_list[i] = last_user_add_info
+                    break
+            self.object.activity = activity_list
+            self.object.save()
         return data
     
+    def modify_object(self, fields_dict, *args, **kwargs):
+        if 'tasks' in fields_dict:
+            self.object.tasks = fields_dict['tasks']
+        if "files" in fields_dict:
+            for file in fields_dict["files"]:
+                File.objects.create(file=file,file_name=file.name,ticket_id=self.object.uuid)
+            del fields_dict['files']
+        return super().modify_object(fields_dict, *args, **kwargs)
+
 class AddCommentTicketView(BaseView):
     model = Ticket
 
@@ -155,7 +160,8 @@ class AddAditionalInfoClaimView(BaseView):
         'user': str,
         'content': str,
         'highlighted': bool,
-        'ticket':str
+        'ticket':str,
+        'view':bool,
     }
     @csrf_exempt
     def dispatch(self, request, *args, **kwargs):
@@ -163,13 +169,9 @@ class AddAditionalInfoClaimView(BaseView):
             self.required_fields= {}
         return super().dispatch(request,*args,**kwargs)
     
-    def modify_object(self, fields_dict, *args, **kwargs):
-        if self.object.claim.startswith("#RIVE-"):
-            claim = ClaimIVE.objects.filter(id=self.object.claim).first()
-        else:
-            claim = ClaimRegular.objects.filter(id=self.object.claim).first()  
-        activity_list = claim.activity
-        
+    def modify_object(self, fields_dict, *args, **kwargs):  
+
+        activity_list = self.object.activity
         if isinstance(fields_dict['timestamp'], str):
             fields_dict['timestamp'] = datetime.strptime(
                 fields_dict['timestamp'], "%Y-%m-%dT%H:%M:%S.%fZ"
@@ -180,19 +182,21 @@ class AddAditionalInfoClaimView(BaseView):
         locale = "es_ES"
         fields_dict["timestamp"] = format_datetime(modified_at_local, format=custom_format, locale=locale)
 
-        # Si no existe el ID, agregar un nuevo objeto con ID incremental
-        new_id = max([item.get("id", 0) for item in activity_list], default=0) + 1
-        fields_dict["id"] = new_id
-        activity_list.append(fields_dict)
-
-        claim.save()
-
-        activity_list = self.object.activity
-
         new_id = max([item.get("id", 0) for item in activity_list], default=0) + 1
         fields_dict["id"] = new_id
         activity_list.append(fields_dict)
         self.object.save()
+
+        if fields_dict['type'] == 'support_add_info':
+            if self.object.claim.startswith("#RIVE-"):
+                claim = ClaimIVE.objects.filter(id=self.object.claim).first()
+            else:
+                claim = ClaimRegular.objects.filter(id=self.object.claim).first()  
+            activity_list = claim.activity
+            new_id = max([item.get("id", 0) for item in activity_list], default=0) + 1
+            fields_dict["id"] = new_id
+            activity_list.append(fields_dict)
+            claim.save()
 
         return JsonResponse({"message": "Se agregó correctamente la actividad"}, status=200)
 
