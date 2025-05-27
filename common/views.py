@@ -144,55 +144,87 @@ def clean_before_save(sender, instance, *args, **kwargs):
 
 class BaseView(View):
 
+    # Métodos HTTP permitidos en la vista
     http_method_names = ['get', 'post', 'patch', 'delete']
-    model = None # Object model class
 
-    foreign_keys = { } # Dict to translate URL parameters. Ex: { <object_field>: {
-    #     'model': <ForeignKeyToModel>,
-    #     'filters': {
-    #         <ForeignKeyToModel_field>: <request_parameter>,
-    #     }
-    # } }
+    # Modelo base que esta vista va a gestionar
+    model = None  # Debe ser una subclase de BaseModel
 
-    DANGEROUSLY_PUBLIC = False # Take care with this option. Needs custom permissions check to work.
+    # Configuración de claves foráneas y sus relaciones
+    foreign_keys = { }  # Diccionario para manejar relaciones foráneas
+                       # Ejemplo:
+                       # {
+                       #     'usuario': {                    # Campo en el modelo actual
+                       #         'model': Usuario,           # Modelo relacionado
+                       #         'filters': {                # Filtros adicionales
+                       #             'activo': 'is_active'   # Campo modelo -> parámetro URL
+                       #         }
+                       #     }
+                       # }
 
-    # View Props
-    annotate = { }
-    fields = [ ] # List of fields to be returned by APIs. By default, m2m will be hiden on list results.
+    # ¡PRECAUCIÓN! Permite acceso público sin autenticación
+    DANGEROUSLY_PUBLIC = False    # Si es True, la vista será accesible sin autenticación
+                                 # Requiere implementar verificación de permisos personalizada
 
-    # Modify Props
-    update_on_conflict = False # If True, will not throw error on conflict (POST only)
-    unique_fields = [] # Required if update_on_conflict is True
-    update_fields = [] # Will update all fields if True, only fields on list if list, set or tuple, or none if anything else.
-    required_fields = { } # Ex { <object_field>: str }
-    extra_fields = { } # Ex { <object_field>: str }
+    # Propiedades generales de la vista
+    annotate = { }               # Anotaciones para agregar campos calculados
+                                # Ejemplo: {'total_ventas': Sum('ventas__monto')}
+    
+    fields = [ ]                # Campos a incluir en todas las respuestas
+                               # Si está vacío, incluye todos los campos
+                               # Las relaciones many-to-many se ocultan por defecto en listas
 
-    # List View Props
-    list_get_fields = { } # Dict to translate URL parameters. Ex: { <object_field>: <request_parameter> }
-    list_page_size = 50 # Default page
-    list_filters = { }
-    list_exclude = { }
-    list_order_by = None
-    list_search_fields = [ ]
-    list_search_lookup = 'icontains'
-    list_fields = [ ]
-    list_fields_related = {}
+    # Propiedades para modificación de datos
+    update_on_conflict = False  # Si es True, actualiza en vez de error en conflictos (POST)
+    unique_fields = []          # Campos únicos para identificar duplicados
+                               # Requerido si update_on_conflict es True
+    
+    update_fields = []          # Control de campos actualizables:
+                               # - True: actualiza todos los campos
+                               # - Lista/Set/Tupla: solo actualiza los campos listados
+                               # - Otro valor: no actualiza ningún campo
+    
+    required_fields = { }       # Campos requeridos adicionales
+                               # Ejemplo: {'email': 'correo electrónico'}
+    
+    extra_fields = { }         # Campos adicionales no presentes en el modelo
+                               # Ejemplo: {'password_confirm': 'str'}
 
-    # Instance View Props
-    instance_filters = { }
-    instance_exclude = { }
-    instance_get_fields = { 'pk': 'uuid' } # Dict to translate URL parameters. Ex: { <object_field>: <request_parameter> }
-    instance_select_related = [ ] # Array of related fields to select
-    instance_prefetch_related = [ ] # Array of related fields to prefetch
-    instance_fields = [ ]
+    # Propiedades para vista de lista
+    list_get_fields = { }      # Mapeo de parámetros URL a campos del modelo
+                               # Ejemplo: {'user_id': 'usuario__id'}
+    
+    list_page_size = 50        # Tamaño de página para paginación
+    
+    list_filters = { }         # Filtros predeterminados para la lista
+                               # Ejemplo: {'activo': True}
+    
+    list_exclude = { }         # Exclusiones predeterminadas para la lista
+                               # Ejemplo: {'eliminado': True}
+    list_order_by = None          # Campo por el cual ordenar la lista. Ej: '-created_at' para orden descendente
+    list_search_fields = [ ]      # Lista de campos en los que se realizará la búsqueda. Ej: ['nombre', 'descripcion']
+    list_search_lookup = 'icontains'  # Tipo de búsqueda a realizar. 'icontains' = case-insensitive, contiene el texto
+    list_fields = [ ]             # Campos a incluir en la respuesta de la lista. Si está vacío, se usan todos
+    list_fields_related = {}      # Campos a incluir de relaciones. Ej: {'usuario': ['nombre', 'email']}
+    instance_filters = { }        # Filtros adicionales para obtener una instancia. Ej: {'activo': True}
+    instance_exclude = { }        # Exclusiones para obtener una instancia. Ej: {'eliminado': True}
+    instance_get_fields = {       # Mapeo entre parámetros URL y campos del modelo
+        'pk': 'uuid'             # Ej: 'uuid' en URL se mapea a 'pk' en el modelo
+    }
+    instance_select_related = [ ] # Optimización: Trae relaciones en una sola consulta
+                                 # Ej: ['usuario', 'categoria']
+    instance_prefetch_related = [ ] # Optimización: Trae relaciones many-to-many en una sola consulta
+                                   # Ej: ['tags', 'permisos']
+    instance_fields = [ ]         # Campos adicionales a incluir solo en vista detalle
+                                 # Ej: ['historial', 'estadisticas']
 
-    # Variables
-    view_type = None
-    user = None
-    account = None
-    query_set = None
-    object = None
-    permissions = { }
+    # Variables internas (No modificar en la implementación)
+    view_type = None             # Tipo de vista actual: 'list' o 'instance'
+    user = None                  # Usuario autenticado actual
+    account = None               # Cuenta asociada al usuario actual
+    query_set = None             # QuerySet base para la vista
+    object = None                # Instancia actual en operaciones de detalle
+    permissions = { }            # Permisos del usuario para la vista actual
 
     @csrf_exempt
     def dispatch(self, request, *args, **kwargs):
