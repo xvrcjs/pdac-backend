@@ -138,7 +138,7 @@ class ClaimView(BaseView):
 
     list_fields_related = {
         "suppliers":["fullname","cuil"],
-        "claimer":["fullname","dni","cuit","email","gender"],
+        "claimer":["fullname","dni","cuit","email","gender","street","number","between_streets","province","city"],
         "files":["uuid","file","file_name"],
         "derived_to_omic":["uuid","name","responsible"],
     }
@@ -238,12 +238,11 @@ class ClaimView(BaseView):
             claim_data = {}
             claim_data["uuid"]= claim["uuid"]
             claim_data["id"] = claim["id"]
-            if claim["derived_to_user"]:
+            if claim["derived_to_omic"]:
+                claim_data["assigned"] = f"{claim['derived_to_omic']['name']} - {claim['derived_to_omic']['responsible']}" if claim["derived_to_omic"] else "S/A"
+            else:
                 account = Account.objects.filter(uuid=claim["derived_to_user"]).first()
                 claim_data["assigned"] = account.full_name if account else "S/A"
-            else:
-                claim_data["assigned"] = f"{claim['derived_to_omic']['name']} - {claim['derived_to_omic']['responsible']}" if claim["derived_to_omic"] else "S/A"
-            print(claim_data["assigned"])            
             claim_data["status"] = claim["claim_status"]
 
             #Logica para tipo de reclamo y estado de reclamo
@@ -695,10 +694,12 @@ class AssignClaim(BaseView):
 
     def modify_object(self, fields_dict, *args, **kwargs):
         if(fields_dict["type"] == "omic"):
-            fields_dict["derived_to_omic"] = Omic.objects.filter(uuid=fields_dict["assigned_id"]).first()
+            omic = Omic.objects.filter(uuid=fields_dict["assigned_id"]).first()
+            fields_dict["derived_to_omic"] = omic
+            fields_dict["derived_to_user"] = Account.objects.filter(omic=omic).first()
         else:
             fields_dict["derived_to_user"] =  Account.objects.filter(uuid=fields_dict["assigned_id"]).first()
-
+            fields_dict["derived_to_omic"] = None
         del fields_dict["assigned_id"]
         del fields_dict["type"]
         return super().modify_object(fields_dict, *args, **kwargs)
