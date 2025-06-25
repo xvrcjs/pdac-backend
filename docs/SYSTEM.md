@@ -33,13 +33,13 @@ backend/
 
 ### Componentes Core
 
-1. **BaseModel** ([Ver documentación detallada](../common/BaseModel.md))
+1. **BaseModel** ([Ver documentación detallada](./base-model.md))
    - Clase base para todos los modelos del sistema
    - Implementa auditoría automática
    - Manejo de UUIDs como identificadores
    - Sistema de permisos integrado
 
-2. **BaseView** ([Ver documentación detallada](../common/BaseView.md))
+2. **BaseView** ([Ver documentación detallada](./base-view.md))
    - Implementación REST completa
    - CRUD automático
    - Manejo de permisos
@@ -208,8 +208,8 @@ docker compose exec pdac-web python manage.py migrate
 ## Recursos Adicionales
 
 1. **Documentación Relacionada**
-   - [BaseModel](./BaseModel.md)
-   - [BaseView](./BaseView.md)
+    - [BaseModel](./base-model.md)
+    - [BaseView](./base-view.md)
 
 2. **Enlaces Útiles**
    - [Django Documentation](https://docs.djangoproject.com/)
