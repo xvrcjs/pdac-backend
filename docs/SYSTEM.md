@@ -4,6 +4,16 @@
 
 PDAC es un sistema backend desarrollado en Django que implementa una arquitectura modular y escalable. El sistema está diseñado para manejar tickets, reclamos y gestión de usuarios con un enfoque en la seguridad y el rendimiento.
 
+## Tabla de contenidos
+1. [Estructura del Sistema](#estructura-del-sistema)
+2. [Arquitectura Base](#arquitectura-base)
+3. [Flujo de Datos](#flujo-de-datos)
+4. [Características Técnicas](#características-técnicas)
+5. [Configuración y Despliegue](#configuración-y-despliegue)
+6. [Mejores Prácticas](#mejores-prácticas)
+7. [Extensibilidad](#extensibilidad)
+8. [Mantenimiento](#mantenimiento)
+
 ## Estructura del Sistema
 
 ```
@@ -113,6 +123,15 @@ backend/
 - Endpoints versionados
 - Respuestas estandarizadas
 - Documentación OpenAPI
+### 5. Celery y tareas en segundo plano
+- Configurado en `settings/celery.py` usando Redis como broker y backend
+- Se programa `check_transcriptions_jobs_status` diariamente con Celery Beat
+
+### 6. Middleware y caché
+- `RequestScopeMiddleware` gestiona autenticación por token y creación de cookies
+- Si `REDIS_ENABLED` es verdadero se almacenan datos en Redis
+- `settings/cache.py` incluye utilidades para limpiar la caché
+
 
 ## Configuración y Despliegue
 
