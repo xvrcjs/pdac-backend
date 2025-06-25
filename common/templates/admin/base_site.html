@@ -1,0 +1,27 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+{% load i18n %}
+{% block title %}{{ SITE_NAME }} - Panel{% endblock %}
+
+<!-- Style system -->
+{% block extrastyle %}
+  <link rel="stylesheet" href="{% static 'css/admin/admin.css' %}">
+{% endblock %}
+
+{% block branding %}
+
+<div id="logo-title">
+  <div>
+    <img id="logo-image" alt="{{ SITE_NAME }}" src="{% static 'icon.png' %}">
+  </div>
+  <div id="site-name">
+    <a href="{% url 'admin:index' %}"> <h1>{{ SITE_NAME }}</h1> </a>
+  </div>
+</div>
+{% endblock %}
+
+{% block extrahead %}
+    <link rel="shortcut icon" href="{% static 'favicon48x48.svg' %}">
+{% endblock %}
+
+

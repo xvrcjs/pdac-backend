@@ -1,0 +1,62 @@
+# Asíncrono y Tareas en Segundo Plano
+celery
+django-celery-results
+django-celery-beat
+channels==3.0.4
+channels_redis
+daphne
+
+# Django y Extensiones
+django<=5.0.0
+django_extensions
+django-bootstrap-v5
+django-cors-headers<=4.0.0
+django-filter
+django-jquery
+
+# Oauth2
+django-oauth-toolkit
+
+# Validación de Teléfonos
+django-phonenumber-field<=7.0.0
+django-phonenumbers
+
+# Almacenamiento
+django-storages<=2.0.0
+boto3 >=1.24.11, < 2.0.0
+
+# APIs REST y Documentación
+djangorestframework==3.14.0
+djangorestframework-simplejwt
+drf-yasg==1.21.5
+requests >= 2.28.0, < 3.0.0
+
+# Manejo de Imágenes
+Pillow >= 9.1.1, < 10.0.0
+qrcode
+
+# Bases de Datos y Conexiones
+mysqlclient
+
+# Soporte YAML
+pyyaml
+
+# Editor de Texto
+django-tinymce
+
+
+# Procesamiento de Archivos Excel (csv, xlsx, xls)
+pandas
+openpyxl
+xlrd >= 2.0.1
+
+# Otros Utilitarios
+django-naomi
+six
+
+#Traducciones
+Babel
+
+#Generacion de PDF
+reportlab
+django-multiselectfield

@@ -1,0 +1,2147 @@
+[
+  {
+    "model": "auth.permission",
+    "pk": 1,
+    "fields": {
+      "name": "Can add log entry",
+      "content_type": 1,
+      "codename": "add_logentry"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 2,
+    "fields": {
+      "name": "Can change log entry",
+      "content_type": 1,
+      "codename": "change_logentry"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 3,
+    "fields": {
+      "name": "Can delete log entry",
+      "content_type": 1,
+      "codename": "delete_logentry"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 4,
+    "fields": {
+      "name": "Can view log entry",
+      "content_type": 1,
+      "codename": "view_logentry"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 5,
+    "fields": {
+      "name": "Can add permission",
+      "content_type": 2,
+      "codename": "add_permission"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 6,
+    "fields": {
+      "name": "Can change permission",
+      "content_type": 2,
+      "codename": "change_permission"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 7,
+    "fields": {
+      "name": "Can delete permission",
+      "content_type": 2,
+      "codename": "delete_permission"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 8,
+    "fields": {
+      "name": "Can view permission",
+      "content_type": 2,
+      "codename": "view_permission"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 9,
+    "fields": {
+      "name": "Can add group",
+      "content_type": 3,
+      "codename": "add_group"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 10,
+    "fields": {
+      "name": "Can change group",
+      "content_type": 3,
+      "codename": "change_group"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 11,
+    "fields": {
+      "name": "Can delete group",
+      "content_type": 3,
+      "codename": "delete_group"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 12,
+    "fields": {
+      "name": "Can view group",
+      "content_type": 3,
+      "codename": "view_group"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 13,
+    "fields": {
+      "name": "Can add content type",
+      "content_type": 4,
+      "codename": "add_contenttype"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 14,
+    "fields": {
+      "name": "Can change content type",
+      "content_type": 4,
+      "codename": "change_contenttype"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 15,
+    "fields": {
+      "name": "Can delete content type",
+      "content_type": 4,
+      "codename": "delete_contenttype"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 16,
+    "fields": {
+      "name": "Can view content type",
+      "content_type": 4,
+      "codename": "view_contenttype"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 17,
+    "fields": {
+      "name": "Can add session",
+      "content_type": 5,
+      "codename": "add_session"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 18,
+    "fields": {
+      "name": "Can change session",
+      "content_type": 5,
+      "codename": "change_session"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 19,
+    "fields": {
+      "name": "Can delete session",
+      "content_type": 5,
+      "codename": "delete_session"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 20,
+    "fields": {
+      "name": "Can view session",
+      "content_type": 5,
+      "codename": "view_session"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 21,
+    "fields": {
+      "name": "Can add User",
+      "content_type": 6,
+      "codename": "add_user"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 22,
+    "fields": {
+      "name": "Can change User",
+      "content_type": 6,
+      "codename": "change_user"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 23,
+    "fields": {
+      "name": "Can delete User",
+      "content_type": 6,
+      "codename": "delete_user"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 24,
+    "fields": {
+      "name": "Can view User",
+      "content_type": 6,
+      "codename": "view_user"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 25,
+    "fields": {
+      "name": "Can add Content Type",
+      "content_type": 7,
+      "codename": "add_contenttype"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 26,
+    "fields": {
+      "name": "Can change Content Type",
+      "content_type": 7,
+      "codename": "change_contenttype"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 27,
+    "fields": {
+      "name": "Can delete Content Type",
+      "content_type": 7,
+      "codename": "delete_contenttype"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 28,
+    "fields": {
+      "name": "Can view Content Type",
+      "content_type": 7,
+      "codename": "view_contenttype"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 29,
+    "fields": {
+      "name": "Can add Account",
+      "content_type": 8,
+      "codename": "add_account"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 30,
+    "fields": {
+      "name": "Can change Account",
+      "content_type": 8,
+      "codename": "change_account"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 31,
+    "fields": {
+      "name": "Can delete Account",
+      "content_type": 8,
+      "codename": "delete_account"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 32,
+    "fields": {
+      "name": "Can view Account",
+      "content_type": 8,
+      "codename": "view_account"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 33,
+    "fields": {
+      "name": "Can add Module",
+      "content_type": 9,
+      "codename": "add_module"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 34,
+    "fields": {
+      "name": "Can change Module",
+      "content_type": 9,
+      "codename": "change_module"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 35,
+    "fields": {
+      "name": "Can delete Module",
+      "content_type": 9,
+      "codename": "delete_module"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 36,
+    "fields": {
+      "name": "Can view Module",
+      "content_type": 9,
+      "codename": "view_module"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 37,
+    "fields": {
+      "name": "Can add Policy",
+      "content_type": 10,
+      "codename": "add_policy"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 38,
+    "fields": {
+      "name": "Can change Policy",
+      "content_type": 10,
+      "codename": "change_policy"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 39,
+    "fields": {
+      "name": "Can delete Policy",
+      "content_type": 10,
+      "codename": "delete_policy"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 40,
+    "fields": {
+      "name": "Can view Policy",
+      "content_type": 10,
+      "codename": "view_policy"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 41,
+    "fields": {
+      "name": "Can add Role",
+      "content_type": 11,
+      "codename": "add_role"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 42,
+    "fields": {
+      "name": "Can change Role",
+      "content_type": 11,
+      "codename": "change_role"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 43,
+    "fields": {
+      "name": "Can delete Role",
+      "content_type": 11,
+      "codename": "delete_role"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 44,
+    "fields": {
+      "name": "Can view Role",
+      "content_type": 11,
+      "codename": "view_role"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 45,
+    "fields": {
+      "name": "Can add Client",
+      "content_type": 12,
+      "codename": "add_client"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 46,
+    "fields": {
+      "name": "Can change Client",
+      "content_type": 12,
+      "codename": "change_client"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 47,
+    "fields": {
+      "name": "Can delete Client",
+      "content_type": 12,
+      "codename": "delete_client"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 48,
+    "fields": {
+      "name": "Can view Client",
+      "content_type": 12,
+      "codename": "view_client"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 49,
+    "fields": {
+      "name": "Can add solar event",
+      "content_type": 13,
+      "codename": "add_solarschedule"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 50,
+    "fields": {
+      "name": "Can change solar event",
+      "content_type": 13,
+      "codename": "change_solarschedule"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 51,
+    "fields": {
+      "name": "Can delete solar event",
+      "content_type": 13,
+      "codename": "delete_solarschedule"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 52,
+    "fields": {
+      "name": "Can view solar event",
+      "content_type": 13,
+      "codename": "view_solarschedule"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 53,
+    "fields": {
+      "name": "Can add clocked",
+      "content_type": 14,
+      "codename": "add_clockedschedule"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 54,
+    "fields": {
+      "name": "Can change clocked",
+      "content_type": 14,
+      "codename": "change_clockedschedule"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 55,
+    "fields": {
+      "name": "Can delete clocked",
+      "content_type": 14,
+      "codename": "delete_clockedschedule"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 56,
+    "fields": {
+      "name": "Can view clocked",
+      "content_type": 14,
+      "codename": "view_clockedschedule"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 57,
+    "fields": {
+      "name": "Can add User",
+      "content_type": 15,
+      "codename": "add_user"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 58,
+    "fields": {
+      "name": "Can change User",
+      "content_type": 15,
+      "codename": "change_user"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 59,
+    "fields": {
+      "name": "Can delete User",
+      "content_type": 15,
+      "codename": "delete_user"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 60,
+    "fields": {
+      "name": "Can view User",
+      "content_type": 15,
+      "codename": "view_user"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 61,
+    "fields": {
+      "name": "Can add Content Type",
+      "content_type": 16,
+      "codename": "add_contenttype"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 62,
+    "fields": {
+      "name": "Can change Content Type",
+      "content_type": 16,
+      "codename": "change_contenttype"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 63,
+    "fields": {
+      "name": "Can delete Content Type",
+      "content_type": 16,
+      "codename": "delete_contenttype"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 64,
+    "fields": {
+      "name": "Can view Content Type",
+      "content_type": 16,
+      "codename": "view_contenttype"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 65,
+    "fields": {
+      "name": "Can add Account",
+      "content_type": 17,
+      "codename": "add_account"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 66,
+    "fields": {
+      "name": "Can change Account",
+      "content_type": 17,
+      "codename": "change_account"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 67,
+    "fields": {
+      "name": "Can delete Account",
+      "content_type": 17,
+      "codename": "delete_account"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 68,
+    "fields": {
+      "name": "Can view Account",
+      "content_type": 17,
+      "codename": "view_account"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 69,
+    "fields": {
+      "name": "Can add Module",
+      "content_type": 18,
+      "codename": "add_module"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 70,
+    "fields": {
+      "name": "Can change Module",
+      "content_type": 18,
+      "codename": "change_module"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 71,
+    "fields": {
+      "name": "Can delete Module",
+      "content_type": 18,
+      "codename": "delete_module"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 72,
+    "fields": {
+      "name": "Can view Module",
+      "content_type": 18,
+      "codename": "view_module"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 73,
+    "fields": {
+      "name": "Can add Policy",
+      "content_type": 19,
+      "codename": "add_policy"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 74,
+    "fields": {
+      "name": "Can change Policy",
+      "content_type": 19,
+      "codename": "change_policy"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 75,
+    "fields": {
+      "name": "Can delete Policy",
+      "content_type": 19,
+      "codename": "delete_policy"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 76,
+    "fields": {
+      "name": "Can view Policy",
+      "content_type": 19,
+      "codename": "view_policy"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 77,
+    "fields": {
+      "name": "Can add Role",
+      "content_type": 20,
+      "codename": "add_role"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 78,
+    "fields": {
+      "name": "Can change Role",
+      "content_type": 20,
+      "codename": "change_role"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 79,
+    "fields": {
+      "name": "Can delete Role",
+      "content_type": 20,
+      "codename": "delete_role"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 80,
+    "fields": {
+      "name": "Can view Role",
+      "content_type": 20,
+      "codename": "view_role"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 81,
+    "fields": {
+      "name": "Can add Client",
+      "content_type": 21,
+      "codename": "add_client"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 82,
+    "fields": {
+      "name": "Can change Client",
+      "content_type": 21,
+      "codename": "change_client"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 83,
+    "fields": {
+      "name": "Can delete Client",
+      "content_type": 21,
+      "codename": "delete_client"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 84,
+    "fields": {
+      "name": "Can view Client",
+      "content_type": 21,
+      "codename": "view_client"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 85,
+    "fields": {
+      "name": "Can add task result",
+      "content_type": 6,
+      "codename": "add_taskresult"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 86,
+    "fields": {
+      "name": "Can change task result",
+      "content_type": 6,
+      "codename": "change_taskresult"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 87,
+    "fields": {
+      "name": "Can delete task result",
+      "content_type": 6,
+      "codename": "delete_taskresult"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 88,
+    "fields": {
+      "name": "Can view task result",
+      "content_type": 6,
+      "codename": "view_taskresult"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 89,
+    "fields": {
+      "name": "Can add chord counter",
+      "content_type": 7,
+      "codename": "add_chordcounter"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 90,
+    "fields": {
+      "name": "Can change chord counter",
+      "content_type": 7,
+      "codename": "change_chordcounter"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 91,
+    "fields": {
+      "name": "Can delete chord counter",
+      "content_type": 7,
+      "codename": "delete_chordcounter"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 92,
+    "fields": {
+      "name": "Can view chord counter",
+      "content_type": 7,
+      "codename": "view_chordcounter"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 93,
+    "fields": {
+      "name": "Can add group result",
+      "content_type": 8,
+      "codename": "add_groupresult"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 94,
+    "fields": {
+      "name": "Can change group result",
+      "content_type": 8,
+      "codename": "change_groupresult"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 95,
+    "fields": {
+      "name": "Can delete group result",
+      "content_type": 8,
+      "codename": "delete_groupresult"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 96,
+    "fields": {
+      "name": "Can view group result",
+      "content_type": 8,
+      "codename": "view_groupresult"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 97,
+    "fields": {
+      "name": "Can add crontab",
+      "content_type": 9,
+      "codename": "add_crontabschedule"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 98,
+    "fields": {
+      "name": "Can change crontab",
+      "content_type": 9,
+      "codename": "change_crontabschedule"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 99,
+    "fields": {
+      "name": "Can delete crontab",
+      "content_type": 9,
+      "codename": "delete_crontabschedule"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 100,
+    "fields": {
+      "name": "Can view crontab",
+      "content_type": 9,
+      "codename": "view_crontabschedule"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 101,
+    "fields": {
+      "name": "Can add interval",
+      "content_type": 10,
+      "codename": "add_intervalschedule"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 102,
+    "fields": {
+      "name": "Can change interval",
+      "content_type": 10,
+      "codename": "change_intervalschedule"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 103,
+    "fields": {
+      "name": "Can delete interval",
+      "content_type": 10,
+      "codename": "delete_intervalschedule"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 104,
+    "fields": {
+      "name": "Can view interval",
+      "content_type": 10,
+      "codename": "view_intervalschedule"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 105,
+    "fields": {
+      "name": "Can add periodic task",
+      "content_type": 11,
+      "codename": "add_periodictask"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 106,
+    "fields": {
+      "name": "Can change periodic task",
+      "content_type": 11,
+      "codename": "change_periodictask"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 107,
+    "fields": {
+      "name": "Can delete periodic task",
+      "content_type": 11,
+      "codename": "delete_periodictask"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 108,
+    "fields": {
+      "name": "Can view periodic task",
+      "content_type": 11,
+      "codename": "view_periodictask"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 109,
+    "fields": {
+      "name": "Can add periodic task track",
+      "content_type": 12,
+      "codename": "add_periodictasks"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 110,
+    "fields": {
+      "name": "Can change periodic task track",
+      "content_type": 12,
+      "codename": "change_periodictasks"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 111,
+    "fields": {
+      "name": "Can delete periodic task track",
+      "content_type": 12,
+      "codename": "delete_periodictasks"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 112,
+    "fields": {
+      "name": "Can view periodic task track",
+      "content_type": 12,
+      "codename": "view_periodictasks"
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 1,
+    "fields": { "app_label": "admin", "model": "logentry" }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 2,
+    "fields": { "app_label": "auth", "model": "permission" }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 3,
+    "fields": { "app_label": "auth", "model": "group" }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 4,
+    "fields": { "app_label": "contenttypes", "model": "contenttype" }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 5,
+    "fields": { "app_label": "sessions", "model": "session" }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 6,
+    "fields": { "app_label": "django_celery_results", "model": "taskresult" }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 7,
+    "fields": { "app_label": "django_celery_results", "model": "chordcounter" }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 8,
+    "fields": { "app_label": "django_celery_results", "model": "groupresult" }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 9,
+    "fields": { "app_label": "django_celery_beat", "model": "crontabschedule" }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 10,
+    "fields": { "app_label": "django_celery_beat", "model": "intervalschedule" }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 11,
+    "fields": { "app_label": "django_celery_beat", "model": "periodictask" }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 12,
+    "fields": { "app_label": "django_celery_beat", "model": "periodictasks" }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 13,
+    "fields": { "app_label": "django_celery_beat", "model": "solarschedule" }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 14,
+    "fields": { "app_label": "django_celery_beat", "model": "clockedschedule" }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 15,
+    "fields": { "app_label": "users", "model": "user" }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 16,
+    "fields": { "app_label": "users", "model": "contenttype" }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 17,
+    "fields": { "app_label": "users", "model": "account" }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 18,
+    "fields": { "app_label": "security", "model": "module" }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 19,
+    "fields": { "app_label": "security", "model": "policy" }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 20,
+    "fields": { "app_label": "security", "model": "role" }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 21,
+    "fields": { "app_label": "administration", "model": "client" }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "53ktb2jaewh7zav8qcnyl05lyyrowj76",
+    "fields": {
+      "session_data": ".eJxVjjsOwyAQRO9CHRDgZQ0p3ecMFrBL7CSyJX-qKHcPllwk7cx7o3mLPu7b0O8rL_1I4iowhAagjTIF3UpAZJkMFMkWk4aifbAkLr9aivnJ0-HSI073WeV52pYxqQNRZ7uq20z86k72b2CI61Btb3N0ZIu3DhENcgOOciGocXYWuQJkWsoaNAesZ8CicYkzoS-axecLl2FAxQ:1r8gpC:Ji98CUA5REkFb3jgqjngxEWX6k2QrE4bTwUF7KRRKSE",
+      "expire_date": "2023-12-14T13:11:26.721Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "ky4u7abmjk3h7sdikipz0huqooz9pdxo",
+    "fields": {
+      "session_data": ".eJxVjjkOwjAQRe_imljeYo8p6TlDNOMZExYlUpYKcXcSKQXU_72v91YdrkvfrbNM3Z3VWcWcfQgJG8omNSFGaciG2oiLZEI1kB2r069GWJ4y7C4_cLiNuozDMt1J74g-1llfR5bX5WD_Dnqc-80WrK4koQwRW2q3DkpV2IMT4yszBOuTOAe2VO9xCxIILN7GFCMIqM8XtlpA5A:1tBCqO:fWolHboWXVFpLeLrqtZbw7gSKA0SANL2uxH0kVwThkg",
+      "expire_date": "2024-11-27T12:51:36.125Z"
+    }
+  },
+  {
+    "model": "sessions.session",
+    "pk": "u5nhcl9isrpxo7ft8wkz28ko9ghqkmwb",
+    "fields": {
+      "session_data": ".eJxVjjkOwjAQRe_imljeYo8p6TlDNOMZExYlUpYKcXcSKQXU_72v91YdrkvfrbNM3Z3VWcWcfQgJG8omNSFGaciG2oiLZEI1kB2r069GWJ4y7C4_cLiNuozDMt1J74g-1llfR5bX5WD_Dnqc-80WrK4koQwRW2q3DkpV2IMT4yszBOuTOAe2VO9xCxIILN7GFCMIqM8XtlpA5A:1t7yug:7x7hn3ApHH-l46trYCG_fmWkafJzQeTF3_AXRjLtuDs",
+      "expire_date": "2024-11-18T15:22:42.034Z"
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": "6993447a-b907-466e-b14f-e26b04f0892d",
+    "fields": {
+      "password": "pbkdf2_sha256$600000$tqDQ8fhzd4PBtQGlpIefoO$3Ng+Yn55MapGtasway+u3uAQuvFOBuKHTEsjzVHK5EM=",
+      "is_superuser": true,
+      "created_at": "2023-05-30T17:57:48.044Z",
+      "created_by": "80c0c261-7b99-4bd7-8983-3199cee016bf",
+      "created_from": "127.0.0.1",
+      "modified_at": "2024-11-13T12:51:35.952Z",
+      "modified_by": "9c0b2ad4-503f-46d4-a010-531963841eb9",
+      "modified_from": "192.168.65.1",
+      "display_name": "System Administrator",
+      "email": "admin@admin.com",
+      "is_active": true,
+      "is_staff": true,
+      "last_access": "2024-11-13T14:20:39.338Z",
+      "last_login": "2024-11-13T14:18:20.445Z",
+      "reset_password_token": "",
+      "reset_password_token_exp": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": "80c0c261-7b99-4bd7-8983-3199cee016bf",
+    "fields": {
+      "password": "",
+      "is_superuser": false,
+      "created_at": "2022-06-01T00:00:00Z",
+      "created_by": "80c0c261-7b99-4bd7-8983-3199cee016bf",
+      "created_from": "127.0.0.1",
+      "modified_at": "2022-06-01T00:00:00Z",
+      "modified_by": "80c0c261-7b99-4bd7-8983-3199cee016bf",
+      "modified_from": "127.0.0.1",
+      "display_name": "System",
+      "email": "System",
+      "is_active": false,
+      "is_staff": false,
+      "last_access": null,
+      "last_login": null,
+      "reset_password_token": "",
+      "reset_password_token_exp": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": "9c0b2ad4-503f-46d4-a010-531963841eb9",
+    "fields": {
+      "password": "",
+      "is_superuser": false,
+      "created_at": "2022-06-01T00:00:00Z",
+      "created_by": "80c0c261-7b99-4bd7-8983-3199cee016bf",
+      "created_from": "127.0.0.1",
+      "modified_at": "2022-06-01T00:00:00Z",
+      "modified_by": "80c0c261-7b99-4bd7-8983-3199cee016bf",
+      "modified_from": "127.0.0.1",
+      "display_name": "Anonymous",
+      "email": "Anonymous",
+      "is_active": false,
+      "is_staff": false,
+      "last_access": null,
+      "last_login": null,
+      "reset_password_token": "",
+      "reset_password_token_exp": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": "f9d57f43-4352-448b-b405-63cfd5464bf9",
+    "fields": {
+      "password": "pbkdf2_sha256$600000$e8bFSa5K0tZZtQHj4burhN$08wiTvLya6uRYEu1lrvYZbDZGxWNCN8LdBPpRykOpEE=",
+      "is_superuser": false,
+      "created_at": "2023-06-06T15:41:41.735Z",
+      "created_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "created_from": "192.168.16.1",
+      "modified_at": "2024-11-08T12:36:19.713Z",
+      "modified_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "modified_from": "192.168.65.1",
+      "display_name": "Test",
+      "email": "test@test.com",
+      "is_active": true,
+      "is_staff": false,
+      "last_access": "2024-11-11T13:06:03.553Z",
+      "last_login": "2024-11-11T13:05:58.694Z",
+      "reset_password_token": "",
+      "reset_password_token_exp": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.account",
+    "pk": "0c2a525e-10bc-4bb7-a6ab-dd47f0d71400",
+    "fields": {
+      "created_at": "2023-07-25T18:50:30.007Z",
+      "created_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "created_from": "172.26.0.1",
+      "modified_at": "2024-11-13T14:14:15.709Z",
+      "modified_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "modified_from": "192.168.65.1",
+      "id": 1,
+      "user": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "full_name": "Administrador",
+      "phone": "+12125552368",
+      "profile_image": "",
+      "dni": "12345678",
+      "comments": "",
+      "client": "2aa3b3d7-3ffa-4f7e-88c9-6bff08c8c89f",
+      "last_login": "2024-11-13T14:18:20.445Z",
+      "is_active": true,
+      "is_admin": false,
+      "is_online": true,
+      "is_deleted": false,
+      "roles": ["d79c806e-e59c-4231-80ba-16cd4bb2d261"],
+      "permissions": [
+        "b53205c8-5586-4558-a3be-2d47f9b32c30",
+        "31e63c81-190f-4f26-aa47-30801b2c15a0",
+        "c72d5666-65ec-4ad7-abeb-d244b15883b5"
+      ]
+    }
+  },
+  {
+    "model": "users.account",
+    "pk": "ed2d8f47-7550-4fe4-9353-1d79ef64f67d",
+    "fields": {
+      "created_at": "2023-07-25T18:50:44.266Z",
+      "created_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "created_from": "172.26.0.1",
+      "modified_at": "2024-11-08T12:36:19.713Z",
+      "modified_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "modified_from": "192.168.65.1",
+      "id": 2,
+      "user": "f9d57f43-4352-448b-b405-63cfd5464bf9",
+      "full_name": "Tester",
+      "phone": "+12125552368",
+      "profile_image": "",
+      "dni": "12345678",
+      "comments": "Prueba\r\n",
+      "client": "2aa3b3d7-3ffa-4f7e-88c9-6bff08c8c89f",
+      "last_login": "2024-11-11T13:05:58.694Z",
+      "is_active": true,
+      "is_admin": false,
+      "is_online": true,
+      "is_deleted": false,
+      "roles": ["d79c806e-e59c-4231-80ba-16cd4bb2d261"],
+      "permissions": [
+        "0fd5a89c-b523-4541-a300-404e38026fd6",
+        "7cb03778-681f-43dd-ae23-89c3d4e5239e"
+      ]
+    }
+  },
+  {
+    "model": "users.account",
+    "pk": "e8d59e69-2313-4338-8685-7a8d10191b78",
+    "fields": {
+      "created_at": "2025-03-03T05:31:33.985Z",
+      "created_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "created_from": "172.18.0.1",
+      "modified_at": "2025-03-03T05:31:33.985Z",
+      "modified_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "modified_from": "172.18.0.1",
+      "id": 3,
+      "user": "9c0b2ad4-503f-46d4-a010-531963841eb9",
+      "full_name": "Anonymous",
+      "phone": "",
+      "profile_image": "",
+      "dni": "",
+      "comments": "",
+      "client": "2aa3b3d7-3ffa-4f7e-88c9-6bff08c8c89f",
+      "last_login": null,
+      "is_active": true,
+      "is_admin": false,
+      "is_online": false,
+      "is_deleted": false,
+      "roles": ["d79c806e-e59c-4231-80ba-16cd4bb2d261"],
+      "permissions": []
+    }
+  },
+  {
+    "model": "security.module",
+    "pk": "02ee2fa6-5df6-4081-8905-6c14fa3a1ba3",
+    "fields": {
+      "created_at": "2024-11-08T12:10:26.959Z",
+      "created_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "created_from": "192.168.65.1",
+      "modified_at": "2024-11-08T12:10:26.959Z",
+      "modified_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "modified_from": "192.168.65.1",
+      "name": "Cerrar tickets de soporte técnico",
+      "mapping_key": "close_support_tickets",
+      "parents": [],
+      "content_types": [
+        1, 21, 3, 2, 4, 14, 9, 10, 11, 12, 13, 7, 8, 6, 18, 19, 20, 5, 17, 16,
+        15
+      ]
+    }
+  },
+  {
+    "model": "security.module",
+    "pk": "058582e2-e5fa-47c9-b7b4-04172be1f806",
+    "fields": {
+      "created_at": "2024-11-08T12:11:47.230Z",
+      "created_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "created_from": "192.168.65.1",
+      "modified_at": "2024-11-08T12:11:47.230Z",
+      "modified_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "modified_from": "192.168.65.1",
+      "name": "Consultar el registro de todas las notificaciones enviadas y acciones realizadas",
+      "mapping_key": "view_notifications_and_actions_log",
+      "parents": [],
+      "content_types": [
+        1, 21, 3, 2, 4, 14, 9, 10, 11, 12, 13, 7, 8, 6, 18, 19, 20, 5, 17, 16,
+        15
+      ]
+    }
+  },
+  {
+    "model": "security.module",
+    "pk": "0fd5a89c-b523-4541-a300-404e38026fd6",
+    "fields": {
+      "created_at": "2024-11-08T12:11:00.394Z",
+      "created_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "created_from": "192.168.65.1",
+      "modified_at": "2024-11-08T12:11:00.394Z",
+      "modified_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "modified_from": "192.168.65.1",
+      "name": "Descargar y revisar documentos generados en el sistema",
+      "mapping_key": "download_and_review_documents",
+      "parents": [],
+      "content_types": [
+        1, 21, 3, 2, 4, 14, 9, 10, 11, 12, 13, 7, 8, 6, 18, 19, 20, 5, 17, 16,
+        15
+      ]
+    }
+  },
+  {
+    "model": "security.module",
+    "pk": "121dbe9b-c51e-41da-b2d1-291ace472b96",
+    "fields": {
+      "created_at": "2024-11-08T12:09:10.776Z",
+      "created_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "created_from": "192.168.65.1",
+      "modified_at": "2024-11-08T12:09:10.776Z",
+      "modified_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "modified_from": "192.168.65.1",
+      "name": "Consultar indicadores clave de rendimiento (KPI) por municipio",
+      "mapping_key": "view_kpis_by_municipality",
+      "parents": [],
+      "content_types": [
+        1, 21, 3, 2, 4, 14, 9, 10, 11, 12, 13, 7, 8, 6, 18, 19, 20, 5, 17, 16,
+        15
+      ]
+    }
+  },
+  {
+    "model": "security.module",
+    "pk": "23669527-5c78-4cab-a83e-f5debe692cf2",
+    "fields": {
+      "created_at": "2024-11-04T17:37:37.906Z",
+      "created_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "created_from": "192.168.65.1",
+      "modified_at": "2024-11-04T17:37:37.906Z",
+      "modified_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "modified_from": "192.168.65.1",
+      "name": "Visualización y Manejo de Documentos",
+      "mapping_key": "visualizacion_manejo_documentos",
+      "parents": [],
+      "content_types": [
+        1, 21, 3, 2, 4, 14, 9, 10, 11, 12, 13, 7, 8, 6, 18, 19, 20, 5, 17, 16,
+        15
+      ]
+    }
+  },
+  {
+    "model": "security.module",
+    "pk": "31d35d05-d7ec-4d6d-b40d-f47eb1504154",
+    "fields": {
+      "created_at": "2024-11-08T12:25:44.144Z",
+      "created_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "created_from": "192.168.65.1",
+      "modified_at": "2024-11-08T12:25:44.144Z",
+      "modified_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "modified_from": "192.168.65.1",
+      "name": "Consultar el historial de acciones realizadas sobre los tickets de soporte",
+      "mapping_key": "view_ticket_action_history",
+      "parents": [],
+      "content_types": [
+        1, 21, 3, 2, 4, 14, 9, 10, 11, 12, 13, 7, 8, 6, 18, 19, 20, 5, 17, 16,
+        15
+      ]
+    }
+  },
+  {
+    "model": "security.module",
+    "pk": "31e63c81-190f-4f26-aa47-30801b2c15a0",
+    "fields": {
+      "created_at": "2024-11-04T17:36:18.171Z",
+      "created_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "created_from": "192.168.65.1",
+      "modified_at": "2024-11-04T17:36:18.171Z",
+      "modified_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "modified_from": "192.168.65.1",
+      "name": "Gestión de Usuarios",
+      "mapping_key": "gestion_usuarios",
+      "parents": [],
+      "content_types": [
+        1, 21, 3, 2, 4, 14, 9, 10, 11, 12, 13, 7, 8, 6, 18, 19, 20, 5, 17, 16,
+        15
+      ]
+    }
+  },
+  {
+    "model": "security.module",
+    "pk": "39955205-8382-499a-949c-c5ac4769e4a0",
+    "fields": {
+      "created_at": "2024-11-08T12:05:36.508Z",
+      "created_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "created_from": "192.168.65.1",
+      "modified_at": "2024-11-08T12:05:36.508Z",
+      "modified_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "modified_from": "192.168.65.1",
+      "name": "Desasignar y reasignar reclamos",
+      "mapping_key": "reassign_claims",
+      "parents": [],
+      "content_types": [
+        1, 21, 3, 2, 4, 14, 9, 10, 11, 12, 13, 7, 8, 6, 18, 19, 20, 5, 17, 16,
+        15
+      ]
+    }
+  },
+  {
+    "model": "security.module",
+    "pk": "3fa06653-b0f9-4600-8949-f32b4af94e1a",
+    "fields": {
+      "created_at": "2024-11-08T12:10:46.028Z",
+      "created_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "created_from": "192.168.65.1",
+      "modified_at": "2024-11-08T12:10:46.028Z",
+      "modified_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "modified_from": "192.168.65.1",
+      "name": "Generar documentos GEDO (Documento Electrónico GDEBA)",
+      "mapping_key": "generate_gedo_documents",
+      "parents": [],
+      "content_types": [
+        1, 21, 3, 2, 4, 14, 9, 10, 11, 12, 13, 7, 8, 6, 18, 19, 20, 5, 17, 16,
+        15
+      ]
+    }
+  },
+  {
+    "model": "security.module",
+    "pk": "50817d6b-54b7-45a7-8102-aa6f7fcc8831",
+    "fields": {
+      "created_at": "2024-11-08T12:08:53.715Z",
+      "created_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "created_from": "192.168.65.1",
+      "modified_at": "2024-11-08T12:08:53.715Z",
+      "modified_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "modified_from": "192.168.65.1",
+      "name": "Exportar datos en PDF, Excel y CSV",
+      "mapping_key": "export_data",
+      "parents": [],
+      "content_types": [
+        1, 21, 3, 2, 4, 14, 9, 10, 11, 12, 13, 7, 8, 6, 18, 19, 20, 5, 17, 16,
+        15
+      ]
+    }
+  },
+  {
+    "model": "security.module",
+    "pk": "50dbdf33-38b5-44e6-8dba-c2915f835e98",
+    "fields": {
+      "created_at": "2024-11-04T18:08:09.763Z",
+      "created_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "created_from": "192.168.65.1",
+      "modified_at": "2024-11-04T18:08:09.763Z",
+      "modified_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "modified_from": "192.168.65.1",
+      "name": "Gestión de Tickets",
+      "mapping_key": "gestion_tickets",
+      "parents": [],
+      "content_types": [
+        1, 21, 3, 2, 4, 14, 9, 10, 11, 12, 13, 7, 8, 6, 18, 19, 20, 5, 17, 16,
+        15
+      ]
+    }
+  },
+  {
+    "model": "security.module",
+    "pk": "529a27fd-5aad-4145-9755-92ea5b6bc3b7",
+    "fields": {
+      "created_at": "2024-11-08T12:11:24.075Z",
+      "created_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "created_from": "192.168.65.1",
+      "modified_at": "2024-11-08T12:11:24.075Z",
+      "modified_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "modified_from": "192.168.65.1",
+      "name": "Acceder al historial de cambios de estado y acciones realizadas sobre los reclamos",
+      "mapping_key": "access_claims_change_history",
+      "parents": [],
+      "content_types": [
+        1, 21, 3, 2, 4, 14, 9, 10, 11, 12, 13, 7, 8, 6, 18, 19, 20, 5, 17, 16,
+        15
+      ]
+    }
+  },
+  {
+    "model": "security.module",
+    "pk": "57de168d-2aa6-4f4d-bc17-639bc775bb7c",
+    "fields": {
+      "created_at": "2024-11-08T12:05:52.001Z",
+      "created_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "created_from": "192.168.65.1",
+      "modified_at": "2024-11-08T12:05:52.001Z",
+      "modified_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "modified_from": "192.168.65.1",
+      "name": "Asignar reclamos a responsables específicos dentro de municipios",
+      "mapping_key": "assign_claims_to_specific_responsibles",
+      "parents": [],
+      "content_types": [
+        1, 21, 3, 2, 4, 14, 9, 10, 11, 12, 13, 7, 8, 6, 18, 19, 20, 5, 17, 16,
+        15
+      ]
+    }
+  },
+  {
+    "model": "security.module",
+    "pk": "6015c3f3-a994-4489-8f67-62f67ec9a786",
+    "fields": {
+      "created_at": "2024-11-08T12:06:35.261Z",
+      "created_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "created_from": "192.168.65.1",
+      "modified_at": "2024-11-08T12:06:35.261Z",
+      "modified_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "modified_from": "192.168.65.1",
+      "name": "Configurar roles y permisos específicos para cada usuario",
+      "mapping_key": "configure_roles_and_permissions",
+      "parents": [],
+      "content_types": [
+        1, 21, 3, 2, 4, 14, 9, 10, 11, 12, 13, 7, 8, 6, 18, 19, 20, 5, 17, 16,
+        15
+      ]
+    }
+  },
+  {
+    "model": "security.module",
+    "pk": "61d79bdf-a671-410a-b1e8-968b57af1104",
+    "fields": {
+      "created_at": "2024-11-08T12:23:51.779Z",
+      "created_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "created_from": "192.168.65.1",
+      "modified_at": "2024-11-08T12:23:51.779Z",
+      "modified_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "modified_from": "192.168.65.1",
+      "name": "Visualizar los reclamos asignados al municipio",
+      "mapping_key": "view_assigned_claims",
+      "parents": [],
+      "content_types": [
+        1, 21, 3, 2, 4, 14, 9, 10, 11, 12, 13, 7, 8, 6, 18, 19, 20, 5, 17, 16,
+        15
+      ]
+    }
+  },
+  {
+    "model": "security.module",
+    "pk": "62c79961-d3ba-4eb5-b944-0a7cd5abc7ee",
+    "fields": {
+      "created_at": "2024-11-08T12:22:15.499Z",
+      "created_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "created_from": "192.168.65.1",
+      "modified_at": "2024-11-08T12:22:15.499Z",
+      "modified_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "modified_from": "192.168.65.1",
+      "name": "Reasignar reclamos a otros usuarios dentro del municipio",
+      "mapping_key": "reassign_claims_within_municipality",
+      "parents": [],
+      "content_types": [
+        1, 21, 3, 2, 4, 14, 9, 10, 11, 12, 13, 7, 8, 6, 18, 19, 20, 5, 17, 16,
+        15
+      ]
+    }
+  },
+  {
+    "model": "security.module",
+    "pk": "7740885b-248a-4b8f-a361-6195084107e6",
+    "fields": {
+      "created_at": "2023-06-21T15:06:54.777Z",
+      "created_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "created_from": "172.27.0.1",
+      "modified_at": "2024-11-04T15:39:15.993Z",
+      "modified_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "modified_from": "192.168.65.1",
+      "name": "Admin",
+      "mapping_key": "admin",
+      "parents": ["7740885b-248a-4b8f-a361-6195084107e6"],
+      "content_types": [
+        1, 21, 3, 2, 4, 14, 9, 10, 11, 12, 13, 7, 8, 6, 18, 19, 20, 5, 17, 16,
+        15
+      ]
+    }
+  },
+  {
+    "model": "security.module",
+    "pk": "7cb03778-681f-43dd-ae23-89c3d4e5239e",
+    "fields": {
+      "created_at": "2024-11-08T12:10:07.782Z",
+      "created_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "created_from": "192.168.65.1",
+      "modified_at": "2024-11-08T12:10:07.782Z",
+      "modified_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "modified_from": "192.168.65.1",
+      "name": "Escalar tickets entre niveles (N1, N2, N3)",
+      "mapping_key": "escalate_tickets",
+      "parents": [],
+      "content_types": [
+        1, 21, 3, 2, 4, 14, 9, 10, 11, 12, 13, 7, 8, 6, 18, 19, 20, 5, 17, 16,
+        15
+      ]
+    }
+  },
+  {
+    "model": "security.module",
+    "pk": "7dfefaa0-4e20-47d6-bed4-531f437fe57c",
+    "fields": {
+      "created_at": "2024-11-08T12:24:20.504Z",
+      "created_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "created_from": "192.168.65.1",
+      "modified_at": "2024-11-08T12:24:20.504Z",
+      "modified_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "modified_from": "192.168.65.1",
+      "name": "Visualizar mensajes de soporte técnico",
+      "mapping_key": "view_technical_support_messages",
+      "parents": [],
+      "content_types": [
+        1, 21, 3, 2, 4, 14, 9, 10, 11, 12, 13, 7, 8, 6, 18, 19, 20, 5, 17, 16,
+        15
+      ]
+    }
+  },
+  {
+    "model": "security.module",
+    "pk": "8340fec0-13f4-47e1-bf1f-dfa73491b46c",
+    "fields": {
+      "created_at": "2024-11-08T12:08:40.177Z",
+      "created_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "created_from": "192.168.65.1",
+      "modified_at": "2024-11-08T12:08:40.177Z",
+      "modified_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "modified_from": "192.168.65.1",
+      "name": "Visualizar y descargar reportes",
+      "mapping_key": "view_and_download_reports",
+      "parents": [],
+      "content_types": [
+        1, 21, 3, 2, 4, 14, 9, 10, 11, 12, 13, 7, 8, 6, 18, 19, 20, 5, 17, 16,
+        15
+      ]
+    }
+  },
+  {
+    "model": "security.module",
+    "pk": "9253971c-e2c9-4de0-bbcc-826b1022560c",
+    "fields": {
+      "created_at": "2024-11-08T12:06:21.418Z",
+      "created_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "created_from": "192.168.65.1",
+      "modified_at": "2024-11-08T12:06:21.418Z",
+      "modified_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "modified_from": "192.168.65.1",
+      "name": "Crear, editar y desactivar usuarios",
+      "mapping_key": "manage_users",
+      "parents": [],
+      "content_types": [
+        1, 21, 3, 2, 4, 14, 9, 10, 11, 12, 13, 7, 8, 6, 18, 19, 20, 5, 17, 16,
+        15
+      ]
+    }
+  },
+  {
+    "model": "security.module",
+    "pk": "9622eba6-13ba-44c0-866e-6252b7912910",
+    "fields": {
+      "created_at": "2024-11-08T12:06:54.734Z",
+      "created_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "created_from": "192.168.65.1",
+      "modified_at": "2024-11-08T12:06:54.734Z",
+      "modified_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "modified_from": "192.168.65.1",
+      "name": "Administrar perfiles de usuario (Administradores, Usuarios Municipales, Soporte Técnico)",
+      "mapping_key": "manage_user_profiles",
+      "parents": [],
+      "content_types": [
+        1, 21, 3, 2, 4, 14, 9, 10, 11, 12, 13, 7, 8, 6, 18, 19, 20, 5, 17, 16,
+        15
+      ]
+    }
+  },
+  {
+    "model": "security.module",
+    "pk": "9773af50-5fb6-43fd-98cd-9a28ce1a6b17",
+    "fields": {
+      "created_at": "2024-11-08T12:08:18.496Z",
+      "created_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "created_from": "192.168.65.1",
+      "modified_at": "2024-11-08T12:08:18.496Z",
+      "modified_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "modified_from": "192.168.65.1",
+      "name": "Generar informes de indicadores",
+      "mapping_key": "generate_reports",
+      "parents": [],
+      "content_types": [
+        1, 21, 3, 2, 4, 14, 9, 10, 11, 12, 13, 7, 8, 6, 18, 19, 20, 5, 17, 16,
+        15
+      ]
+    }
+  },
+  {
+    "model": "security.module",
+    "pk": "9dc39fa0-6378-47ca-be21-f7afc02bb6da",
+    "fields": {
+      "created_at": "2024-11-08T12:09:54.154Z",
+      "created_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "created_from": "192.168.65.1",
+      "modified_at": "2024-11-08T12:09:54.154Z",
+      "modified_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "modified_from": "192.168.65.1",
+      "name": "Visualizar mensajes recibidos del equipo de soporte técnico",
+      "mapping_key": "view_support_messages",
+      "parents": [],
+      "content_types": [
+        1, 21, 3, 2, 4, 14, 9, 10, 11, 12, 13, 7, 8, 6, 18, 19, 20, 5, 17, 16,
+        15
+      ]
+    }
+  },
+  {
+    "model": "security.module",
+    "pk": "a667da57-7e40-4edc-a4fc-77934bdb8399",
+    "fields": {
+      "created_at": "2024-11-04T17:36:40.163Z",
+      "created_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "created_from": "192.168.65.1",
+      "modified_at": "2024-11-04T17:36:40.163Z",
+      "modified_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "modified_from": "192.168.65.1",
+      "name": "Acceso a Reportes y Estadísticas",
+      "mapping_key": "acceso_reportes_estadisticas",
+      "parents": [],
+      "content_types": [
+        1, 21, 3, 2, 4, 14, 9, 10, 11, 12, 13, 7, 8, 6, 18, 19, 20, 5, 17, 16,
+        15
+      ]
+    }
+  },
+  {
+    "model": "security.module",
+    "pk": "afefd202-91a6-447e-8557-52f84303e2cf",
+    "fields": {
+      "created_at": "2024-11-08T12:23:02.386Z",
+      "created_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "created_from": "192.168.65.1",
+      "modified_at": "2024-11-08T12:23:02.386Z",
+      "modified_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "modified_from": "192.168.65.1",
+      "name": "Generar informes de indicadores de su jurisdicción",
+      "mapping_key": "generate_jurisdiction_reports",
+      "parents": [],
+      "content_types": [
+        1, 21, 3, 2, 4, 14, 9, 10, 11, 12, 13, 7, 8, 6, 18, 19, 20, 5, 17, 16,
+        15
+      ]
+    }
+  },
+  {
+    "model": "security.module",
+    "pk": "b022d12a-3db8-4200-be69-3e923d144c9b",
+    "fields": {
+      "created_at": "2024-11-04T17:36:58.396Z",
+      "created_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "created_from": "192.168.65.1",
+      "modified_at": "2024-11-04T17:36:58.396Z",
+      "modified_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "modified_from": "192.168.65.1",
+      "name": "Configuración del Sistema",
+      "mapping_key": "configuracion_sistema",
+      "parents": [],
+      "content_types": [
+        1, 21, 3, 2, 4, 14, 9, 10, 11, 12, 13, 7, 8, 6, 18, 19, 20, 5, 17, 16,
+        15
+      ]
+    }
+  },
+  {
+    "model": "security.module",
+    "pk": "b27377bc-7c2e-4b25-b093-7bcf424e2eb2",
+    "fields": {
+      "created_at": "2024-11-08T12:25:05.505Z",
+      "created_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "created_from": "192.168.65.1",
+      "modified_at": "2024-11-08T12:25:05.505Z",
+      "modified_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "modified_from": "192.168.65.1",
+      "name": "Gestionar tickets asignados",
+      "mapping_key": "manage_assigned_tickets",
+      "parents": [],
+      "content_types": [
+        1, 21, 3, 2, 4, 14, 9, 10, 11, 12, 13, 7, 8, 6, 18, 19, 20, 5, 17, 16,
+        15
+      ]
+    }
+  },
+  {
+    "model": "security.module",
+    "pk": "b53205c8-5586-4558-a3be-2d47f9b32c30",
+    "fields": {
+      "created_at": "2024-11-04T17:34:55.467Z",
+      "created_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "created_from": "192.168.65.1",
+      "modified_at": "2024-11-04T17:36:25.607Z",
+      "modified_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "modified_from": "192.168.65.1",
+      "name": "Gestión de Reclamos",
+      "mapping_key": "gestion_reclamos",
+      "parents": [],
+      "content_types": [
+        1, 21, 3, 2, 4, 14, 9, 10, 11, 12, 13, 7, 8, 6, 18, 19, 20, 5, 17, 16,
+        15
+      ]
+    }
+  },
+  {
+    "model": "security.module",
+    "pk": "c3206977-38bc-4ec5-8fe1-de1499f786b2",
+    "fields": {
+      "created_at": "2024-11-08T12:23:38.333Z",
+      "created_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "created_from": "192.168.65.1",
+      "modified_at": "2024-11-08T12:23:38.333Z",
+      "modified_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "modified_from": "192.168.65.1",
+      "name": "Exportar datos en PDF, Excel y CSV (dentro de su jurisdicción)",
+      "mapping_key": "export_jurisdiction_data",
+      "parents": [],
+      "content_types": [
+        1, 21, 3, 2, 4, 14, 9, 10, 11, 12, 13, 7, 8, 6, 18, 19, 20, 5, 17, 16,
+        15
+      ]
+    }
+  },
+  {
+    "model": "security.module",
+    "pk": "c72d5666-65ec-4ad7-abeb-d244b15883b5",
+    "fields": {
+      "created_at": "2024-11-04T17:37:51.700Z",
+      "created_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "created_from": "192.168.65.1",
+      "modified_at": "2024-11-04T17:37:51.700Z",
+      "modified_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "modified_from": "192.168.65.1",
+      "name": "Trazabilidad y Auditoría",
+      "mapping_key": "trazabilidad_auditoria",
+      "parents": [],
+      "content_types": [
+        1, 21, 3, 2, 4, 14, 9, 10, 11, 12, 13, 7, 8, 6, 18, 19, 20, 5, 17, 16,
+        15
+      ]
+    }
+  },
+  {
+    "model": "security.module",
+    "pk": "cda75c2d-3768-469c-a524-7d912deb5785",
+    "fields": {
+      "created_at": "2024-11-08T12:24:07.079Z",
+      "created_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "created_from": "192.168.65.1",
+      "modified_at": "2024-11-08T12:24:07.079Z",
+      "modified_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "modified_from": "192.168.65.1",
+      "name": "Adjuntar documentación adicional a los reclamos",
+      "mapping_key": "attach_documents_to_claims",
+      "parents": [],
+      "content_types": [
+        1, 21, 3, 2, 4, 14, 9, 10, 11, 12, 13, 7, 8, 6, 18, 19, 20, 5, 17, 16,
+        15
+      ]
+    }
+  },
+  {
+    "model": "security.module",
+    "pk": "d4c26e80-add6-48c1-aebd-4a85356c102c",
+    "fields": {
+      "created_at": "2024-11-08T12:06:05.042Z",
+      "created_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "created_from": "192.168.65.1",
+      "modified_at": "2024-11-08T12:06:05.042Z",
+      "modified_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "modified_from": "192.168.65.1",
+      "name": "Rechazar reclamos y registrar el motivo",
+      "mapping_key": "reject_claims_with_reason",
+      "parents": [],
+      "content_types": [
+        1, 21, 3, 2, 4, 14, 9, 10, 11, 12, 13, 7, 8, 6, 18, 19, 20, 5, 17, 16,
+        15
+      ]
+    }
+  },
+  {
+    "model": "security.module",
+    "pk": "dcb07b96-a715-4827-be52-ffb6b1683bdb",
+    "fields": {
+      "created_at": "2024-11-08T12:09:36.228Z",
+      "created_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "created_from": "192.168.65.1",
+      "modified_at": "2024-11-08T12:09:36.228Z",
+      "modified_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "modified_from": "192.168.65.1",
+      "name": "Configurar parámetros del sistema",
+      "mapping_key": "configure_system_parameters",
+      "parents": [],
+      "content_types": [
+        1, 21, 3, 2, 4, 14, 9, 10, 11, 12, 13, 7, 8, 6, 18, 19, 20, 5, 17, 16,
+        15
+      ]
+    }
+  },
+  {
+    "model": "security.module",
+    "pk": "e43d99a1-8523-49f4-a576-fff87f1d44ad",
+    "fields": {
+      "created_at": "2024-11-08T12:24:51.441Z",
+      "created_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "created_from": "192.168.65.1",
+      "modified_at": "2024-11-08T12:24:51.441Z",
+      "modified_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "modified_from": "192.168.65.1",
+      "name": "Acceder al historial de cambios de estado de los reclamos gestionados por su municipio",
+      "mapping_key": "access_municipality_claims_history",
+      "parents": [],
+      "content_types": [
+        1, 21, 3, 2, 4, 14, 9, 10, 11, 12, 13, 7, 8, 6, 18, 19, 20, 5, 17, 16,
+        15
+      ]
+    }
+  },
+  {
+    "model": "security.module",
+    "pk": "e4903c9e-52a3-4579-b9f1-2a8c9195d71d",
+    "fields": {
+      "created_at": "2024-11-08T12:23:15.339Z",
+      "created_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "created_from": "192.168.65.1",
+      "modified_at": "2024-11-08T12:23:15.339Z",
+      "modified_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "modified_from": "192.168.65.1",
+      "name": "Visualizar y descargar reportes de su municipio",
+      "mapping_key": "view_and_download_municipality_reports",
+      "parents": [],
+      "content_types": [
+        1, 21, 3, 2, 4, 14, 9, 10, 11, 12, 13, 7, 8, 6, 18, 19, 20, 5, 17, 16,
+        15
+      ]
+    }
+  },
+  {
+    "model": "security.module",
+    "pk": "f0062c65-478c-4351-a48d-b020deaad6ad",
+    "fields": {
+      "created_at": "2024-11-08T12:04:32.846Z",
+      "created_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "created_from": "192.168.65.1",
+      "modified_at": "2024-11-08T12:04:32.846Z",
+      "modified_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "modified_from": "192.168.65.1",
+      "name": "Asignar reclamos",
+      "mapping_key": "assign_claims",
+      "parents": [],
+      "content_types": [
+        1, 21, 3, 2, 4, 14, 9, 10, 11, 12, 13, 7, 8, 6, 18, 19, 20, 5, 17, 16,
+        15
+      ]
+    }
+  },
+  {
+    "model": "security.module",
+    "pk": "f537b154-820f-419a-8ec3-37e19eead512",
+    "fields": {
+      "created_at": "2024-11-04T17:37:18.201Z",
+      "created_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "created_from": "192.168.65.1",
+      "modified_at": "2024-11-04T17:37:18.201Z",
+      "modified_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "modified_from": "192.168.65.1",
+      "name": "Interacción con Soporte Técnico",
+      "mapping_key": "interaccion_soporte_tecnico",
+      "parents": [],
+      "content_types": [
+        1, 21, 3, 2, 4, 14, 9, 10, 11, 12, 13, 7, 8, 6, 18, 19, 20, 5, 17, 16,
+        15
+      ]
+    }
+  },
+  {
+    "model": "security.role",
+    "pk": "b603b75b-a376-4e30-8ce4-da4291805e1f",
+    "fields": {
+      "created_at": "2024-11-04T18:07:11.064Z",
+      "created_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "created_from": "192.168.65.1",
+      "modified_at": "2024-11-05T22:54:31.308Z",
+      "modified_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "modified_from": "192.168.65.1",
+      "name": "Support",
+      "description": "Este rol se enfoca en la gestión y resolución de tickets relacionados con problemas ténicos",
+      "modules": [
+        "02ee2fa6-5df6-4081-8905-6c14fa3a1ba3",
+        "31d35d05-d7ec-4d6d-b40d-f47eb1504154",
+        "0fd5a89c-b523-4541-a300-404e38026fd6",
+        "7cb03778-681f-43dd-ae23-89c3d4e5239e",
+        "b27377bc-7c2e-4b25-b093-7bcf424e2eb2"
+      ]
+    }
+  },
+  {
+    "model": "security.role",
+    "pk": "c49f44c5-d149-473f-8b36-3653143feafd",
+    "fields": {
+      "created_at": "2024-11-04T17:33:25.917Z",
+      "created_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "created_from": "192.168.65.1",
+      "modified_at": "2024-11-05T22:54:12.441Z",
+      "modified_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "modified_from": "192.168.65.1",
+      "name": "Omic",
+      "description": "Este rol gestiona los reclamos dentro de su municipio y tiene capacidad de reasignación",
+      "modules": [
+        "e43d99a1-8523-49f4-a576-fff87f1d44ad",
+        "cda75c2d-3768-469c-a524-7d912deb5785",
+        "02ee2fa6-5df6-4081-8905-6c14fa3a1ba3",
+        "c3206977-38bc-4ec5-8fe1-de1499f786b2",
+        "afefd202-91a6-447e-8557-52f84303e2cf",
+        "62c79961-d3ba-4eb5-b944-0a7cd5abc7ee",
+        "d4c26e80-add6-48c1-aebd-4a85356c102c",
+        "61d79bdf-a671-410a-b1e8-968b57af1104",
+        "7dfefaa0-4e20-47d6-bed4-531f437fe57c",
+        "e4903c9e-52a3-4579-b9f1-2a8c9195d71d"
+      ]
+    }
+  },
+  {
+    "model": "security.role",
+    "pk": "d79c806e-e59c-4231-80ba-16cd4bb2d261",
+    "fields": {
+      "created_at": "2023-06-21T15:07:28.624Z",
+      "created_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "created_from": "172.27.0.1",
+      "modified_at": "2024-11-08T12:21:45.566Z",
+      "modified_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "modified_from": "192.168.65.1",
+      "name": "Admin",
+      "description": "Este rol tiene acceso completo para gestionar el sistema, los usuario y los reclamos",
+      "modules": [
+        "529a27fd-5aad-4145-9755-92ea5b6bc3b7",
+        "9622eba6-13ba-44c0-866e-6252b7912910",
+        "f0062c65-478c-4351-a48d-b020deaad6ad",
+        "57de168d-2aa6-4f4d-bc17-639bc775bb7c",
+        "02ee2fa6-5df6-4081-8905-6c14fa3a1ba3",
+        "dcb07b96-a715-4827-be52-ffb6b1683bdb",
+        "6015c3f3-a994-4489-8f67-62f67ec9a786",
+        "058582e2-e5fa-47c9-b7b4-04172be1f806",
+        "121dbe9b-c51e-41da-b2d1-291ace472b96",
+        "9253971c-e2c9-4de0-bbcc-826b1022560c",
+        "39955205-8382-499a-949c-c5ac4769e4a0",
+        "0fd5a89c-b523-4541-a300-404e38026fd6",
+        "7cb03778-681f-43dd-ae23-89c3d4e5239e",
+        "50817d6b-54b7-45a7-8102-aa6f7fcc8831",
+        "3fa06653-b0f9-4600-8949-f32b4af94e1a",
+        "9773af50-5fb6-43fd-98cd-9a28ce1a6b17",
+        "d4c26e80-add6-48c1-aebd-4a85356c102c",
+        "9dc39fa0-6378-47ca-be21-f7afc02bb6da",
+        "8340fec0-13f4-47e1-bf1f-dfa73491b46c"
+      ]
+    }
+  },
+  {
+    "model": "administration.client",
+    "pk": "2aa3b3d7-3ffa-4f7e-88c9-6bff08c8c89f",
+    "fields": {
+      "created_at": "2023-07-25T19:16:51Z",
+      "created_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "created_from": "172.27.0.1",
+      "modified_at": "2023-11-30T15:34:17.157Z",
+      "modified_by": "6993447a-b907-466e-b14f-e26b04f0892d",
+      "modified_from": "172.18.0.1",
+      "name": "Buenos Aires",
+      "logo": "",
+      "phone": "",
+      "address": "",
+      "owner": "0c2a525e-10bc-4bb7-a6ab-dd47f0d71400",
+      "cant_students": 300,
+      "is_deleted": false,
+      "modules": ["7740885b-248a-4b8f-a361-6195084107e6"]
+    }
+  }
+]

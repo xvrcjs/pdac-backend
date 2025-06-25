@@ -1,0 +1,61 @@
+services:
+  pdac-db:
+    image: mariadb:10.5  # Versión de MariaDB
+    environment:
+      MYSQL_ROOT_PASSWORD: $DB_ROOT_PASSWORD
+      MYSQL_DATABASE: $DB_NAME
+      MYSQL_USER: $DB_USER
+      MYSQL_PASSWORD: $DB_PASSWORD
+    ports:
+      - "3306:3306"  # Puerto de MariaDB
+    volumes:
+      - pdac-data:/var/lib/mysql
+      
+  pdac-web:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+      target: django-develop
+    container_name: pdac-web
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/src
+      - media:/src/media
+    command: /start
+    env_file:
+      - .env
+    depends_on:
+      - pdac-db
+    networks:
+      - default
+      - nginx-proxy
+
+  pdac-redis:
+    image: 'redis'
+    ports:
+      - '6379:6379'
+    networks:
+      - default
+
+  # pdac-frontend:
+  #   build: 
+  #     context: ../frontend/
+  #     dockerfile: ./docker/Dockerfile
+  #   container_name: pdac-frontend
+  #   ports:
+  #     - "3000:80"
+  #   volumes:
+  #     - ../frontend:/app
+  #   networks:
+  #     - default
+  #     - nginx-proxy
+
+volumes:
+  pdac-data: 
+  media:
+networks:
+  default:
+  nginx-proxy:
+   external: true
+   driver: overlay
