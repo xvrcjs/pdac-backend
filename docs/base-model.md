@@ -1,6 +1,9 @@
 # BaseModel
 
-Este documento describe la clase `BaseModel` ubicada en `common/models.py`.
+`BaseModel` es la base para todos los modelos del sistema y se implementa en
+[`common/models.py`](../common/models.py). Para un repaso general de la
+arquitectura consulta también [SYSTEM.md](./SYSTEM.md) y la distribución de
+archivos en [Project Root Overview](./project-root-overview.md).
 
 ## Ubicación
 ```
@@ -21,6 +24,15 @@ common/models.py
 - `duplicate(by_system=False, do_not_log=False, *args, **kwargs)`: clona la instancia asignando nuevo UUID.
 - `_get_permissions(account)`: calcula permisos en base a módulos y políticas.
 - `get_permissions(account, pk=None)`: retorna los permisos efectivos.
+
+### Tabla de métodos
+| Método | Propósito | Ejemplo |
+|-------|-----------|---------|
+|`save(by_system=False, do_not_log=False, *args, **kwargs)`|Guarda la instancia registrando auditoría.|`obj.save()`|
+|`duplicate(by_system=False, do_not_log=False, **campos)`|Crea una copia con nuevo UUID.|`obj.duplicate(cuil="20-...")`|
+|`is_new`|Indica si la instancia aún no existe en base de datos.|`if obj.is_new:`|
+|`old`|Devuelve la versión almacenada antes de modificar.|`print(obj.old)`|
+|`get_permissions(account, pk=None)`|Obtiene permisos para un usuario.|`BaseModel.get_permissions(account)`|
 
 ## Fragmento de código
 ```python
@@ -115,6 +127,8 @@ class BaseModel(models.Model):
             view_permission=get_permission('view'),
             add_permission=get_permission('add'),
             modify_permission=get_permission('modify'),
+            delete_permission=get_permission('delete')
+        ).values('view_permission', 'add_permission', 'modify_permission', 'delete_permission').first()
 ```
 
 ## Ejemplo de uso
@@ -129,3 +143,28 @@ class Supplier(BaseModel):
     address = models.CharField(_('Address'), max_length=255)
 ```
 Al heredar de `BaseModel`, `Supplier` cuenta automáticamente con campos de auditoría y sistema de permisos.
+
+## Ejemplos avanzados
+
+Duplicar un registro existente modificando algunos campos:
+```python
+supplier = Supplier.objects.get(uuid="<uuid>")
+supplier.duplicate(fullname="Copia de " + supplier.fullname)
+```
+El método `duplicate()` genera un nuevo `uuid` y guarda el registro sin afectar el original.
+
+## Extensibilidad
+
+`BaseModel` puede heredarse en cualquier app. Para personalizar comportamientos
+se recomienda:
+
+- Sobrescribir `save()` cuando se requiera lógica adicional antes o después del
+  guardado.
+- Definir managers propios extendiendo de `BaseQuerySet` para reutilizar las
+  operaciones de auditoría.
+- Agregar campos adicionales en los modelos hijos sin modificar la clase base.
+
+## Documentos relacionados
+- [Project Root Overview](./project-root-overview.md)
+- [SYSTEM](./SYSTEM.md)
+- [BaseView](./base-view.md)
