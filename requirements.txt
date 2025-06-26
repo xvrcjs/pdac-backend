@@ -60,3 +60,7 @@ Babel
 #Generacion de PDF
 reportlab
 django-multiselectfield
+
+#Gedeba
+zeep
+PyPDF2

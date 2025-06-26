@@ -87,8 +87,14 @@ INSTALLED_APPS = [
     "administration",
     "claims",
     "tickets",
-    "reports"
+    "reports",
+    "gdeba"
 ]
+
+# GDEBA Configuration
+GDEBA_IOP_BASE_URL = getenv('GDEBA_IOP_BASE_URL', 'https://iop.hml.gba.gob.ar')
+GDEBA_USERNAME = getenv('GDEBA_USERNAME', '')
+GDEBA_PASSWORD = getenv('GDEBA_PASSWORD', '')
 
 
 MIDDLEWARE = [
