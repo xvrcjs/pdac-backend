@@ -9,6 +9,7 @@ PDAC es un backend modular desarrollado con **Django**, **Docker** y **Django RE
 - [Configuración avanzada](#configuración-avanzada)
 - [Documentación detallada](#documentación-detallada)
 - [Uso y comandos frecuentes](#uso-y-comandos-frecuentes)
+- [Pruebas unitarias](#pruebas-unitarias)
 - [Contribuir](#contribuir)
 - [Recursos adicionales](#recursos-adicionales)
 
@@ -160,15 +161,30 @@ Las tareas en segundo plano se definen en [`settings/celery.py`](settings/celery
   ```bash
   docker compose exec pdac-web python manage.py makemigrations
   docker compose exec pdac-web python manage.py migrate
-  docker compose exec pdac-web python manage.py test
+  docker compose exec pdac-web pytest
   ```
 - Recolección de estáticos y debugging:
   ```bash
   docker compose exec pdac-web python manage.py collectstatic
   ```
 
+## Pruebas unitarias
+El proyecto integra **pytest** para ejecutar la batería de pruebas de Django.
+Cada aplicación cuenta con un directorio `tests/` que agrupa archivos como
+`test_models.py`, `test_views.py`, `test_forms.py` y `test_urls.py`.
+
+El archivo `pytest.ini` fija `DJANGO_SETTINGS_MODULE=settings.settings_test`,
+utilizando una configuración aislada descrita en `settings/settings_test.py`.
+
+Ejemplos de comandos con Docker:
+
+```bash
+docker compose exec pdac-web pytest             # Todas las pruebas
+docker compose exec pdac-web pytest users/tests # Pruebas de una app
+```
+
 ## Contribuir
-1. Ejecuta los tests antes de enviar cambios: `python manage.py test`.
+1. Ejecuta los tests antes de enviar cambios: `pytest`.
 2. Sigue el estilo de código definido en `flake8` y `isort` (si están configurados).
 3. Abre una Pull Request describiendo claramente los cambios realizados.
 
