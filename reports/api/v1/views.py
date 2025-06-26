@@ -121,6 +121,10 @@ class ReportGenerateClaims(BaseView):
                     queryset = queryset.filter(
                         suppliers__in=Supplier.objects.filter(fullname=supplier_name)
                     )
+                if 'omic' in filters_dict:
+                    omic_name = filters_dict.pop('omic')
+                    # Usar un filtro por nombre de omic
+                    queryset = queryset.filter(derived_to_omic__name=omic_name)
                 # Aplicar el resto de los filtros
                 if filters_dict:
                     queryset = queryset.filter(**filters_dict)
@@ -275,6 +279,11 @@ class ReportGenerateCharts(BaseView):
                     regular_claims = regular_claims.filter(
                         suppliers__in=Supplier.objects.filter(fullname=supplier_name)
                     )
+                if 'omic' in filters_dict:
+                    omic_name = filters_dict.pop('omic')
+                    # Usar un filtro por nombre de omic
+                    regular_claims = regular_claims.filter(derived_to_omic__name=omic_name)
+                
                 # Aplicar el resto de los filtros
                 if filters_dict:
                     regular_claims = regular_claims.filter(**filters_dict)
