@@ -86,8 +86,10 @@ INSTALLED_APPS = [
     "security",
     "administration",
     "claims",
-    "tickets"
+    "tickets",
+    "reports"
 ]
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

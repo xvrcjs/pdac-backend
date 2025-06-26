@@ -25,6 +25,7 @@ urlpatterns = [
     path('api/v1/', include('administration.api.v1.urls',namespace='administration')),
     path('api/v1/', include('claims.api.v1.urls', namespace='claims')),
     path('api/v1/', include('tickets.api.v1.urls', namespace='tickets')),
+    path('api/v1/', include('reports.api.v1.urls', namespace='reports')),
     path('api/doc/', TemplateView.as_view(
         template_name='swagger-ui.html',
         extra_context={'schema_url': 'openapi-schema'}
