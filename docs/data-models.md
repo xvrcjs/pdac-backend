@@ -34,6 +34,9 @@ _Auto-generated on 2025-06-26 16:34 UTC_
 ### BaseModel
 Defined in [common/models.py](../common/models.py).
 
+Modelo base abstracto que centraliza campos de auditoría y utilidades
+compartidas por el resto de los modelos del sistema.
+
 _No class docstring available._
 
 | Field | Type | Null | Blank | Default | Unique | Related Name |
@@ -53,6 +56,10 @@ Custom manager: `objects = models.Manager.from_queryset(BaseQuerySet)()`.
 ### Client
 Defined in [administration/models.py](../administration/models.py).
 
+Representa a la organización que utiliza el sistema y almacena su
+información de contacto, módulos habilitados y configuraciones
+administrativas.
+
 _No class docstring available._
 
 | Field | Type | Null | Blank | Default | Unique | Related Name |
@@ -69,6 +76,10 @@ _No class docstring available._
 ### TrafficLightSystemTimes
 Defined in [administration/models.py](../administration/models.py).
 
+Guarda la configuración de tiempos límite para el sistema de semáforos,
+determinando cuándo un reclamo pasa de verde a amarillo y de amarillo a
+rojo.
+
 | Field | Type | Null | Blank | Default | Unique | Related Name |
 |-------|------|------|-------|---------|--------|--------------|
 | greenToYellow_c | IntegerField | False | True | 0 |  | |
@@ -78,6 +89,9 @@ Defined in [administration/models.py](../administration/models.py).
 
 ### Omic
 Defined in [administration/models.py](../administration/models.py).
+
+Registra las distintas oficinas OMIC y su información de contacto,
+incluyendo responsables, horarios de atención y medios de comunicación.
 
 | Field | Type | Null | Blank | Default | Unique | Related Name |
 |-------|------|------|-------|---------|--------|--------------|
@@ -91,6 +105,9 @@ Defined in [administration/models.py](../administration/models.py).
 ### StandardsAndProtocols
 Defined in [administration/models.py](../administration/models.py).
 
+Modelo utilizado para almacenar documentos, normas y protocolos que se
+comparten dentro de la plataforma.
+
 | Field | Type | Null | Blank | Default | Unique | Related Name |
 |-------|------|------|-------|---------|--------|--------------|
 | title | CharField(255) | False | False |  |  | |
@@ -101,6 +118,9 @@ Defined in [administration/models.py](../administration/models.py).
 
 ### Supplier
 Defined in [claims/models.py](../claims/models.py).
+
+Almacena información de proveedores o comercios involucrados en un
+reclamo, tales como nombre y datos de contacto.
 
 | Field | Type | Null | Blank | Default | Unique | Related Name |
 |-------|------|------|-------|---------|--------|--------------|
@@ -113,6 +133,9 @@ Defined in [claims/models.py](../claims/models.py).
 
 ### Claimer
 Defined in [claims/models.py](../claims/models.py).
+
+Representa a la persona que realiza el reclamo y guarda sus datos
+personales, de contacto y domicilio.
 
 | Field | Type | Null | Blank | Default | Unique | Related Name |
 |-------|------|------|-------|---------|--------|--------------|
@@ -130,6 +153,9 @@ Defined in [claims/models.py](../claims/models.py).
 ### File
 Defined in [claims/models.py](../claims/models.py) (claim attachments).
 
+Permite asociar archivos y documentos a un reclamo para complementar la
+información presentada.
+
 | Field | Type | Null | Blank | Default | Unique | Related Name |
 |-------|------|------|-------|---------|--------|--------------|
 | file | FileField | False | False |  |  | |
@@ -138,6 +164,9 @@ Defined in [claims/models.py](../claims/models.py) (claim attachments).
 
 ### ClaimRegular
 Defined in [claims/models.py](../claims/models.py).
+
+Modelo central para registrar reclamos generales. Relaciona al reclamante
+con los proveedores y permite llevar el seguimiento y estado del trámite.
 
 | Field | Type | Null | Blank | Default | Unique | Related Name |
 |-------|------|------|-------|---------|--------|--------------|
@@ -166,6 +195,10 @@ Methods include `get_year_letter`, `get_last_claim_number`, custom `save`, and n
 
 ### ClaimIVE
 Defined in [claims/models.py](../claims/models.py).
+
+Versión especializada del modelo de reclamos para casos de IVE/HV. Incluye
+datos personales y los motivos del reclamo asociados a la atención de la
+salud reproductiva.
 
 | Field | Type | Null | Blank | Default | Unique | Related Name |
 |-------|------|------|-------|---------|--------|--------------|
@@ -208,6 +241,9 @@ Methods similar to `ClaimRegular` with ID generation and notifications.
 ### Module
 Defined in [security/models.py](../security/models.py).
 
+Representa funcionalidades o módulos del sistema que pueden asociarse a
+roles y permisos para controlar el acceso a los distintos contenidos.
+
 | Field | Type | Null | Blank | Default | Unique | Related Name |
 |-------|------|------|-------|---------|--------|--------------|
 | parents | ManyToManyField to self |  | True |  |  | `children` |
@@ -220,6 +256,9 @@ Custom methods: `validate`, `clean`, `save`.
 ### Role
 Defined in [security/models.py](../security/models.py).
 
+Agrupa un conjunto de módulos para establecer diferentes niveles de
+permisos que pueden asignarse a las cuentas de usuario.
+
 | Field | Type | Null | Blank | Default | Unique | Related Name |
 |-------|------|------|-------|---------|--------|--------------|
 | name | CharField(255) | False | False |  |  | |
@@ -231,6 +270,9 @@ Defined in [security/models.py](../security/models.py).
 ### TicketFile
 Defined in [tickets/models.py](../tickets/models.py).
 
+Permite adjuntar documentos e imágenes a un ticket de soporte para
+registrar evidencias o información adicional.
+
 | Field | Type | Null | Blank | Default | Unique | Related Name |
 |-------|------|------|-------|---------|--------|--------------|
 | file | FileField | False | False |  |  | |
@@ -239,6 +281,9 @@ Defined in [tickets/models.py](../tickets/models.py).
 
 ### Ticket
 Defined in [tickets/models.py](../tickets/models.py).
+
+Registra solicitudes o incidencias de soporte vinculadas a reclamos y
+permite seguir su estado, asignación y tareas asociadas.
 
 | Field | Type | Null | Blank | Default | Unique | Related Name |
 |-------|------|------|-------|---------|--------|--------------|
@@ -256,8 +301,14 @@ Defined in [tickets/models.py](../tickets/models.py).
 ### ContentType
 Defined in [users/models.py](../users/models.py) as a proxy model for Django's `ContentType`.
 
+Se usa para hacer referencia a los distintos modelos de la aplicación
+mediante el sistema estándar de `ContentType` de Django.
+
 ### User
 Defined in [users/models.py](../users/models.py).
+
+Usuario del sistema encargado de la autenticación. Incluye datos básicos,
+estado y utilidades para la gestión de accesos.
 
 | Field | Type | Null | Blank | Default | Unique | Related Name |
 |-------|------|------|-------|---------|--------|--------------|
@@ -274,6 +325,9 @@ Manager: `UserManager` with custom creation methods.
 
 ### Account
 Defined in [users/models.py](../users/models.py).
+
+Extiende al usuario con información adicional como roles, cliente al que
+pertenece y permisos específicos dentro del sistema.
 
 | Field | Type | Null | Blank | Default | Unique | Related Name |
 |-------|------|------|-------|---------|--------|--------------|
