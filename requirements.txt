@@ -60,3 +60,7 @@ Babel
 #Generacion de PDF
 reportlab
 django-multiselectfield
+
+# Dependencias de pruebas
+pytest
+pytest-django
