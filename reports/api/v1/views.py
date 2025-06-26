@@ -113,7 +113,17 @@ class ReportGenerateClaims(BaseView):
         if filters:
             try:
                 filters_dict = json.loads(filters)
-                queryset = queryset.filter(**filters_dict)
+
+                # Manejar el caso especial del filtro de suppliers
+                if 'suppliers' in filters_dict:
+                    supplier_name = filters_dict.pop('suppliers')
+                    # Usar un filtro por nombre de proveedor
+                    queryset = queryset.filter(
+                        suppliers__in=Supplier.objects.filter(fullname=supplier_name)
+                    )
+                # Aplicar el resto de los filtros
+                if filters_dict:
+                    queryset = queryset.filter(**filters_dict)
             except json.JSONDecodeError:
                 return JsonResponse(
                     {'error': 'Formato de filtros inválido. Debe ser un JSON válido'}, 
@@ -257,7 +267,18 @@ class ReportGenerateCharts(BaseView):
         if filters:
             try:
                 filters_dict = json.loads(filters)
-                regular_claims = regular_claims.filter(**filters_dict)
+                
+                # Manejar el caso especial del filtro de suppliers
+                if 'suppliers' in filters_dict:
+                    supplier_name = filters_dict.pop('suppliers')
+                    # Usar un filtro por nombre de proveedor
+                    regular_claims = regular_claims.filter(
+                        suppliers__in=Supplier.objects.filter(fullname=supplier_name)
+                    )
+                # Aplicar el resto de los filtros
+                if filters_dict:
+                    regular_claims = regular_claims.filter(**filters_dict)
+                    
             except json.JSONDecodeError:
                 return JsonResponse(
                     {'error': 'Formato de filtros inválido. Debe ser un JSON válido'}, 
@@ -268,6 +289,7 @@ class ReportGenerateCharts(BaseView):
                     {'error': f'Error al aplicar filtros: {str(e)}'}, 
                     status=400
                 )
+                
         # Generar datos para ambos gráficos
         pie_data = self.generate_pie_chart(regular_claims, date_filter)
         bar_data = self.generate_bar_chart(regular_claims, date_filter)
