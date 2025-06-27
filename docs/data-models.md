@@ -22,6 +22,7 @@ _Auto-generated on 2025-06-26 16:34 UTC_
 - [Tickets](#tickets)
   - [TicketFile](#ticketfile)
   - [Ticket](#ticket)
+- [Gdeba](#gdeba)
 - [Users](#users)
   - [ContentType](#contenttype)
   - [User](#user)
@@ -296,6 +297,10 @@ permite seguir su estado, asignación y tareas asociadas.
 | problem_description | TextField | False | True |  |  | |
 | tasks | JSONField | True | True | [] |  | |
 
+## Gdeba
+
+Esta app no define modelos concretos; su lógica se orienta a la generación de documentos mediante los servicios de GEDO BA.
+
 ## Users
 
 ### ContentType
@@ -374,4 +379,5 @@ erDiagram
   users_account }o--o{ security_module : permissions
   security_role }o--o{ security_module : modules
   security_module }o--o{ users_contenttype : content_types
+  %% Gdeba app sin modelos propios
 ```

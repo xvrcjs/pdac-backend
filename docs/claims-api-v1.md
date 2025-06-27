@@ -91,3 +91,11 @@ POST /create-claim-ive/
 - También interactúan con `Omic` y `TrafficLightSystemTimes` (`administration`), `Account` (`users`) y `Ticket` (`tickets`).
 - No existen pruebas automatizadas para este módulo.
 - Todo el flujo se apoya en la clase base `common.views.BaseView` para validar datos y manejar permisos.
+
+## Gdeba
+
+**Ruta:** `gdeba/`
+
+**Propósito:** Integración con GEDO BA para generar documentos a partir de los reclamos.
+
+**Archivos:** [`gdeba/api/v1/urls.py`](../gdeba/api/v1/urls.py) y [`gdeba/api/v1/views.py`](../gdeba/api/v1/views.py)
