@@ -37,6 +37,11 @@ A continuación se describen de forma resumida los casos de prueba ejecutados pa
 - Se validó el ciclo de vida de cuentas de usuario y el acceso de inicio de sesión.
 - [Resultados detallados](users/report.md)
 
+## Gdeba
+- Se verificó que la URL de generación de GEDO resuelva correctamente.
+- Se evaluó la respuesta de la vista ante un reclamo inexistente.
+- [Resultados detallados](gdeba/report.md)
+
 ---
 
 Cada informe enlazado detalla el estado PASADO o FALLIDO de las pruebas y la duración estimada de cada caso.

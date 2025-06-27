@@ -8,10 +8,12 @@ Este proyecto utiliza **pytest** junto con las utilidades de prueba de Django. C
 <app>/
  └── tests/
      ├── __init__.py
-     ├── test_models.py
-     ├── test_views.py
-     ├── test_forms.py (si aplica)
-     └── test_urls.py
+    ├── test_models.py
+    ├── test_views.py
+    ├── test_urls.py
+    ├── test_admin.py
+    ├── test_api_v1.py
+    └── test_forms.py (si aplica)
 ```
 
 En la raíz existe un `pytest.ini` configurado para detectar todos los tests ubicados dentro de estas carpetas.
@@ -27,6 +29,7 @@ Ejemplos de comandos:
 ```bash
 pytest           # Ejecuta toda la batería de pruebas
 pytest app/tests # Ejecuta las pruebas de una app específica
+pytest gdeba/tests # Ejecuta solo las pruebas de la app gdeba
 ```
 
 ## Buenas Prácticas

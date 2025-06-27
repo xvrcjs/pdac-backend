@@ -120,8 +120,8 @@ Estas variables son definidas en `.env` (ejemplo en `.env.template`). Controlan 
 ```bash
 # Ejecutar collectstatic en el contenedor
 $ docker compose exec pdac-web python manage.py collectstatic
-# Ejecutar pruebas (si existieran)
-$ docker compose exec pdac-web python manage.py test
+# Ejecutar pruebas de gdeba
+$ docker compose exec pdac-web pytest gdeba/tests
 ```
 
 ## 7. Archivo `.env.template`
