@@ -64,3 +64,8 @@ django-multiselectfield
 # Dependencias de pruebas
 pytest
 pytest-django
+
+#Gedeba
+zeep
+PyPDF2
+
