@@ -1,6 +1,6 @@
 # PDAC Backend
 
-PDAC es un backend modular desarrollado con **Django**, **Docker** y **Django REST Framework**. Centraliza la gestión de tickets y reclamos, ofreciendo un conjunto de APIs y herramientas listas para desplegarse en entornos productivos o de desarrollo. La documentación completa se encuentra en la carpeta [docs/](./docs/).
+PDAC es un backend modular desarrollado con **Django**, **Docker** y **Django REST Framework**. Centraliza la gestión de tickets y reclamos, ofreciendo un conjunto de APIs y herramientas listas para desplegarse en entornos productivos o de desarrollo. La documentación completa se encuentra en la carpeta [docs/](./docs/). Consulta el [Manual de Usuario](docs/user-manual.md) para una guía paso a paso.
 
 ## Tabla de contenidos
 - [Estructura del proyecto](#estructura-del-proyecto)
