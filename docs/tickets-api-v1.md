@@ -72,3 +72,11 @@ POST /ticket/
 - Para algunos tipos se consultan los modelos `ClaimRegular` y `ClaimIVE` (`claims/models.py`).
 - Todas heredan de `common.views.BaseView`, que maneja validación y permisos.
 - No existen tests automáticos en `tickets/tests.py` (solo contiene un placeholder).
+
+## Gdeba
+
+**Ruta:** `gdeba/`
+
+**Propósito:** Integración con GEDO BA para generar documentos a partir de los reclamos.
+
+**Archivos:** [`gdeba/api/v1/urls.py`](../gdeba/api/v1/urls.py) y [`gdeba/api/v1/views.py`](../gdeba/api/v1/views.py)

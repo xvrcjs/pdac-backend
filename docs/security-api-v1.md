@@ -70,3 +70,11 @@ GET /module/
 - Los modelos `Module` y `Role` están definidos en `security/models.py`.
 - Todas las vistas se basan en `common.views.BaseView` para validar datos y permisos.
 - Actualmente no existen serializers ni pruebas unitarias específicas para esta app.
+
+## Gdeba
+
+**Ruta:** `gdeba/`
+
+**Propósito:** Integración con GEDO BA para generar documentos a partir de los reclamos.
+
+**Archivos:** [`gdeba/api/v1/urls.py`](../gdeba/api/v1/urls.py) y [`gdeba/api/v1/views.py`](../gdeba/api/v1/views.py)

@@ -26,9 +26,16 @@ backend/
 ├── docker/           # Imágenes y scripts
 ├── security/         # Autenticación y permisos
 ├── settings/         # Configuración principal
+├── gdeba/            # Integración con GEDO BA
 ├── tickets/          # Gestión de tickets
 └── users/            # Perfiles y cuentas
 ```
+
+### gdeba/
+Aplicación para integrarse con el sistema GEDO BA y generar documentos
+electronicos a partir de los reclamos. Sus rutas están en
+[`gdeba/api/v1/urls.py`](../gdeba/api/v1/urls.py) y las vistas en
+[`gdeba/api/v1/views.py`](../gdeba/api/v1/views.py).
 
 ## Arquitectura Base
 

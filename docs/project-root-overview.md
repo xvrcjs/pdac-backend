@@ -134,6 +134,14 @@ $ cp .env.template .env
 $ nano .env  # Editar valores secretos
 ```
 
+## 8. `gdeba/`
+
+**Ruta:** `gdeba/`
+
+**Propósito:** Integrar PDAC con GEDO BA para generar documentos en formato electrónico.
+
+**Archivos relevantes:** [`gdeba/api/v1/urls.py`](../gdeba/api/v1/urls.py), [`gdeba/api/v1/views.py`](../gdeba/api/v1/views.py)
+
 ---
 Con esta información cualquier desarrollador puede comprender la estructura de la raíz del proyecto, cómo se configuran los servicios Docker y qué variables de entorno son necesarias para ejecutar la aplicación en los distintos entornos.
 

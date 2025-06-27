@@ -78,3 +78,11 @@ A continuación se resumen las vistas y los decoradores empleados.
 - Se apoyan en `common.views.BaseView` para validar datos y permisos.
 - También consultan `Module`, `Role` y `Ticket` para permisos y estadísticas.
 - Actualmente no existen pruebas automatizadas específicas para este módulo.
+
+## Gdeba
+
+**Ruta:** `gdeba/`
+
+**Propósito:** Integración con GEDO BA para generar documentos a partir de los reclamos.
+
+**Archivos:** [`gdeba/api/v1/urls.py`](../gdeba/api/v1/urls.py) y [`gdeba/api/v1/views.py`](../gdeba/api/v1/views.py)
